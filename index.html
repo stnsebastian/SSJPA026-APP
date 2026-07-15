@@ -153,6 +153,9 @@
             <button id="btnSendReportWhatsAppQuick" class="btn btn-mobile" style="background: #25D366; color: #fff; font-weight: 800; border: none; grid-column: 1 / -1; justify-content: center;">
               <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Enviar Reporte Ampliación Concurrencia (WhatsApp)
             </button>
+            <a href="manual_usuario.html" class="btn btn-secondary btn-mobile" style="text-decoration: none; justify-content: center; background: rgba(14, 165, 233, 0.2); border-color: var(--accent-primary); color: #fff; font-weight: 700;">
+              <i class="fa-solid fa-book-open"></i> Manual de Usuario (Guía Ilustrativa)
+            </a>
             <button id="btnThemeToggle" class="btn btn-secondary btn-mobile">
               <i class="fa-solid fa-sun" id="themeIcon"></i> Modo Día / Noche
             </button>
@@ -162,7 +165,7 @@
             <button id="btnImportJson" class="btn btn-secondary btn-mobile">
               <i class="fa-solid fa-file-import"></i> Importar Respaldo
             </button>
-            <input type="file" id="importFile" accept=".json,application/json,text/plain,.txt,*/*" style="display: none;">
+            <input type="file" id="importFile" accept="*/*" style="display: none;">
             <button id="btnNewRecord" class="btn btn-primary btn-mobile">
               <i class="fa-solid fa-file-circle-plus"></i> Nuevo Registro
             </button>
@@ -1286,7 +1289,7 @@
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=3.6"></script>
+  <script src="app.js?v=3.9"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

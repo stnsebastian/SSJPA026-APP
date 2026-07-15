@@ -1,7 +1,8 @@
-const CACHE_NAME = 'sif-ss-android-v3.6';
+const CACHE_NAME = 'sif-ss-android-v3.9';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './manual_usuario.html',
   './styles.css',
   './app.js',
   './manifest.json',
@@ -12,7 +13,7 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SIF SS Android] Caché offline instalada v3.6');
+      console.log('[SIF SS Android] Caché offline instalada v3.9');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
