@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#061329">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="SIF Bicrim">
+  <link rel="manifest" href="manifest.json">
+  <title>SIF-SS // Sistema Integral Forense - Informe Científico-Técnico del Sitio del Suceso (Android)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <!-- BANNER FLOTANTE DE INSTALACIÓN PWA (ESTILO RANCHILLO) -->
+  <div id="installBanner" class="install-banner no-print" style="display: none;">
+    <div class="install-content">
+      <span class="install-icon">📲</span>
+      <div>
+        <h4>Instalar SIF-SS Android</h4>
+        <p>Agrégala a tu pantalla de inicio para usarla offline</p>
+      </div>
+    </div>
+    <button id="installBtn" class="btn-install-banner">Instalar</button>
+    <button onclick="cerrarBannerInstalacion()" class="btn-close-banner">&times;</button>
+  </div>
+
+  <!-- ENCABEZADO PRINCIPAL LIMPIO PARA CELULAR ANDROID (SOLO LOGO Y TEXTO) -->
+  <header class="app-header no-print">
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="custom-forensic-logo" title="Dactiloscopia y Peritaje // Sitio del Suceso">
+          <svg viewBox="0 0 100 100" width="54" height="54" class="logo-svg-emblem">
+            <defs>
+              <linearGradient id="fpCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="60%" stop-color="#0ea5e9" />
+                <stop offset="100%" stop-color="#0284c7" />
+              </linearGradient>
+              <linearGradient id="fpGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fef08a" />
+                <stop offset="100%" stop-color="#eab308" />
+              </linearGradient>
+              <linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="rgba(56, 189, 248, 0)" />
+                <stop offset="50%" stop-color="rgba(56, 189, 248, 0.45)" />
+                <stop offset="100%" stop-color="rgba(56, 189, 248, 0)" />
+              </linearGradient>
+              <filter id="fpGlow">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Marco Oficial REDONDO / Circular Institucional -->
+            <circle cx="50" cy="50" r="46" fill="#061329" stroke="url(#fpCyanGrad)" stroke-width="3.8" filter="url(#fpGlow)" />
+            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#fpGoldGrad)" stroke-width="1.1" opacity="0.75" />
+            <circle cx="50" cy="50" r="36" fill="none" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.2" stroke-dasharray="4,3" />
+
+            <!-- HUELLA DACTILAR BIOMÉTRICA CIRCULAR -->
+            <g stroke="url(#fpCyanGrad)" stroke-width="2.8" stroke-linecap="round" fill="none" opacity="0.95">
+              <path d="M47,48 C47,45 53,45 53,48 C53,52 45,53 45,47 C45,40 56,40 56,47 C45,55 42,56 42,46 C42,36 59,35 60,46 C61,58 39,60 38,45" />
+              <path d="M35,46 C35,28 65,28 65,47 C65,65 34,66 34,44" />
+              <path d="M31,43 C31,21 69,21 69,46 C69,69 31,71 30,55" />
+              <path d="M26,46 C26,16 74,16 74,47 C74,74 27,76 26,62" />
+              <path d="M33,76 C42,72 58,72 67,76" />
+              <path d="M28,81 C39,76 61,76 72,81" />
+            </g>
+
+            <rect x="12" y="48" width="76" height="3" fill="url(#laserGrad)" />
+            <line x1="12" y1="49.5" x2="88" y2="49.5" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
+
+            <circle cx="50" cy="22" r="3" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+            <circle cx="69" cy="46" r="3" fill="url(#fpGoldGrad)" stroke="#ffffff" stroke-width="1" />
+            <circle cx="50" cy="48" r="2.5" fill="#38bdf8" />
+            <circle cx="34" cy="63" r="3" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+          </svg>
+        </div>
+        <div class="brand-title">
+          <h1>SISTEMA INTEGRAL FORENSE S.S</h1>
+          <p>Informe Científico del Sitio del Suceso</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVEGACIÓN MÓVIL POR PESTAÑAS (OPTIMIZADA PARA TACTO EN CELULAR) -->
+  <nav class="nav-tabs-wrapper no-print">
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="tab-identificacion">
+        <span class="tab-number">1</span>
+        <span>Identificación</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-examen">
+        <span class="tab-number">2</span>
+        <span>Vestimenta y Lesiones (Body Map)</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-vestimenta">
+        <span class="tab-number">3</span>
+        <span>Peritos / NUE y Conclusión</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-fotografia">
+        <span class="tab-number">4</span>
+        <span>Checklist</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-documento">
+        <span class="tab-number"><i class="fa-solid fa-gavel"></i></span>
+        <span>Documento Oficial</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="main-container">
+
+    <!-- PESTAÑA 1: IDENTIFICACIÓN DEL FALLECIDO Y COMUNICACIÓN S.S -->
+    <section id="tab-identificacion" class="tab-pane active">
+      <!-- TARJETA OFICIAL A CARGO -->
+      <div class="card official-in-charge-card" style="border-left: 4px solid var(--accent-primary); background: linear-gradient(90deg, rgba(14, 165, 233, 0.15), rgba(30, 64, 175, 0.1)); margin-bottom: 1.2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
+          <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-primary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; flex-shrink: 0; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);">
+              <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <div>
+              <span style="font-size: 0.7rem; font-weight: 700; color: var(--accent-primary); text-transform: uppercase; letter-spacing: 0.08em;">OFICIAL A CARGO DEL SITIO DEL SUCESO</span>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 0.1rem; letter-spacing: 0.02em;">JORGE PINO AVILA</h3>
+              <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent-primary); display: block; margin-top: 0.15rem;">Bicrim San Javier</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MENÚ DESPLEGABLE DE HERRAMIENTAS Y GESTIÓN DEL EXPEDIENTE (AHORRO DE ESPACIO MÓVIL) -->
+      <div class="mobile-tools-dropdown-wrapper no-print" style="margin-bottom: 1.4rem;">
+        <button type="button" id="btnToggleToolsMenu" class="btn" style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.2rem; border-radius: var(--radius-md); font-size: 0.95rem; background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); border: 1px solid #2dd4bf; box-shadow: 0 4px 16px rgba(13, 148, 136, 0.35); color: #ffffff;">
+          <span style="display: flex; align-items: center; gap: 0.7rem; font-weight: 800; color: #ffffff;">
+            <i class="fa-solid fa-toolbox" style="color: #5eead4; font-size: 1.15rem;"></i> Herramientas Rápidas
+          </span>
+          <span style="display: flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; color: #ccfbf1; font-weight: 700;">
+            <span id="toolsMenuStatusText">Desplegar</span>
+            <i class="fa-solid fa-chevron-down" id="toolsMenuChevron" style="transition: transform 0.28s ease;"></i>
+          </span>
+        </button>
+
+        <div id="toolsMenuContent" class="card" style="display: none; margin-top: 0.6rem; margin-bottom: 0; padding: 1.1rem; border: 1px solid var(--accent-primary);">
+          <div class="mobile-tools-grid">
+            <button id="btnSendReportWhatsAppQuick" class="btn btn-mobile" style="background: #25D366; color: #fff; font-weight: 800; border: none; grid-column: 1 / -1; justify-content: center;">
+              <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Enviar Reporte Ampliación Concurrencia (WhatsApp)
+            </button>
+            <button id="btnThemeToggle" class="btn btn-secondary btn-mobile">
+              <i class="fa-solid fa-sun" id="themeIcon"></i> Modo Día / Noche
+            </button>
+            <button id="btnExportJson" class="btn btn-secondary btn-mobile">
+              <i class="fa-solid fa-file-export"></i> Respaldar JSON
+            </button>
+            <button id="btnImportJson" class="btn btn-secondary btn-mobile">
+              <i class="fa-solid fa-file-import"></i> Importar Respaldo
+            </button>
+            <input type="file" id="importFile" accept=".json,application/json,text/plain,.txt,*/*" style="display: none;">
+            <button id="btnNewRecord" class="btn btn-primary btn-mobile">
+              <i class="fa-solid fa-file-circle-plus"></i> Nuevo Registro
+            </button>
+            <button id="btnDeleteRecord" class="btn btn-danger btn-mobile">
+              <i class="fa-solid fa-trash-can"></i> Eliminar Registro
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TARJETA: BITÁCORA WEB -->
+      <div class="card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.4rem;">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-laptop-code"></i> Bitácora Web</h2>
+          <span style="font-size: 0.78rem; color: var(--accent-primary);">INSTRUCCIONES</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Estado de Bitácora Web</label>
+          <select class="form-select" data-state-path="bitacoraWeb.estado">
+            <option value="SI">Sí</option>
+            <option value="NO COMPARTIDA">No Compartida</option>
+            <option value="NO HAY">No Hay</option>
+          </select>
+        </div>
+
+        <div id="boxBitacoraNumero" class="form-group" style="display: none; margin-top: 0.8rem;">
+          <label class="form-label" style="color: var(--accent-primary); font-weight: 700;">Número de Bitácora Web (ej. 25697-2026):</label>
+          <input type="text" class="form-input" data-state-path="bitacoraWeb.numero" placeholder="25697-2026">
+        </div>
+
+        <div id="boxBitacoraAvisoNoHay" style="display: none; margin-top: 0.8rem; padding: 12px 16px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 6px; color: #f87171; font-weight: 700; font-size: 0.92rem; align-items: center; gap: 10px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> No Existen Instrucciones en Bitacora Web.
+        </div>
+      </div>
+
+      <!-- TARJETA: CLASIFICACIÓN DEL CASO Y EVALUACIÓN DE LESIONES -->
+      <div class="card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.4rem;">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-scale-balanced"></i> Calificación y Naturaleza del Caso</h2>
+          <span style="font-size: 0.78rem; color: var(--accent-primary);">CLASIFICACIÓN</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Calificación del S.S</label>
+            <div class="pill-selector" data-state-path="clasificacionCaso.delitoOHecho">
+              <span class="pill-option active" data-value="DELITO">Delito</span>
+              <span class="pill-option" data-value="HECHO">Hecho</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">TIPO DE CASO</label>
+            <select class="form-select" data-state-path="clasificacionCaso.subtipo">
+              <option value="Muerte y Hallazgo de Cadáver">Muerte y Hallazgo de Cadáver</option>
+              <option value="Homicidio">Homicidio</option>
+              <option value="Inhumación">Inhumación</option>
+              <option value="Exhumación Ilegal">Exhumación Ilegal</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-user-shield"></i> Filiación y Datos del Fallecido</h2>
+            <span style="font-size: 0.78rem; color: var(--accent-primary);">PÁGINA 1</span>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Nombres</label>
+              <input type="text" class="form-input" data-state-path="fallecido.nombres" placeholder="Ej. RODRIGO ANDRÉS">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Apellido Paterno</label>
+              <input type="text" class="form-input" data-state-path="fallecido.apellidoPaterno" placeholder="Ej. VALENZUELA">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Apellido Materno</label>
+              <input type="text" class="form-input" data-state-path="fallecido.apellidoMaterno" placeholder="Ej. SEPÚLVEDA">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Apodo / Alias</label>
+              <input type="text" class="form-input" data-state-path="fallecido.apodo" placeholder="Ej. EL ROCO">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Edad Estimada</label>
+              <input type="text" class="form-input" data-state-path="fallecido.edad" placeholder="Ej. 36 AÑOS">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sexo</label>
+              <div class="pill-selector" data-state-path="fallecido.sexo">
+                <span class="pill-option active" data-value="M">Masculino (M)</span>
+                <span class="pill-option" data-value="F">Femenino (F)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">RUN del Fallecido (Chileno / Pasaporte)</label>
+              <input type="text" id="runFallecido" class="form-input" data-state-path="fallecido.run" placeholder="XX.XXX.XXX-X">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nacionalidad</label>
+              <select class="form-select" data-state-path="fallecido.nacionalidad">
+                <option value="CHILENA">Chilena</option>
+                <option value="EXTRANJERA">Extranjera</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Si es Extranjera, Indicar Cuál:</label>
+            <input type="text" class="form-input" data-state-path="fallecido.extranjeraCual" placeholder="Ej. Colombiana / Venezolana / Argentina">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Domicilio del Fallecido</label>
+            <input type="text" class="form-input" data-state-path="fallecido.domicilio" placeholder="Calle, número, comuna...">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-walkie-talkie"></i> Comunicación, Custodia y Datos S.S.</h2>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Fecha de Comunicación</label>
+              <input type="date" class="form-input" data-state-path="comunicacion.fecha">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hora de Comunicación</label>
+              <input type="time" class="form-input" data-state-path="comunicacion.hora">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Códigos Operativos GEPOL</label>
+            <div class="checkbox-grid" style="grid-template-columns: repeat(2, 1fr);">
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="comunicacion.gepol.731">
+                <span>731</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="comunicacion.gepol.RETACO">
+                <span>RETACO</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="comunicacion.gepol.REORPE">
+                <span>REORPE</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="comunicacion.gepol.PREDES">
+                <span>PREDES</span>
+              </label>
+            </div>
+            <div id="boxGepolMotivo" style="display: none; margin-top: 0.8rem;">
+              <label class="form-label" style="color: var(--accent-primary); font-weight: 700;">Motivo de activación (RETACO / REORPE / PREDES):</label>
+              <textarea class="form-textarea" data-state-path="comunicacion.gepol.motivo" placeholder="Escribe aquí el motivo o fundamento del código seleccionado..." style="min-height: 65px;"></textarea>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Unidad y Funcionario que Comunica</label>
+              <input type="text" class="form-input" data-state-path="comunicacion.unidadFuncionarioComunica" placeholder="Ej. 17ª Comisaría / Subteniente M. Salazar">
+            </div>
+            <div class="form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; flex-wrap: wrap; gap: 0.4rem;">
+                <label class="form-label" style="margin-bottom: 0;">Fiscal de Turno</label>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-primary);">Flagrancia:</span>
+                  <div class="pill-selector" data-state-path="comunicacion.flagrancia" style="padding: 3px; border-radius: 50px; gap: 4px;">
+                    <span class="pill-option" data-value="SI" style="width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">SÍ</span>
+                    <span class="pill-option active" data-value="NO" style="width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">NO</span>
+                  </div>
+                </div>
+              </div>
+              <input type="text" class="form-input" data-state-path="comunicacion.fiscalTurno" placeholder="Ej. JUAN PÉREZ">
+              <div id="flagranciaHint" style="display: none; font-size: 0.78rem; color: #10b981; font-weight: 700; margin-top: 0.35rem;">
+                <i class="fa-solid fa-check"></i> Se incluirá: ", de la Fiscalía de Flagrancia Maule"
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Hora de Llegada al S.S.</label>
+              <input type="time" class="form-input" data-state-path="comunicacion.horaLlegadaSS">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Dirección del Sitio del Suceso</label>
+              <input type="text" class="form-input" data-state-path="comunicacion.direccionSS" placeholder="Calle San Martín esq. Santo Domingo">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Coordenadas GPS del Sitio del Suceso</label>
+            <div class="input-with-button">
+              <input type="text" id="coordenadasGPS" class="form-input" data-state-path="comunicacion.coordenadasGPS" placeholder="Latitud y Longitud GPS">
+              <button id="btnGetGPS" type="button" class="btn btn-blue" style="white-space: nowrap;">
+                <i class="fa-solid fa-location-crosshairs"></i> GPS Celular
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Unidad que Custodia</label>
+              <input type="text" class="form-input" data-state-path="comunicacion.unidadCustodia" placeholder="Carabineros COP / Patrulla Z-8120">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Funcionario que Custodia</label>
+              <input type="text" class="form-input" data-state-path="comunicacion.funcionarioCustodia" placeholder="Sargento 2° P. Contreras">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-notes-medical"></i> Antecedentes e Información Técnica Inicial del S.S.</h2>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+            <label class="form-label" style="margin-bottom: 0;">Antecedentes Clínicos / Situacionales (Checklist Rápido)</label>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-primary);">¿Existen Antecedentes?:</span>
+              <div class="pill-selector" data-state-path="antecedentes.tieneAntecedentes" style="padding: 3px; border-radius: 50px; gap: 4px;">
+                <span class="pill-option active" data-value="SI" style="width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">SÍ</span>
+                <span class="pill-option" data-value="NO" style="width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">NO</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="boxAntecedentesSi">
+            <div class="checkbox-grid">
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="antecedentes.situacionCalle">
+                <span>Situación de Calle</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="antecedentes.discapacitado">
+                <span>Discapacidad</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="antecedentes.drogadiccion">
+                <span>Antecedentes de Drogadicción</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="antecedentes.alcoholismo">
+                <span>Antecedentes de Alcoholismo</span>
+              </label>
+            </div>
+            <div class="form-group" style="margin-top: 0.8rem; margin-bottom: 0;">
+              <label class="form-label">Otros Antecedentes</label>
+              <input type="text" class="form-input" data-state-path="antecedentes.otros" placeholder="Describir otros antecedentes...">
+            </div>
+          </div>
+
+          <div id="boxAntecedentesNo" style="display: none; margin-top: 0.8rem; padding: 12px 16px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 6px; color: #f87171; font-weight: 700; font-size: 0.92rem; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-triangle-exclamation"></i> Sin Antecedentes Clínicos
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 2: EXAMEN CORPORAL, ANTROPOMETRÍA Y CROQUIS ANATÓMICO -->
+    <section id="tab-examen" class="tab-pane">
+      <!-- TARJETA: UBICACIÓN DEL CUERPO -->
+      <div class="card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.4rem;">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-location-dot"></i> Ubicación del Cuerpo</h2>
+          <span style="font-size: 0.78rem; color: var(--accent-primary);">UBICACIÓN</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Seleccionar Ubicación del Cuerpo en el Sitio del Suceso</label>
+          <select class="form-select" data-state-path="tecnicosSS.ubicacionCuerpo">
+            <option value="">Seleccionar Ubicación...</option>
+            <option value="LIVING">Living</option>
+            <option value="COMEDOR">Comedor</option>
+            <option value="PIEZA PRINCIPAL PRIMER PISO">Pieza Principal Primer Piso</option>
+            <option value="PIEZA PRIMER PISO">Pieza Primer Piso</option>
+            <option value="BAÑO">Baño</option>
+            <option value="BAÑO PRIMER PISO">Baño Primer Piso</option>
+            <option value="BAÑO SEGUNDO PISO">Baño Segundo Piso</option>
+            <option value="PIEZA PRINCIPAL SEGUNDO PISO">Pieza Principal Segundo Piso</option>
+            <option value="PIEZA SEGUNDO PISO">Pieza Segundo Piso</option>
+            <option value="BALCÓN PRIMER PISO">Balcón Primer Piso</option>
+            <option value="BALCÓN SEGUNDO PISO">Balcón Segundo Piso</option>
+            <option value="PATIO TRASERO">Patio Trasero</option>
+            <option value="ANTE JARDÍN">Ante Jardín</option>
+            <option value="INTERIOR DE UNA BODEGA">Interior de una Bodega</option>
+            <option value="ENTRETECHO">Entretecho</option>
+            <option value="QUINCHO">Quincho</option>
+            <option value="PISCINA">Piscina</option>
+            <option value="POTRERO">Potrero</option>
+            <option value="INTERIOR DEL PREDIO">Interior del Predio</option>
+            <option value="SUSPENDIDO DE UN ÁRBOL">Suspendido de un Árbol</option>
+            <option value="INTERIOR DE UN VEHÍCULO">Interior de un Vehículo</option>
+            <option value="INTERIOR DE UN ASCENSOR">Interior de un Ascensor</option>
+            <option value="VÍA PÚBLICA">Vía Pública</option>
+            <option value="CALLE PRINCIPAL">Calle Principal</option>
+            <option value="CAMINO PRINCIPAL">Camino Principal</option>
+            <option value="RECINTO MILITAR">Recinto Militar</option>
+            <option value="RECINTO POLICIAL">Recinto Policial</option>
+            <option value="CALABOZO">Calabozo</option>
+            <option value="DENTRO DE UNA MALETA">Dentro de una Maleta</option>
+            <option value="INTERIOR REFRIGERADOR">Interior Refrigerador</option>
+            <option value="INTERIOR DE UN AUTO BUS">Interior de un Auto Bus</option>
+            <option value="INTERIOR DE UN AVIÓN">Interior de un Avión</option>
+            <option value="AEROPUERTO">Aeropuerto</option>
+            <option value="AERÓDROMO">Aeródromo</option>
+            <option value="RECINTO PÚBLICO">Recinto Público</option>
+            <option value="RECINTO PRIVADO">Recinto Privado</option>
+            <option value="RECINTO HOSPITALARIO">Recinto Hospitalario</option>
+            <option value="CESFAM">Cesfam</option>
+            <option value="CUARTEL DE BOMBEROS">Cuartel de Bomberos</option>
+            <option value="PUERTO">Puerto</option>
+            <option value="LANCHA">Lancha</option>
+            <option value="MAR">Mar</option>
+            <option value="RÍO">Río</option>
+            <option value="BARCO">Barco</option>
+            <option value="CRUCERO">Crucero</option>
+            <option value="OTRO">Otro</option>
+          </select>
+        </div>
+        <div id="boxUbicacionCuerpoOtro" class="form-group" style="display: none; margin-top: 0.8rem;">
+          <label class="form-label" style="color: var(--accent-primary); font-weight: 700;">Especificar el lugar del Hallazgo del Cuerpo:</label>
+          <input type="text" class="form-input" data-state-path="tecnicosSS.ubicacionCuerpoOtro" placeholder="Escribir ubicación específica...">
+        </div>
+      </div>
+
+      <!-- TOPOGRAFÍA Y ORIENTACIÓN DEL CADÁVER -->
+      <div class="card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.4rem;">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-compass-drafting"></i> Orientación y Topografía del Cadáver</h2>
+          <span style="font-size: 0.78rem; color: var(--accent-primary);">INICIAL</span>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">Orientación del Cadáver</label>
+            <input type="text" class="form-input" data-state-path="tecnicosSS.orientacionCadaver" placeholder="Decúbito dorsal, Cabeza al Norte...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fijación a Dos Puntos (Topografía)</label>
+            <input type="text" class="form-input" data-state-path="tecnicosSS.fijacionDosPuntos" placeholder="Punto A: Poste N°42 (3.2m), Punto B: Muro Norte">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Medida entre Maléolos Internos (cm)</label>
+            <input type="number" step="0.1" class="form-input" data-state-path="tecnicosSS.medidaMaleolos" placeholder="Ej. 18.5 cm">
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-dna"></i> Examen Antropométrico y Rasgos Fenotípicos</h2>
+            <span style="font-size: 0.78rem; color: var(--accent-primary);">PÁGINA 2</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Estatura</label>
+            <input type="text" class="form-input" data-state-path="antropometria.estatura" placeholder="Ej. 1.78 M">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">COLOR DE TEZ</label>
+            <select class="form-select" data-state-path="antropometria.tez">
+              <option value="Blanca">Blanca</option>
+              <option value="Albina">Albina</option>
+              <option value="Morena">Morena</option>
+              <option value="Trigueña">Trigueña</option>
+              <option value="Oscura">Oscura</option>
+            </select>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Cabello</label>
+              <input type="text" class="form-input" data-state-path="antropometria.cabello" placeholder="Negro corto, castaño...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color del Iris</label>
+              <select class="form-select" data-state-path="antropometria.colorIris">
+                <option value="⚫ Negro">⚫ Negro</option>
+                <option value="🟤 Café">🟤 Café</option>
+                <option value="🟤 Castaño">🟤 Castaño</option>
+                <option value="🟤 Marrón">🟤 Marrón</option>
+                <option value="🔵 Azul">🔵 Azul</option>
+                <option value="🟢 Verde">🟢 Verde</option>
+                <option value="🟡 Ámbar">🟡 Ámbar</option>
+                <option value="🟤 Avellana">🟤 Avellana</option>
+                <option value="⚪ Gris">⚪ Gris</option>
+                <option value="🟠 Miel">🟠 Miel</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.2rem;">
+            <label class="form-label" style="font-weight: 800; color: var(--text-main); margin-bottom: 0.6rem;">Morfología del Cuerpo (Seleccionar casilla)</label>
+            <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+              <label class="custom-checkbox morfologia-option" style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-input); cursor: pointer;">
+                <input type="checkbox" class="chk-morfologia" value="ECTOMORFO">
+                <div>
+                  <div style="font-weight: 800; color: var(--accent-primary); font-size: 0.92rem;">ECTOMORFO</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.35;">
+                    Estructura ósea ligera, extremidades largas, metabolismo rápido y dificultad para ganar masa muscular o grasa.
+                  </div>
+                </div>
+              </label>
+
+              <label class="custom-checkbox morfologia-option" style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-input); cursor: pointer;">
+                <input type="checkbox" class="chk-morfologia" value="MESOMORFO">
+                <div>
+                  <div style="font-weight: 800; color: var(--accent-primary); font-size: 0.92rem;">MESOMORFO</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.35;">
+                    Complexión naturalmente fuerte, hombros anchos, cintura estrecha y alta capacidad para desarrollar músculo.
+                  </div>
+                </div>
+              </label>
+
+              <label class="custom-checkbox morfologia-option" style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-input); cursor: pointer;">
+                <input type="checkbox" class="chk-morfologia" value="ENDOMORFO">
+                <div>
+                  <div style="font-weight: 800; color: var(--accent-primary); font-size: 0.92rem;">ENDOMORFO</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.35;">
+                    Estructura más pesada, tendencia a la acumulación de grasa (especialmente en abdomen y caderas), con formas más redondeadas.
+                  </div>
+                </div>
+              </label>
+
+              <label class="custom-checkbox morfologia-option" style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-input); cursor: pointer;">
+                <input type="checkbox" class="chk-morfologia" value="OBESO">
+                <div>
+                  <div style="font-weight: 800; color: var(--accent-primary); font-size: 0.92rem;">OBESO</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.35;">
+                    Exceso de grasa adiposa corporal.
+                  </div>
+                </div>
+              </label>
+
+              <label class="custom-checkbox morfologia-option" style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-input); cursor: pointer;">
+                <input type="checkbox" class="chk-morfologia" value="CAQUÉTICO">
+                <div>
+                  <div style="font-weight: 800; color: var(--accent-primary); font-size: 0.92rem;">CAQUÉTICO</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.35;">
+                    Desnutrición Severa.
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-stethoscope"></i> Signos Clínicos e Instrumentales</h2>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Pupilas</label>
+              <select class="form-select" data-state-path="signosClinicos.pupilas">
+                <option value="Midriáticas: Dilatadas">Midriáticas: Dilatadas</option>
+                <option value="Mióticas: Contraídas">Mióticas: Contraídas</option>
+                <option value="Isocóricas: Normales / Simétricas">Isocóricas: Normales / Simétricas</option>
+                <option value="Anisocóricas: Asimétricas">Anisocóricas: Asimétricas</option>
+                <option value="CON LESIÓN-TRAUMA O CORTE">CON LESIÓN-TRAUMA O CORTE</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Palpación Craneal</label>
+              <select class="form-select" data-state-path="signosClinicos.palpacionCraneal">
+                <option value="SIN LESIÓN O VESTIGIOS">SIN LESIÓN O VESTIGIOS</option>
+                <option value="CON LESIÓN: Crepitación Ósea">CON LESIÓN: Crepitación Ósea</option>
+                <option value="HUNDIMIENTO CRANEAL">HUNDIMIENTO CRANEAL</option>
+                <option value="HERIDA CONTUSA: Cortante">HERIDA CONTUSA: Cortante</option>
+                <option value="CON LESIÓN Y HEMATOMAS">CON LESIÓN Y HEMATOMAS</option>
+                <option value="TRAUMATISMO CRANEOENCEFÁLICO GRAVE: Golpe fuerte, o un Objeto Penetrante">TRAUMATISMO CRANEOENCEFÁLICO GRAVE: Golpe fuerte, o un Objeto Penetrante</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="form-group">
+              <label class="form-label">Pabellón Auricular</label>
+              <select class="form-select" data-state-path="signosClinicos.pabellonAuricular">
+                <option value="PÁLIDOS: Piel más Blanca">PÁLIDOS: Piel más Blanca</option>
+                <option value="CIANÓTICOS: Coloración azulada o violácea de la piel">CIANÓTICOS: Coloración azulada o violácea de la piel</option>
+                <option value="NORMOCOLOREADO: Coloración normal o natural">NORMOCOLOREADO: Coloración normal o natural</option>
+                <option value="CON OTORRAGÍA: Con Sangre">CON OTORRAGÍA: Con Sangre</option>
+                <option value="CON OTORREA: Salida de líquido del oído">CON OTORREA: Salida de líquido del oído</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mucosa Labial</label>
+              <select class="form-select" data-state-path="signosClinicos.mucosaLabial">
+                <option value="PÁLIDOS: Piel más Blanca">PÁLIDOS: Piel más Blanca</option>
+                <option value="CIANÓTICOS: Coloración azulada o violácea de la piel">CIANÓTICOS: Coloración azulada o violácea de la piel</option>
+                <option value="NORMOCOLOREADO: Coloración normal o natural">NORMOCOLOREADO: Coloración normal o natural</option>
+                <option value="CON LESIÓNES TRAUMA O CORTE">CON LESIÓNES TRAUMA O CORTE</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Lechos Ungueales</label>
+              <select class="form-select" data-state-path="signosClinicos.lechosUngueales">
+                <option value="PÁLIDOS: Piel más Blanca">PÁLIDOS: Piel más Blanca</option>
+                <option value="CIANÓTICOS: Coloración azulada o violácea de la piel">CIANÓTICOS: Coloración azulada o violácea de la piel</option>
+                <option value="NORMOCOLOREADO: Coloración normal o natural">NORMOCOLOREADO: Coloración normal o natural</option>
+                <option value="CON RESTOS BIOLÓGICOS DE DEFENSA">CON RESTOS BIOLÓGICOS DE DEFENSA</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Temperatura Cuerpo (°C)</label>
+              <input type="number" step="0.1" class="form-input" data-state-path="signosClinicos.tempCuerpo" placeholder="28.5">
+            </div>
+            <div class="form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                <label class="form-label" style="margin-bottom: 0;">Temperatura Ambiente (°C)</label>
+                <button type="button" id="btnFetchTemp" style="background: var(--accent-primary); color: #fff; padding: 0.28rem 0.7rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" title="Obtener temperatura según ubicación GPS">
+                  <i class="fa-solid fa-cloud-sun"></i> Obtener de Web / GPS
+                </button>
+              </div>
+              <input type="number" step="0.1" class="form-input" data-state-path="signosClinicos.tempAmbiente" id="inputTempAmbiente" placeholder="14.0">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TARJETA: REGISTRO DE VESTIMENTA Y DESCRIPCIÓN -->
+      <div class="card" style="margin-bottom: 1.4rem;">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-shirt"></i> Registro de Vestimenta y Descripción</h2>
+          <span style="font-size: 0.78rem; color: var(--accent-primary);">PÁGINA 2</span>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Prendas Superiores (Tronco)</label>
+            <input type="text" class="form-input" data-state-path="vestimenta.superiores" placeholder="Chaqueta de cuero color negro talla L...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Prendas Inferiores (Piernas)</label>
+            <input type="text" class="form-input" data-state-path="vestimenta.inferiores" placeholder="Pantalón de mezclilla azul clásico talla 42...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Calzado y Complementos</label>
+            <input type="text" class="form-input" data-state-path="vestimenta.calzado" placeholder="Zapatillas deportivas negras marca Adidas...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Prendas de Abrigo (Capa exterior)</label>
+            <input type="text" class="form-input" data-state-path="vestimenta.abrigo" placeholder="Parka o abrigo exterior...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Prendas de Cuerpo Entero (Una pieza)</label>
+            <input type="text" class="form-input" data-state-path="vestimenta.cuerpoEntero" placeholder="Overol, enterito o N/A">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Otro Tipo de Prendas / Accesorios Personales</label>
+            <input type="text" class="form-input" data-state-path="vestimenta.otros" placeholder="Reloj, anillos, billetera, credenciales...">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Tanatosemiología / Fenómenos Cadavéricos</h2>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Livideces Cadavéricas</label>
+            <select class="form-select" data-state-path="tanatologia.livideces">
+              <option value="MÓVILES: Aparecen entre las primeras 3 a 10 horas.">MÓVILES: Aparecen entre las primeras 3 a 10 horas.</option>
+              <option value="FIJAS: Se establecen entre las 12 y 24 horas.">FIJAS: Se establecen entre las 12 y 24 horas.</option>
+              <option value="MIXTAS">MIXTAS</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rigidez Cadavérica</label>
+            <select class="form-select" data-state-path="tanatologia.rigidez">
+              <option value="Completa">Completa</option>
+              <option value="Parcial">Parcial</option>
+              <option value="Flacidez / Ausente">Flacidez / Ausente</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Putrefacción</label>
+            <input type="text" class="form-input" data-state-path="tanatologia.putrefaccion" placeholder="Ausente / Periodo Cromático">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Maceración / Saponificación</label>
+            <input type="text" class="form-input" data-state-path="tanatologia.maceracion" placeholder="No / Sin signos">
+          </div>
+        </div>
+      </div>
+
+      <!-- EVALUACIÓN DE LESIONES Y ACTIVACIÓN BODY MAPPER -->
+      <div class="card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.4rem;">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-notes-medical"></i> Evaluación de Lesiones</h2>
+        </div>
+        <label class="form-label" style="font-size: 0.92rem; color: var(--accent-primary); margin-bottom: 0.6rem;">¿Presenta Lesiones?</label>
+        <div class="pill-selector" data-state-path="clasificacionCaso.presentaLesiones" id="selectorPresentaLesiones">
+          <span class="pill-option active" data-value="SI">SÍ</span>
+          <span class="pill-option" data-value="NO">NO</span>
+        </div>
+
+        <div id="boxLesionesSi" style="margin-top: 1rem; padding: 0.9rem 1.1rem; border-radius: var(--radius-sm); background: rgba(14, 165, 233, 0.12); border: 1px solid rgba(14, 165, 233, 0.4); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
+          <span style="font-size: 0.88rem; font-weight: 700; color: var(--accent-primary);">
+            <i class="fa-solid fa-circle-check"></i> Activado para usar el Body Mapper Forense: 4 Siluetas Anatómicas.
+          </span>
+        </div>
+
+        <div id="boxLesionesNo" style="display: none; margin-top: 1rem; padding: 0.9rem 1.1rem; border-radius: var(--radius-sm); background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4);">
+          <span style="font-size: 0.88rem; font-weight: 700; color: #f59e0b;">
+            <i class="fa-solid fa-circle-info"></i> No se Observaron Lesiones Atribuibles de Terceras Personas.
+          </span>
+        </div>
+      </div>
+
+      <!-- BODY MAPPER ANATÓMICO MÓVIL: 4 PLANOS -->
+      <div class="card" id="cardBodyMapper">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-person-burst"></i> Body Mapper Forense: 4 Siluetas Anatómicas</h2>
+          <span style="font-size: 0.78rem; color: var(--accent-primary); font-weight: 700;"><i class="fa-solid fa-hand-pointer"></i> TOCA UNA SILUETA PARA MARCAR LESIÓN</span>
+        </div>
+
+        <div class="body-mapper-container">
+          <div class="silhouettes-wrapper" id="lesionPinsContainer">
+
+            <!-- 1. FRONTAL -->
+            <div class="silhouette-box">
+              <div class="silhouette-title"><i class="fa-solid fa-user"></i> Anterior (Frontal)</div>
+              <svg class="svg-body" viewBox="0 0 180 440" xmlns="http://www.w3.org/2000/svg">
+                <path class="body-skin-layer" d="M90 14 C78 14 70 26 70 40 C70 54 78 64 83 68 L78 80 L52 88 C40 92 30 100 25 110 L12 172 L8 228 L18 231 L25 178 L38 115 L48 115 L52 182 L55 238 L60 238 L88 243 L118 238 L123 238 L126 182 L130 115 L140 115 L153 178 L160 231 L170 228 L166 172 L153 110 C148 100 138 92 126 88 L100 80 L95 68 C100 64 108 54 108 40 C108 26 100 14 90 14 Z"/>
+                <path class="body-skin-layer" d="M60 238 L62 338 L64 423 L55 438 L78 438 L78 338 L90 278 L102 338 L102 438 L125 438 L116 423 L118 338 L120 238 Z"/>
+                <path d="M68 118 Q90 125 112 118 M55 155 L125 155 M60 238 L120 238" class="body-muscle-line" style="opacity: 0.35;"/>
+                <path class="body-zone" data-zone-name="Rostro / Cráneo Anterior" data-svg-coords="12,8" d="M70 15 L110 15 L110 68 L70 68 Z"><title>Rostro / Cráneo Anterior</title></path>
+                <path class="body-zone" data-zone-name="Cuello Anterior" data-svg-coords="12,16" d="M75 68 L105 68 L108 84 L72 84 Z"><title>Cuello Anterior</title></path>
+                <path class="body-zone" data-zone-name="Tórax Anterior Derecho" data-svg-coords="8,26" d="M50 86 L89 86 L89 155 L54 155 Z"><title>Tórax Anterior Derecho</title></path>
+                <path class="body-zone" data-zone-name="Tórax Anterior Izquierdo" data-svg-coords="17,26" d="M89 86 L128 86 L124 155 L89 155 Z"><title>Tórax Anterior Izquierdo</title></path>
+                <path class="body-zone" data-zone-name="Abdomen / Región Pélvica Anterior" data-svg-coords="12,40" d="M54 155 L124 155 L120 238 L60 238 Z"><title>Abdomen / Región Pélvica Anterior</title></path>
+                <path class="body-zone" data-zone-name="Extremidad Superior Derecha Anterior" data-svg-coords="4,35" d="M26 95 L48 93 L40 232 L12 232 Z"><title>Extremidad Superior Derecha Anterior</title></path>
+                <path class="body-zone" data-zone-name="Extremidad Superior Izquierda Anterior" data-svg-coords="21,35" d="M130 93 L152 95 L166 232 L138 232 Z"><title>Extremidad Superior Izquierda Anterior</title></path>
+                <path class="body-zone" data-zone-name="Extremidad Inferior Derecha Anterior" data-svg-coords="9,72" d="M58 240 L88 240 L80 438 L54 438 Z"><title>Extremidad Inferior Derecha Anterior</title></path>
+                <path class="body-zone" data-zone-name="Extremidad Inferior Izquierda Anterior" data-svg-coords="16,72" d="M92 240 L122 240 L126 438 L100 438 Z"><title>Extremidad Inferior Izquierda Anterior</title></path>
+              </svg>
+            </div>
+
+            <!-- 2. DORSAL -->
+            <div class="silhouette-box">
+              <div class="silhouette-title"><i class="fa-solid fa-user-shield"></i> Posterior (Dorsal)</div>
+              <svg class="svg-body" viewBox="0 0 180 440" xmlns="http://www.w3.org/2000/svg">
+                <path class="body-skin-layer" d="M90 14 C78 14 70 26 70 40 C70 54 78 64 83 68 L78 80 L52 88 C40 92 30 100 25 110 L12 172 L8 228 L18 231 L25 178 L38 115 L48 115 L52 182 L55 238 L60 238 L88 243 L118 238 L123 238 L126 182 L130 115 L140 115 L153 178 L160 231 L170 228 L166 172 L153 110 C148 100 138 92 126 88 L100 80 L95 68 C100 64 108 54 108 40 C108 26 100 14 90 14 Z"/>
+                <path class="body-skin-layer" d="M60 238 L62 338 L64 423 L55 438 L78 438 L78 338 L90 278 L102 338 L102 438 L125 438 L116 423 L118 338 L120 238 Z"/>
+                <line x1="90" y1="70" x2="90" y2="238" class="body-muscle-line" style="stroke-dasharray: 4, 4; opacity: 0.5;"/>
+                <path class="body-zone" data-zone-name="Cráneo Posterior (Occipital / Nuca)" data-svg-coords="37,8" d="M70 15 L110 15 L110 68 L70 68 Z"><title>Cráneo Posterior (Occipital / Nuca)</title></path>
+                <path class="body-zone" data-zone-name="Cuello Posterior (Cervical)" data-svg-coords="37,16" d="M75 68 L105 68 L108 84 L72 84 Z"><title>Cuello Posterior (Cervical)</title></path>
+                <path class="body-zone" data-zone-name="Región Dorsal Izquierda (Escapular)" data-svg-coords="33,26" d="M50 86 L89 86 L89 155 L54 155 Z"><title>Región Dorsal Izquierda (Escapular)</title></path>
+                <path class="body-zone" data-zone-name="Región Dorsal Derecha (Escapular)" data-svg-coords="42,26" d="M89 86 L128 86 L124 155 L89 155 Z"><title>Región Dorsal Derecha (Escapular)</title></path>
+                <path class="body-zone" data-zone-name="Región Lumbar y Glútea Posterior" data-svg-coords="37,40" d="M54 155 L124 155 L120 238 L60 238 Z"><title>Región Lumbar y Glútea Posterior</title></path>
+                <path class="body-zone" data-zone-name="Posterior Extremidad Superior Izquierda" data-svg-coords="29,35" d="M26 95 L48 93 L40 232 L12 232 Z"><title>Posterior Extremidad Superior Izquierda</title></path>
+                <path class="body-zone" data-zone-name="Posterior Extremidad Superior Derecha" data-svg-coords="46,35" d="M130 93 L152 95 L166 232 L138 232 Z"><title>Posterior Extremidad Superior Derecha</title></path>
+                <path class="body-zone" data-zone-name="Posterior Extremidad Inferior Izquierda" data-svg-coords="34,72" d="M58 240 L88 240 L80 438 L54 438 Z"><title>Posterior Extremidad Inferior Izquierda</title></path>
+                <path class="body-zone" data-zone-name="Posterior Extremidad Inferior Derecha" data-svg-coords="41,72" d="M92 240 L122 240 L126 438 L100 438 Z"><title>Posterior Extremidad Inferior Derecha</title></path>
+              </svg>
+            </div>
+
+            <!-- 3. LATERAL DERECHO -->
+            <div class="silhouette-box">
+              <div class="silhouette-title"><i class="fa-solid fa-person"></i> Lateral Derecho</div>
+              <svg class="svg-body" viewBox="0 0 180 440" xmlns="http://www.w3.org/2000/svg">
+                <path class="body-skin-layer" d="M90 14 C76 14 68 26 68 40 C70 54 75 64 80 68 L76 80 L62 88 C54 92 52 105 54 135 L58 175 C60 195 62 225 64 238 L116 238 C118 225 120 195 122 175 L126 135 C128 105 126 92 118 88 L104 80 L100 68 C105 64 112 54 112 40 C112 26 104 14 90 14 Z"/>
+                <path class="body-skin-layer" d="M64 238 L68 338 L70 423 L62 438 L114 438 L108 423 L112 338 L116 238 Z"/>
+                <path class="body-zone" data-zone-name="Cráneo Lateral Derecho (Temporal/Parietal)" data-svg-coords="62,8" d="M65 15 L115 15 L115 68 L65 68 Z"><title>Cráneo Lateral Derecho (Temporal/Parietal)</title></path>
+                <path class="body-zone" data-zone-name="Tórax Lateral Derecho (Costal)" data-svg-coords="62,26" d="M52 86 L126 86 L124 155 L54 155 Z"><title>Tórax Lateral Derecho (Costal)</title></path>
+                <path class="body-zone" data-zone-name="Flanco y Cadera Lateral Derecha" data-svg-coords="62,40" d="M56 155 L122 155 L116 238 L64 238 Z"><title>Flanco y Cadera Lateral Derecha</title></path>
+                <path class="body-zone" data-zone-name="Extremidad Inferior Lateral Derecha" data-svg-coords="62,72" d="M64 240 L116 240 L114 438 L62 438 Z"><title>Extremidad Inferior Lateral Derecha</title></path>
+              </svg>
+            </div>
+
+            <!-- 4. LATERAL IZQUIERDO -->
+            <div class="silhouette-box">
+              <div class="silhouette-title"><i class="fa-solid fa-person"></i> Lateral Izquierdo</div>
+              <svg class="svg-body" viewBox="0 0 180 440" xmlns="http://www.w3.org/2000/svg">
+                <path class="body-skin-layer" d="M90 14 C104 14 112 26 112 40 C112 54 105 64 100 68 L104 80 L118 88 C126 92 128 105 126 135 L122 175 C120 195 118 225 116 238 L64 238 C62 225 60 195 58 175 L54 135 C52 105 54 92 62 88 L76 80 L80 68 C75 64 68 54 68 40 C68 26 76 14 90 14 Z"/>
+                <path class="body-skin-layer" d="M64 238 L68 338 L70 423 L62 438 L114 438 L108 423 L112 338 L116 238 Z"/>
+                <path class="body-zone" data-zone-name="Cráneo Lateral Izquierdo (Temporal/Parietal)" data-svg-coords="87,8" d="M65 15 L115 15 L115 68 L65 68 Z"><title>Cráneo Lateral Izquierdo (Temporal/Parietal)</title></path>
+                <path class="body-zone" data-zone-name="Tórax Lateral Izquierdo (Costal)" data-svg-coords="87,26" d="M52 86 L126 86 L124 155 L54 155 Z"><title>Tórax Lateral Izquierdo (Costal)</title></path>
+                <path class="body-zone" data-zone-name="Flanco y Cadera Lateral Izquierda" data-svg-coords="87,40" d="M56 155 L122 155 L116 238 L64 238 Z"><title>Flanco y Cadera Lateral Izquierda</title></path>
+                <path class="body-zone" data-zone-name="Extremidad Inferior Lateral Izquierda" data-svg-coords="87,72" d="M64 240 L116 240 L114 438 L62 438 Z"><title>Extremidad Inferior Lateral Izquierda</title></path>
+              </svg>
+            </div>
+
+          </div>
+
+          <div class="lesions-list" id="lesionsListContainer">
+            <div id="lesionsEmptyMsg" style="color: var(--text-muted); text-align: center; padding: 2rem 1rem;">
+              <i class="fa-solid fa-notes-medical" style="font-size: 2.2rem; margin-bottom: 0.8rem; opacity: 0.5;"></i>
+              <p style="font-weight: 600; font-size: 0.95rem;">Sin lesiones fijadas en las siluetas anatómicas</p>
+              <p style="font-size: 0.82rem; margin-top: 0.4rem; color: var(--text-dim);">Haz clic o toca directamente sobre cualquier silueta para registrar una lesión.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 1.5rem;">
+          <label class="form-label">Observaciones Adicionales en el Examen Externo</label>
+          <textarea class="form-textarea" data-state-path="observaciones" placeholder="Indicar hallazgos, evidencia balística o trazas asociadas en el sitio del suceso..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 3: VESTIMENTA Y PERITOS LACRIM -->
+    <section id="tab-vestimenta" class="tab-pane">
+      <div class="grid-2">
+        <!-- TARJETA: CONCURRENCIA PERITOS LACRIM -->
+        <div class="card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.4rem;">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-microscope"></i> Concurrencia Peritos LACRIM</h2>
+            <span style="font-size: 0.78rem; color: var(--accent-primary);">CRIMINALÍSTICA</span>
+          </div>
+          <label class="form-label" style="font-size: 0.92rem; color: var(--accent-primary); margin-bottom: 0.6rem;">¿Concurre personal de Peritos LACRIM al Sitio del Suceso?</label>
+          <div class="pill-selector" data-state-path="peritosLacrim.concurre" id="selectorPeritosLacrim">
+            <span class="pill-option active" data-value="SI">SÍ</span>
+            <span class="pill-option" data-value="NO">NO</span>
+          </div>
+
+          <div id="boxPeritosLacrimList" style="margin-top: 1rem;">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.2rem;">Selecciona las especialidades intervinientes en el Sitio del Suceso:</p>
+            <div class="checkbox-grid" style="grid-template-columns: 1fr; gap: 0.8rem;">
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="peritosLacrim.fotografiaPlanimetria">
+                <span style="font-weight: 600;">Fotografía Forense y Planimetría</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="peritosLacrim.balistica">
+                <span style="font-weight: 600;">Balística Forense</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="peritosLacrim.huellografiaDactilos">
+                <span style="font-weight: 600;">Huellografía y Dactiloscopía</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="peritosLacrim.informaticaForense">
+                <span style="font-weight: 600;">Informática Forense</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" data-state-checkbox="peritosLacrim.quimicaFisica">
+                <span style="font-weight: 600;">Química y Física Forense</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="boxPeritosLacrimNo" style="display: none; margin-top: 1rem; padding: 0.9rem 1.1rem; border-radius: var(--radius-sm); background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4);">
+            <span style="font-size: 0.88rem; font-weight: 700; color: #f59e0b;">
+              <i class="fa-solid fa-circle-info"></i> Sin Concurrencia de Peritos LACRIM al S.S
+            </span>
+          </div>
+        </div>
+
+        <!-- TARJETA: REGISTRO NUE Y RECEPCIÓN INSTITUCIONAL -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-folder-tree"></i> Antecedentes: Registro NUE y Recepción Institucional</h2>
+            <span style="font-size: 0.78rem; color: var(--accent-primary);">RECEPCIÓN</span>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+              <label class="form-label" style="margin-bottom: 0;">¿Existe Registro NUE y Recepción Institucional?</label>
+              <div class="pill-selector" data-state-path="antecedentes.tieneRegistroNue" style="padding: 3px; border-radius: 50px; gap: 4px;">
+                <span class="pill-option active" data-value="SI" style="width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">SÍ</span>
+                <span class="pill-option" data-value="NO" style="width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">NO</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="boxRegistroNueSi">
+            <div class="form-group">
+              <label class="form-label">NUE N°</label>
+              <input type="text" class="form-input" data-state-path="antecedentes.nue" placeholder="Ej. NUE-2026-981234">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Descripción</label>
+              <input type="text" class="form-input" data-state-path="antecedentes.descripcionNue" placeholder="Descripción pericial del caso o causa asociada...">
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Recepción: Fecha</label>
+                <input type="date" class="form-input" data-state-path="antecedentes.fechaRecepcion">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Recepción: Hora</label>
+                <input type="time" class="form-input" data-state-path="antecedentes.horaRecepcion">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nombre de Quien Recepciona</label>
+                <input type="text" class="form-input" data-state-path="antecedentes.nombreRecepciona" placeholder="Ej. Inspector M. Rojas">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Institución</label>
+                <input type="text" class="form-input" data-state-path="antecedentes.institucionRecepciona" placeholder="Ej. PDI">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 1rem;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                <span><i class="fa-solid fa-camera"></i> Fotografía del Comprobante / Registro NUE</span>
+                <span style="font-size: 0.75rem; color: var(--accent-primary);">OPCIONAL</span>
+              </label>
+              <div id="containerFotoNue" style="border: 2px dashed var(--border-color); border-radius: var(--radius-sm); padding: 1rem; text-align: center; background: var(--bg-input);">
+                <input type="file" id="inputFotoNue" accept="image/*" capture="environment" style="display: none;">
+                
+                <div id="fotoNueEmpty" style="display: flex; flex-direction: column; align-items: center; gap: 0.6rem;">
+                  <i class="fa-solid fa-camera-retro" style="font-size: 2.2rem; color: var(--accent-primary);"></i>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Toma una foto o adjunta imagen de la NUE que se entrega</p>
+                  <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('inputFotoNue').click()">
+                    <i class="fa-solid fa-camera"></i> Tomar / Subir Foto NUE
+                  </button>
+                </div>
+
+                <div id="fotoNuePreview" style="display: none; flex-direction: column; align-items: center; gap: 0.8rem;">
+                  <img id="imgFotoNue" src="" alt="Registro NUE" style="max-height: 220px; border-radius: 6px; border: 1px solid var(--border-color); object-fit: contain;">
+                  <div style="display: flex; gap: 0.75rem;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('inputFotoNue').click()">
+                      <i class="fa-solid fa-rotate"></i> Cambiar Foto
+                    </button>
+                    <button type="button" class="btn btn-sm" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" id="btnEliminarFotoNue">
+                      <i class="fa-solid fa-trash"></i> Eliminar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="boxRegistroNueNo" style="display: none; margin-top: 0.8rem; padding: 12px 16px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 6px; color: #f87171; font-weight: 700; font-size: 0.92rem; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-triangle-exclamation"></i> Sin Registro
+          </div>
+        </div>
+
+        <!-- TARJETA: OBSERVACIONES -->
+        <div class="card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.4rem;">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-comment-dots"></i> Observaciones y Empadronados</h2>
+            <span style="font-size: 0.78rem; color: var(--accent-primary);">LIBRE</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Observaciones Generales y Empadronados</label>
+            <textarea class="form-textarea" data-state-path="observacionesFinales" placeholder="Escribir observaciones libres, empadronados o detalles adicionales del procedimiento..."></textarea>
+          </div>
+        </div>
+
+        <!-- TARJETA: DESCRIPCIÓN DEL S.S. -->
+        <div class="card" style="border-left: 4px solid var(--accent-primary); margin-bottom: 1.4rem;">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-file-lines"></i> Descripción del S.S.</h2>
+            <span style="font-size: 0.78rem; color: var(--accent-primary);">DESCRIPCIÓN</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Descripción Detallada del Sitio del Suceso</label>
+            <textarea class="form-textarea" data-state-path="descripcionSS" placeholder="Escribir descripción detallada del Sitio del Suceso, hallazgos estructurales, ambientales, distribución espacial, etc..."></textarea>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><i class="fa-solid fa-hourglass-end" style="color: var(--accent-primary);"></i> Conclusión del Examen y Horarios</h2>
+            <span style="font-size: 0.78rem; color: var(--accent-primary);">CIERRE</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Data de Muerte Estimada (Tanatología)</label>
+            <input type="text" class="form-input" data-state-path="dataMuerte" placeholder="Ej. Entre 3 y 5 horas previas al examen">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Causa Probable de Muerte</label>
+            <select class="form-select" data-state-path="causaProbable">
+              <option value="INDETERMINADO A LA ESPERA DE LA AUTOPSIA">INDETERMINADO A LA ESPERA DE LA AUTOPSIA</option>
+              <option value="MUERTE NATURAL">MUERTE NATURAL</option>
+              <option value="MUERTE ACCIDENTAL">MUERTE ACCIDENTAL</option>
+              <option value="ASFIXIA">ASFIXIA</option>
+              <option value="ASFIXIA POR INMERSIÓN">ASFIXIA POR INMERSIÓN</option>
+              <option value="HOMICIDIO">HOMICIDIO</option>
+              <option value="OTRO">OTRO</option>
+            </select>
+          </div>
+          <div id="boxCausaProbableOtro" class="form-group" style="display: none; margin-top: 0.8rem;">
+            <label class="form-label" style="color: var(--accent-primary); font-weight: 700;">Especificar Otra Causa Probable de Muerte:</label>
+            <input type="text" class="form-input" data-state-path="causaProbableOtro" placeholder="Escribir causa de muerte específica...">
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Hora Fin Examen Externo</label>
+              <input type="time" class="form-input" data-state-path="horaFinExamenExterno">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hora Finalización S.S.</label>
+              <input type="time" class="form-input" data-state-path="horaFinSS">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 4: CHECKLIST FOTOGRÁFICO -->
+    <section id="tab-fotografia" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fa-solid fa-camera-retro"></i> Checklist</h2>
+          <span style="font-size: 0.78rem; color: var(--accent-primary);">RECORDATORIO</span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">Marca la casilla al completar cada fijación fotográfica pericial:</p>
+        <div class="progress-bar-container">
+          <div id="photoProgressBarFill" class="progress-bar-fill"></div>
+        </div>
+        <div id="photoProgressLabel" style="font-size: 0.82rem; color: var(--accent-primary); font-weight: 600; margin-bottom: 1.5rem;">0 de 12 fotografías fijadas (0%)</div>
+        <div class="photo-grid" id="photoChecklistGrid"></div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 5: DOCUMENTO OFICIAL -->
+    <section id="tab-documento" class="tab-pane">
+      <div class="card no-print" style="margin-bottom: 1rem;">
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div>
+            <h2 style="font-size: 1.15rem; font-weight: 700;"><i class="fa-solid fa-file-contract" style="color: var(--accent-primary);"></i> Vista Previa del Documento Oficial</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Formato judicial listo para firmar o compartir desde el teléfono Android.</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button id="btnExportReportPDF" class="btn btn-primary" style="background: linear-gradient(135deg, #0284c7, #0369a1); border: none; font-weight: 800; padding: 0.75rem 1.4rem; font-size: 0.95rem;">
+              <i class="fa-solid fa-file-pdf"></i> Exportar a PDF
+            </button>
+            <button id="btnExportReportWord" class="btn btn-primary" style="background: linear-gradient(135deg, #2563eb, #1e40af); border: none; font-weight: 800; padding: 0.75rem 1.4rem; font-size: 0.95rem;">
+              <i class="fa-solid fa-file-word"></i> Exportar a Word
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="official-preview-wrapper">
+        <div id="officialDocumentContent" class="official-document"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: SELECCIÓN GUARDAR PDF O JPG -->
+  <div id="modalExportPdfJpg" class="modal-overlay no-print" style="display: none;">
+    <div class="modal-content" style="max-width: 420px; text-align: center;">
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.4rem;">
+        <i class="fa-solid fa-file-export"></i> Guardar Informe Científico
+      </h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.4rem;">
+        Selecciona el formato para exportar el documento oficial:
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+        <button id="btnSavePDFModal" class="btn btn-primary" style="padding: 0.95rem; justify-content: center; font-size: 0.95rem; background: linear-gradient(135deg, #0284c7, #0369a1); border: none;">
+          <i class="fa-solid fa-file-pdf" style="font-size: 1.25rem;"></i> Guardar Documento en PDF
+        </button>
+        <button id="btnSaveJPGModal" class="btn btn-primary" style="padding: 0.95rem; justify-content: center; font-size: 0.95rem; background: linear-gradient(135deg, #10b981, #059669); border: none;">
+          <i class="fa-solid fa-file-image" style="font-size: 1.25rem;"></i> Guardar como Imagen JPG
+        </button>
+      </div>
+      <button onclick="document.getElementById('modalExportPdfJpg').style.display='none'" class="btn btn-secondary" style="margin-top: 1.2rem; width: 100%;">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: RESUMEN PROFESIONAL POR ÍTEMS -->
+  <div id="modalProfessionalSummary" class="modal-overlay no-print" style="display: none;">
+    <div class="modal-content" style="max-width: 580px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-primary);">
+          <i class="fa-solid fa-file-lines"></i> Resumen Científico-Técnico del Expediente
+        </h3>
+        <button onclick="document.getElementById('modalProfessionalSummary').style.display='none'" style="background:none; border:none; color:var(--text-muted); font-size:1.4rem; cursor:pointer;">&times;</button>
+      </div>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+        Informe estructurado y separado por ítems para enviar o copiar a reportes periciales:
+      </p>
+      <textarea id="summaryTextOutput" readonly style="width: 100%; height: 320px; font-family: monospace; font-size: 0.82rem; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 1rem;"></textarea>
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button id="btnCopyProfessionalSummary" class="btn btn-primary" style="flex: 1; justify-content: center;">
+          <i class="fa-solid fa-copy"></i> Copiar Resumen al Portapapeles
+        </button>
+        <button id="btnWhatsAppSummary" class="btn" style="flex: 1; justify-content: center; background: #25D366; color: #fff; font-weight: 700;">
+          <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: REGISTRAR NUEVA LESIÓN -->
+  <div id="lesionModalOverlay" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modalZoneTitle" style="font-size: 1.1rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 1.2rem;">Fijar Lesión en Croquis Anatómico</h3>
+      <form id="formAddLesion">
+        <div class="form-group">
+          <label class="form-label">Tipo de Lesión Forense</label>
+          <select id="lesionTipo" class="form-select">
+            <option value="Herida por Proyectil Balístico">Herida por Proyectil Balístico</option>
+            <option value="Herida Cortopunzante / Arma Blanca">Herida Cortopunzante / Arma Blanca</option>
+            <option value="Contusión / Equimosis">Contusión / Equimosis</option>
+            <option value="Excoriación / Erosión">Excoriación / Erosión</option>
+            <option value="Fractura Ósea">Fractura Ósea</option>
+            <option value="Quemadura">Quemadura</option>
+            <option value="Surco de Compresión / Asfixia">Surco de Compresión / Asfixia</option>
+            <option value="Otra Lesión">Otra Lesión</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Dimensiones / Diámetro</label>
+          <input type="text" id="lesionDimension" class="form-input" placeholder="Ej. 0.9 cm diámetro / 4 x 2 cm">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descripción Detallada y Testigo Métrico</label>
+          <textarea id="lesionDesc" class="form-textarea" placeholder="Describir bordes, halo de contusión, tatuaje..."></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" id="btnCancelModal" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Fijar Lesión</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DE INSTALACIÓN ANDROID PWA -->
+  <div id="androidInstallModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 460px; border-top: 4px solid #00e5a3;">
+      <h3 style="font-size: 1.12rem; font-weight: 700; margin-bottom: 0.9rem; color: var(--text-main); display: flex; align-items: center; gap: 0.6rem;">
+        <i class="fa-brands fa-android" style="color: #00e5a3; font-size: 1.4rem;"></i>
+        Instalar Aplicación en Android
+      </h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.1rem;">
+        Instala el <strong>Sistema Integral Forense S.S</strong> como una app nativa en la pantalla principal de tu celular para acceder sin esperas y usarla <strong>offline en el sitio del suceso</strong>.
+      </p>
+      
+      <div style="background: var(--bg-input); padding: 0.95rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-bottom: 1.3rem;">
+        <div style="font-weight: 700; color: #00e5a3; margin-bottom: 0.5rem; font-size: 0.88rem;">
+          <i class="fa-solid fa-mobile-screen-button"></i> Cómo instalar en tu celular:
+        </div>
+        <ol style="margin-left: 1.1rem; font-size: 0.86rem; color: var(--text-main); line-height: 1.6;">
+          <li>Toca el botón <strong>"Instalar Ahora"</strong> abajo. Si tu navegador está listo, confirmará la instalación al instante.</li>
+          <li>Si no se abre el cuadro automático, toca los <strong>3 puntos verticales (<i class="fa-solid fa-ellipsis-vertical"></i>)</strong> arriba a la derecha en Google Chrome.</li>
+          <li>Selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</li>
+        </ol>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button type="button" id="btnCloseInstallModal" class="btn btn-secondary">Cerrar</button>
+        <button type="button" id="btnTriggerInstallPrompt" class="btn btn-primary" style="background: linear-gradient(135deg, #00e5a3, #0284c7); border: none; font-weight: 700;">
+          <i class="fa-brands fa-android"></i> Instalar Ahora
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RESPALDO JSON Y OPCIONES DE COMPARTIR -->
+  <div id="modalBackupJson" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 460px; border-top: 4px solid var(--accent-primary);">
+      <h3 style="font-size: 1.12rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--text-main); display: flex; align-items: center; gap: 0.6rem;">
+        <i class="fa-solid fa-file-export" style="color: var(--accent-primary); font-size: 1.3rem;"></i>
+        Opciones de Respaldo JSON
+      </h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.1rem;">
+        El archivo JSON empaqueta toda la información del caso, casillas, coordenadas del cuerpo y fotografías para recuperarlas en cualquier momento o enviarlas a oficina.
+      </p>
+
+      <div style="background: var(--bg-input); padding: 0.9rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-bottom: 1.2rem;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.35rem;">
+          <i class="fa-solid fa-folder-tree"></i> Opciones de Guardado:
+        </div>
+        <ul style="margin-left: 1.1rem; font-size: 0.84rem; color: var(--text-main); line-height: 1.5;">
+          <li><strong>Compartir / Enviar:</strong> Abre el menú de su celular para enviarlo por <strong>WhatsApp, Correo (Gmail) o Drive</strong>.</li>
+          <li><strong>Elegir dónde guardar:</strong> Abre el explorador de archivos de su celular para elegir en qué carpeta exacta guardarlo.</li>
+          <li><strong>Descargar directo:</strong> Lo guarda automáticamente en su carpeta interna de <strong>DESCARGAS (Downloads)</strong>.</li>
+        </ul>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.2rem;">
+        <button type="button" id="btnShareJsonNative" class="btn btn-primary" style="width: 100%; justify-content: center; background: #25D366; color: #fff; border: none; font-weight: 800; padding: 0.75rem;">
+          <i class="fa-solid fa-share-nodes"></i> Enviar por WhatsApp, Correo o Drive...
+        </button>
+        <button type="button" id="btnSaveAsLocal" class="btn btn-primary" style="width: 100%; justify-content: center; background: #0284c7; color: #fff; border: none; font-weight: 700; padding: 0.75rem;">
+          <i class="fa-solid fa-folder-open"></i> Elegir Dónde Guardar en mi Teléfono...
+        </button>
+        <button type="button" id="btnDownloadJsonLocal" class="btn btn-secondary" style="width: 100%; justify-content: center; font-weight: 700; padding: 0.75rem;">
+          <i class="fa-solid fa-download"></i> Descarga Rápida a Descargas (Downloads)
+        </button>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="button" id="btnCloseModalBackupJson" class="btn btn-secondary">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="app.js?v=3.6"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js?v=3.2')
+          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline:', reg.scope))
+          .catch(err => console.error('❌ [PWA] Error al registrar SW:', err));
+      });
+    }
+  </script>
+</body>
+</html>

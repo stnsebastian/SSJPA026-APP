@@ -1,0 +1,24 @@
+{
+  "name": "SISTEMA INTEGRAL FORENSE // SS ANDROID",
+  "short_name": "SIF SS Android",
+  "description": "Informe Científico Técnico del Sitio del Suceso — Bicrim San Javier (PDI - Versión Móvil Android)",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#061329",
+  "theme_color": "#0353a4",
+  "icons": [
+    {
+      "src": "./icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

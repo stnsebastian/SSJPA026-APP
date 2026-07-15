@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="fpCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="60%" stop-color="#0ea5e9" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="fpGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#eab308" />
+    </linearGradient>
+    <linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(56, 189, 248, 0)" />
+      <stop offset="50%" stop-color="rgba(56, 189, 248, 0.45)" />
+      <stop offset="100%" stop-color="rgba(56, 189, 248, 0)" />
+    </linearGradient>
+  </defs>
+
+  <rect width="100" height="100" rx="22" fill="#061329" />
+
+  <circle cx="50" cy="50" r="44" fill="#061329" stroke="url(#fpCyanGrad)" stroke-width="3.5" />
+  <circle cx="50" cy="50" r="39" fill="none" stroke="url(#fpGoldGrad)" stroke-width="1.2" opacity="0.85" />
+  <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(56, 189, 248, 0.45)" stroke-width="1" stroke-dasharray="3,2" />
+
+  <!-- HUELLA DACTILAR COMPLETA Y CLARA -->
+  <g stroke="url(#fpCyanGrad)" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <path d="M47,48 C47,45 53,45 53,48 C53,52 45,53 45,47 C45,40 56,40 56,47 C45,55 42,56 42,46 C42,36 59,35 60,46 C61,58 39,60 38,45" />
+    <path d="M35,46 C35,28 65,28 65,47 C65,65 34,66 34,44" />
+    <path d="M31,43 C31,21 69,21 69,46 C69,69 31,71 30,55" />
+    <path d="M26,46 C26,16 74,16 74,47 C74,74 27,76 26,62" />
+    <path d="M33,76 C42,72 58,72 67,76" />
+    <path d="M28,81 C39,76 61,76 72,81" />
+  </g>
+
+  <!-- LÁSER PERICIAL -->
+  <rect x="14" y="48.5" width="72" height="2.5" fill="url(#laserGrad)" />
+  <line x1="14" y1="49.5" x2="86" y2="49.5" stroke="#38bdf8" stroke-width="0.8" opacity="0.9" />
+
+  <!-- PUNTOS FORENSES -->
+  <circle cx="50" cy="22" r="2.8" fill="#10b981" stroke="#ffffff" stroke-width="0.8" />
+  <circle cx="69" cy="46" r="2.8" fill="url(#fpGoldGrad)" stroke="#ffffff" stroke-width="0.8" />
+  <circle cx="50" cy="48" r="2.2" fill="#38bdf8" />
+  <circle cx="34" cy="63" r="2.8" fill="#10b981" stroke="#ffffff" stroke-width="0.8" />
+</svg>
