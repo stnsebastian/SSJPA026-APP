@@ -233,14 +233,17 @@ function bindStateToInputs() {
     if (val !== undefined && val !== null) {
       input.value = val;
     }
-    input.addEventListener('input', (e) => {
-      setNestedValue(appState, path, e.target.value);
-      if (path === 'causaProbable') updateCausaProbableUI();
-      if (path === 'tecnicosSS.ubicacionCuerpo') updateUbicacionCuerpoUI();
-      if (path === 'bitacoraWeb.estado') updateBitacoraWebUI();
-      if (path === 'antropometria.morfologia') updateMorfologiaUI();
-      saveToStorage();
-      renderOfficialDocument();
+    ['input', 'change'].forEach(eventType => {
+      input.addEventListener(eventType, (e) => {
+        setNestedValue(appState, path, e.target.value);
+        if (path === 'causaProbable') updateCausaProbableUI();
+        if (path === 'tecnicosSS.ubicacionCuerpo') updateUbicacionCuerpoUI();
+        if (path === 'bitacoraWeb.estado') updateBitacoraWebUI();
+        if (path === 'antropometria.morfologia') updateMorfologiaUI();
+        if (path === 'fallecido.nacionalidad') updateExtranjeraCualUI();
+        saveToStorage();
+        renderOfficialDocument();
+      });
     });
   });
 
@@ -314,6 +317,7 @@ function bindStateToInputs() {
   updateAntecedentesUI();
   updateRegistroNueUI();
   updateMorfologiaUI();
+  updateExtranjeraCualUI();
 
   const btnFetchTemp = document.getElementById('btnFetchTemp');
   if (btnFetchTemp) {
@@ -438,6 +442,13 @@ function updateMorfologiaUI() {
     const parent = chk.closest('.custom-checkbox');
     if (parent) parent.classList.toggle('checked', checked);
   });
+}
+
+function updateExtranjeraCualUI() {
+  const box = document.getElementById('boxExtranjeraCual');
+  if (!box) return;
+  const nac = appState.fallecido?.nacionalidad || 'CHILENA';
+  box.style.display = nac === 'EXTRANJERA' ? 'block' : 'none';
 }
 
 function updateBitacoraWebUI() {
@@ -1178,9 +1189,8 @@ function generateReporteAmpliacionConcurrenciaText() {
 
   const extraDiligencias = appState.observacionesFinales ? ` ${appState.observacionesFinales}` : '';
 
-  // NUE Y CUNOCO
+  // NUE
   const nueStr = ant.nue || 'SIN REGISTRAR';
-  const cunocoLine = ant.cunoco ? `CUNOCO: ${ant.cunoco}` : 'CUNOCO';
 
   const reporte = `🚨 *REPORTE Y AMPLIACIÓN DE CONCURRENCIA* 🚨
 
@@ -1210,8 +1220,6 @@ function generateReporteAmpliacionConcurrenciaText() {
 ▪ *DILIGENCIAS:* Personal del turno de esta BICRIM, por instrucción del Fiscal de Turno ${fiscalStr}, concurrieron al Sitio del Suceso antes señalado, donde se realizo trabajo en el S.S, al reconocimiento externo policial el cuerpo se encontró en ${ubicacionStr}, ${antecedentesDiligenciaStr}. Finalmente, de acuerdo con las diligencias practicadas, se realizo empadronamiento y fijación fotográfica.
 
 ▪ *N° NUE:* ${nueStr}
-
-${cunocoLine}
 
 --------------------------------------------------
 REPORTE DE SISTEMA INTEGRAL FORENSE S.S`;

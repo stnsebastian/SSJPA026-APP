@@ -153,9 +153,6 @@
             <button id="btnSendReportWhatsAppQuick" class="btn btn-mobile" style="background: #25D366; color: #fff; font-weight: 800; border: none; grid-column: 1 / -1; justify-content: center;">
               <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Enviar Reporte Ampliación Concurrencia (WhatsApp)
             </button>
-            <a href="manual_usuario.html" class="btn btn-secondary btn-mobile" style="text-decoration: none; justify-content: center; background: rgba(14, 165, 233, 0.2); border-color: var(--accent-primary); color: #fff; font-weight: 700;">
-              <i class="fa-solid fa-book-open"></i> Manual de Usuario (Guía Ilustrativa)
-            </a>
             <button id="btnThemeToggle" class="btn btn-secondary btn-mobile">
               <i class="fa-solid fa-sun" id="themeIcon"></i> Modo Día / Noche
             </button>
@@ -219,12 +216,19 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">TIPO DE CASO</label>
+            <label class="form-label">TIPO DE CASO / ESPECÍFICO</label>
             <select class="form-select" data-state-path="clasificacionCaso.subtipo">
               <option value="Muerte y Hallazgo de Cadáver">Muerte y Hallazgo de Cadáver</option>
               <option value="Homicidio">Homicidio</option>
-              <option value="Inhumación">Inhumación</option>
+              <option value="Femicidio">Femicidio</option>
+              <option value="Parricidio">Parricidio</option>
+              <option value="Infanticidio">Infanticidio</option>
+              <option value="Suicidio">Suicidio</option>
+              <option value="Muerte Accidental">Muerte Accidental</option>
+              <option value="Hallazgo de Osamentas / Restos Humanos">Hallazgo de Osamentas / Restos Humanos</option>
+              <option value="Inhumación Ilegal">Inhumación Ilegal</option>
               <option value="Exhumación Ilegal">Exhumación Ilegal</option>
+              <option value="Otro (Especificar)">Otro (Especificar)</option>
             </select>
           </div>
         </div>
@@ -287,8 +291,8 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Si es Extranjera, Indicar Cuál:</label>
+          <div id="boxExtranjeraCual" class="form-group" style="display: none;">
+            <label class="form-label" style="color: var(--accent-primary); font-weight: 700;">Si es Extranjera, Indicar Cuál:</label>
             <input type="text" class="form-input" data-state-path="fallecido.extranjeraCual" placeholder="Ej. Colombiana / Venezolana / Argentina">
           </div>
 
@@ -1289,12 +1293,12 @@
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=3.9"></script>
+  <script src="app.js?v=4.2"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=3.2')
-          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline:', reg.scope))
+        navigator.serviceWorker.register('./sw.js?v=4.2')
+          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.0:', reg.scope))
           .catch(err => console.error('❌ [PWA] Error al registrar SW:', err));
       });
     }

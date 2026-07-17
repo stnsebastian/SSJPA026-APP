@@ -1,5 +1,7 @@
-const CACHE_NAME = 'sif-ss-android-v3.9';
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'sif-ss-android-v4.2';
+
+// 1. Archivos locales indispensables (Críticos para la aplicación)
+const LOCAL_ASSETS = [
   './',
   './index.html',
   './manual_usuario.html',
@@ -10,11 +12,32 @@ const ASSETS_TO_CACHE = [
   './icon-512.svg'
 ];
 
+// 2. Librerías externas y CDNs (Se precargan para que funcionen 100% offline en terreno sin internet)
+const EXTERNAL_ASSETS = [
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'
+];
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SIF SS Android] Caché offline instalada v3.9');
-      return cache.addAll(ASSETS_TO_CACHE);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      console.log('[SIF SS Android] Instalando caché offline autónoma v4.0...');
+      // Guardar todos los archivos locales críticos
+      await cache.addAll(LOCAL_ASSETS);
+
+      // Guardar de forma segura cada librería CDN externa para que esté disponible sin señal
+      for (const url of EXTERNAL_ASSETS) {
+        try {
+          const resp = await fetch(url, { mode: 'cors' });
+          if (resp && (resp.status === 200 || resp.type === 'opaque')) {
+            await cache.put(url, resp);
+          }
+        } catch (e) {
+          console.warn('[SIF SS Android] Aviso de precarga CDN (se intentará en runtime):', url);
+        }
+      }
     })
   );
   self.skipWaiting();
@@ -37,11 +60,35 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Estrategia Network-First (Primero Internet, si no hay internet o falla, usa Caché Offline)
+  const url = new URL(event.request.url);
+
+  // 1. CDNs externas, iconos FontAwesome y Fuentes (Cache-First para carga instantánea y autónoma sin internet)
+  if (url.origin.includes('cdnjs.cloudflare.com') || url.origin.includes('fonts.googleapis.com') || url.origin.includes('fonts.gstatic.com')) {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        return fetch(event.request).then((networkResponse) => {
+          if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return networkResponse;
+        }).catch(() => {
+          console.warn('[SIF SS Android Offline] Librería o fuente en caché offline requerida:', event.request.url);
+        });
+      })
+    );
+    return;
+  }
+
+  // 2. Archivos Locales de la aplicación (Network-First: Actualiza en línea, si no hay internet opera 100% desde caché)
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
-        // Actualiza la caché en segundo plano con la nueva versión en línea
         if (event.request.method === 'GET' && networkResponse && networkResponse.status === 200) {
           const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -51,7 +98,6 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       })
       .catch(() => {
-        // Si no hay internet, busca en la caché
         return caches.match(event.request).then((cachedResponse) => {
           if (cachedResponse) {
             return cachedResponse;
