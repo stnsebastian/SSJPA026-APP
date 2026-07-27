@@ -1036,9 +1036,60 @@
             <h2 class="card-title"><i class="fa-solid fa-comment-dots"></i> Observaciones y Empadronados</h2>
             <span style="font-size: 0.78rem; color: var(--accent-primary);">LIBRE</span>
           </div>
+          <div class="form-group" style="margin-bottom: 0.8rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+              <label class="form-label" style="margin-bottom: 0; color: #10b981; font-weight: 700;">¿Incluir Empadronado en Reporte WhatsApp?</label>
+              <div class="pill-selector" data-state-path="incluirEmpadronadoWhatsapp" style="padding: 3px; border-radius: 50px; gap: 4px;">
+                <span class="pill-option active" data-value="NO" style="width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">NO</span>
+                <span class="pill-option" data-value="SI" style="width: 34px; height: 34px; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">SÍ</span>
+              </div>
+            </div>
+            
+            <label class="form-label" style="margin-top: 0.5rem;">Tipo de Declaración (Reporte WhatsApp)</label>
+            <select class="form-select" data-state-path="tipoDeclaracionWhatsapp" style="margin-bottom: 0.8rem;">
+              <option value="EMPADRONADO">EMPADRONADO</option>
+              <option value="ENTREVISTADO">ENTREVISTADO</option>
+              <option value="EMPADRONADA">EMPADRONADA</option>
+              <option value="ENTREVISTADA">ENTREVISTADA</option>
+            </select>
+
+            <label class="form-label">Parentesco / Relación (Inserta texto rápido)</label>
+            <select class="form-select" id="selectParentescoEmpadronado" onchange="const textarea = document.querySelector('[data-state-path=\'observacionesFinales\']'); if(this.value){ textarea.value = (textarea.value ? textarea.value + '\n' : '') + this.value + ': '; textarea.dispatchEvent(new Event('input', { bubbles: true })); this.value = ''; textarea.focus(); }">
+              <option value="">Seleccionar para insertar...</option>
+              <option value="PADRE">PADRE</option>
+              <option value="MADRE">MADRE</option>
+              <option value="HIJO">HIJO</option>
+              <option value="HIJA">HIJA</option>
+              <option value="ESPOSO">ESPOSO</option>
+              <option value="ESPOSA">ESPOSA</option>
+              <option value="HERMANO">HERMANO</option>
+              <option value="HERMANA">HERMANA</option>
+              <option value="SUEGRO">SUEGRO</option>
+              <option value="SUEGRA">SUEGRA</option>
+              <option value="YERNO">YERNO</option>
+              <option value="NUERA">NUERA</option>
+              <option value="ABUELO">ABUELO</option>
+              <option value="ABUELA">ABUELA</option>
+              <option value="CUÑADO">CUÑADO</option>
+              <option value="CUÑADA">CUÑADA</option>
+              <option value="CÓNYUGE">CÓNYUGE</option>
+              <option value="PAREJA">PAREJA</option>
+              <option value="NIETO">NIETO</option>
+              <option value="NIETA">NIETA</option>
+              <option value="TÍO">TÍO</option>
+              <option value="TÍA">TÍA</option>
+              <option value="SOBRINO">SOBRINO</option>
+              <option value="SOBRINA">SOBRINA</option>
+              <option value="BISABUELO">BISABUELO</option>
+              <option value="BISABUELA">BISABUELA</option>
+              <option value="BISNIETO">BISNIETO</option>
+              <option value="BISNIETA">BISNIETA</option>
+              <option value="OTRO">OTRO</option>
+            </select>
+          </div>
           <div class="form-group">
             <label class="form-label">Observaciones Generales y Empadronados</label>
-            <textarea class="form-textarea" data-state-path="observacionesFinales" placeholder="Escribir observaciones libres, empadronados o detalles adicionales del procedimiento..."></textarea>
+            <textarea class="form-textarea" data-state-path="observacionesFinales" placeholder="Escribir observaciones libres, empadronados o detalles adicionales del procedimiento..." style="min-height: 100px;"></textarea>
           </div>
         </div>
 
@@ -1293,11 +1344,11 @@
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=4.2"></script>
+  <script src="app.js?v=4.4"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=4.2')
+        navigator.serviceWorker.register('./sw.js?v=4.4')
           .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.0:', reg.scope))
           .catch(err => console.error('❌ [PWA] Error al registrar SW:', err));
       });
