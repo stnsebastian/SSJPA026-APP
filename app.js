@@ -1221,6 +1221,7 @@ function generateReporteAmpliacionConcurrenciaText() {
 
 ▪ *N° NUE:* ${nueStr}
 
+CUNOCO
 --------------------------------------------------
 REPORTE DE SISTEMA INTEGRAL FORENSE S.S`;
 
