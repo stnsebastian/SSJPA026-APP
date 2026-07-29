@@ -1197,7 +1197,7 @@ function generateReporteAmpliacionConcurrenciaText() {
   // NUE
   const nueStr = ant.nue || 'SIN REGISTRAR';
 
-  const reporte = `🚨 *REPORTE Y AMPLIACIÓN DE CONCURRENCIA* 🚨
+  const reporte = `*REPORTE Y AMPLIACIÓN DE CONCURRENCIA*
 
 *UNIDAD: BICRIM SAN JAVIER* / ${fechaStr}
 *OFICIAL A CARGO: JORGE PINO AVILA*
