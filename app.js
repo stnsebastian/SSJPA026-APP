@@ -1011,7 +1011,7 @@ function renderFichaInformativa() {
   const modusOperandiStr = `Se realizo trabajo en el S.S, al reconocimiento externo policial el cuerpo se encontró en ${ubicacionStr}, ${antecedentesDiligenciaStr}. Finalmente, de acuerdo con las diligencias practicadas, se realizo empadronamiento y fijación fotográfica.${empadronadoFicha}`;
 
   let html = `
-    <div style="font-family: Arial, sans-serif; font-size: 8pt; line-height: 1.3; max-width: 21.59cm; margin: 0 auto; padding: 0.5cm; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); box-sizing: border-box; text-transform: uppercase;" id="fichaInformativaWrapper">
+    <div style="font-family: Arial, sans-serif; font-size: 8pt; line-height: 1.3; max-width: 21.59cm; margin: 0; padding: 0.5cm; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); box-sizing: border-box; text-transform: uppercase;" id="fichaInformativaWrapper">
       <style>
         #fichaInformativaWrapper table:not(.no-border), 
         #fichaInformativaWrapper table:not(.no-border) th, 
