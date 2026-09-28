@@ -1235,7 +1235,7 @@
       </div>
 
       <div class="official-preview-wrapper" style="overflow-x: auto;">
-        <div id="fichaInformativaContent" class="official-document" contenteditable="true" style="padding: 2rem; max-width: 1000px; margin: 0 auto; background: white; color: black; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></div>
+        <div id="fichaInformativaContent" class="official-document" contenteditable="true" style="padding: 2rem; width: 100%; min-width: 800px; max-width: 1000px; margin: 0 auto; background: white; color: black; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></div>
       </div>
     </section>
 
@@ -1399,12 +1399,12 @@
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=4.52"></script>
+  <script src="app.js?v=4.53"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=4.52')
-          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.52:', reg.scope))
+        navigator.serviceWorker.register('./sw.js?v=4.53')
+          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.53:', reg.scope))
           .catch(err => console.error('❌ [PWA] Error al registrar SW:', err));
       });
     }
