@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sif-ss-android-v4.4';
+const CACHE_NAME = 'sif-ss-android-v4.52';
 
 // 1. Archivos locales indispensables (Críticos para la aplicación)
 const LOCAL_ASSETS = [

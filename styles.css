@@ -685,6 +685,10 @@ body {
   margin-top: 10px;
   margin-bottom: 14px;
   letter-spacing: 0.5px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  page-break-after: avoid;
+  break-after: avoid;
 }
 
 .official-section-title {
@@ -696,12 +700,18 @@ body {
   border-left: 4px solid #0284c7;
   margin-top: 14px;
   margin-bottom: 8px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  page-break-after: avoid;
+  break-after: avoid;
 }
 
 .official-line {
   display: flex;
   margin-bottom: 6px;
   line-height: 1.45;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 .official-label {
@@ -722,6 +732,12 @@ body {
   margin-top: 8px;
   margin-bottom: 12px;
   font-size: 9.5pt;
+  page-break-inside: auto;
+}
+
+.official-table tr, .official-table th, .official-table td {
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 .official-table th {

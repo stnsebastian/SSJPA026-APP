@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Manual de Usuario - SIF-SS Android</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #061124;
+      --bg-card: #0c1e3e;
+      --bg-card-hover: #132a54;
+      --bg-input: #0a1833;
+      --border-color: rgba(255, 255, 255, 0.14);
+      --text-main: #ffffff;
+      --text-muted: #bcd3f2;
+      --text-dim: #7998c5;
+      --accent-primary: #0ea5e9;
+      --accent-green: #00e5a3;
+      --accent-warning: #f59e0b;
+      --radius-lg: 16px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 3rem;
+      background-image: linear-gradient(135deg, var(--bg-main) 0%, rgba(14, 165, 233, 0.08) 50%, var(--bg-main) 100%);
+    }
+
+    .manual-header {
+      background: var(--bg-card);
+      border-bottom: 2px solid var(--border-color);
+      padding: 1.2rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .manual-title {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .manual-title h1 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .btn-back {
+      background: var(--accent-primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s;
+    }
+
+    .btn-back:hover {
+      background: #0284c7;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.2rem;
+    }
+
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-card h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent-primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.6rem;
+    }
+
+    .section-card p {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+
+    .feature-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 1.1rem;
+    }
+
+    .feature-item h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feature-item p {
+      font-size: 0.86rem;
+      color: var(--text-main);
+      margin-bottom: 0;
+    }
+
+    .alert-box {
+      background: rgba(14, 165, 233, 0.12);
+      border-left: 4px solid var(--accent-primary);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .alert-box.warning {
+      background: rgba(245, 158, 11, 0.12);
+      border-left-color: var(--accent-warning);
+    }
+
+    .steps-list {
+      list-style: none;
+      counter-reset: step-counter;
+      margin: 1rem 0;
+    }
+
+    .steps-list li {
+      counter-increment: step-counter;
+      margin-bottom: 0.8rem;
+      padding-left: 2.2rem;
+      position: relative;
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .steps-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: var(--accent-primary);
+      color: #fff;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(0, 229, 163, 0.15);
+      color: var(--accent-green);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-right: 0.4rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="manual-header">
+    <div class="manual-title">
+      <i class="fa-solid fa-book-journal-whills" style="color: var(--accent-primary); font-size: 1.4rem;"></i>
+      <div>
+        <h1>Manual Operativo SIF-SS</h1>
+        <p style="font-size: 0.75rem; color: var(--text-muted);">Sistema Integral Forense - Sitio del Suceso</p>
+      </div>
+    </div>
+    <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver a la App</a>
+  </header>
+
+  <main class="container">
+
+    <div class="section-card">
+      <h2><i class="fa-solid fa-shield-halved"></i> 1. Visión del Sistema y Modo Offline</h2>
+      <p>
+        El <strong>Sistema Integral Forense S.S (SIF-SS)</strong> es una aplicación pericial de vanguardia diseñada para ayudar, simplificar y contribuir al investigador en el Sitio del Suceso en terreno. Opera bajo formato <strong>Progressive Web App (PWA)</strong>, lo que significa que una vez abierto en su dispositivo, funciona de manera <strong>100% autónoma y sin conexión a internet (Offline)</strong>.
+      </p>
+      <div class="alert-box">
+        <i class="fa-solid fa-lock" style="color: var(--accent-primary);"></i> <strong>Privacidad Pericial Absoluta:</strong> Todos los expedientes, fotografías, coordenadas y registros tanatológicos son almacenados en la memoria local encriptada de su teléfono. No se transmiten datos a ningún servidor externo sin su autorización expresa por exportación.
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2><i class="fa-solid fa-mobile-screen-button"></i> 2. Cómo Instalar como App Nativa en Android</h2>
+      <p>Para obtener la máxima fluidez sin barras del navegador y acceso instantáneo desde su pantalla principal:</p>
+      <ul class="steps-list">
+        <li>Abra la aplicación en <strong>Google Chrome</strong> en su teléfono Android.</li>
+        <li>Presione el botón verde <strong>"Instalar Ahora"</strong> ubicado al final de la pantalla inicial o en el menú de Herramientas Rápidas.</li>
+        <li>Si aparece la confirmación del sistema Android, seleccione <strong>"Instalar"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</li>
+        <li>¡Listo! El icono pericial del SIF-SS quedará anclado en la pantalla de inicio de su celular para concurrir al sitio del suceso.</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <h2><i class="fa-solid fa-layer-group"></i> 3. Flujo Operativo por Módulos Periciales</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h3><i class="fa-solid fa-folder-open"></i> Pestaña 1: Antecedentes</h3>
+          <p>Registro del Número Único de Expediente (NUE / RUC), fiscalía, perito actuante y captura automática satelital de coordenadas GPS (<span class="badge">Lat/Long</span>) del sitio del suceso.</p>
+        </div>
+        <div class="feature-item">
+          <h3><i class="fa-solid fa-user-doctor"></i> Pestaña 2: Tanatología</h3>
+          <p>Identificación del fallecido y cronotanatodiagnóstico detallado: Rigidez (Rigor Mortis), Livideces (Livor Mortis), temperatura ambiental vs. corporal y signos de putrefacción.</p>
+        </div>
+        <div class="feature-item">
+          <h3><i class="fa-solid fa-shirt"></i> Pestaña 3: Examen Externo</h3>
+          <p>Inspección por capas de indumentaria (exterior, intermedia, interior), registro de rasgaduras, manchas biológicas y cadena de custodia del inventario de pertenencias.</p>
+        </div>
+        <div class="feature-item">
+          <h3><i class="fa-solid fa-crosshairs"></i> Pestaña 4: Fijación Anatómica</h3>
+          <p>Planimetría corporal interactiva. Toca directamente sobre las siluetas anatómicas (frontal, dorsal, laterales) para registrar coordenadas exactas <code>(X, Y)</code>, tipo de arma y testigo métrico.</p>
+        </div>
+        <div class="feature-item">
+          <h3><i class="fa-solid fa-camera"></i> Pestaña 5: Fotografía Forense</h3>
+          <p>Captura en terreno con la cámara del celular o adjunte imágenes de planimetría. Foliado automático y rotulado forense de cada evidencia gráfica.</p>
+        </div>
+        <div class="feature-item">
+          <h3><i class="fa-solid fa-file-export"></i> Pestaña 6: Informe Oficial</h3>
+          <p>Compilación del documento oficial con formato pericial institucional. Exportación directa a <strong>PDF de Alta Calidad</strong> y documento editable de <strong>Word (.doc)</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2><i class="fa-solid fa-floppy-disk"></i> 4. Respaldo, Sincronización e Importación en Terreno</h2>
+      <p>
+        En el menú superior de <strong>Herramientas Rápidas</strong>, encontrará las funciones vitales para resguardar su expediente y compartirlo con la oficina de peritajes o el fiscal a cargo.
+      </p>
+      
+      <div class="feature-grid" style="grid-template-columns: 1fr;">
+        <div class="feature-item" style="border-left: 4px solid var(--accent-primary);">
+          <h3><i class="fa-solid fa-share-nodes"></i> Respaldar JSON (3 Opciones Inteligentes)</h3>
+          <p style="margin-top: 0.5rem;">Al pulsar el botón <strong>Respaldar JSON</strong>, se abrirá un cuadro flotante con tres modalidades adaptadas a cualquier dispositivo móvil:</p>
+          <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 0.88rem; color: var(--text-main);">
+            <li><strong>Enviar por WhatsApp, Correo o Drive:</strong> Utiliza el menú nativo de su celular para adjuntar el expediente por WhatsApp o subirlo a Google Drive al instante en formato de texto pericial (.txt / .json).</li>
+            <li><strong>Elegir Dónde Guardar en mi Teléfono:</strong> Abre el explorador de carpetas de Android para que elija la ubicación exacta (ej. <em>Documentos / Expedientes 2026</em>) donde resguardar el archivo.</li>
+            <li><strong>Descarga Rápida a Descargas:</strong> Lo guarda en un solo toque en la carpeta interna <code>Descargas (Downloads)</code>.</li>
+          </ul>
+        </div>
+
+        <div class="feature-item" style="border-left: 4px solid var(--accent-green);">
+          <h3><i class="fa-solid fa-file-import"></i> Importar Respaldo (Continuar Expediente)</h3>
+          <p style="margin-top: 0.5rem;">
+            Si descargó un respaldo o se lo enviaron por WhatsApp/Drive y necesita abrirlo para continuar editándolo en terreno o en la oficina: presione el botón <strong>Importar Respaldo</strong>. Se abrirá el selector de archivos de su celular con todos sus documentos visibles para que elija el archivo pericial y lo cargue en pantalla en segundos sin perder un solo dato.
+          </p>
+        </div>
+      </div>
+
+      <div class="alert-box warning">
+        <i class="fa-solid fa-lightbulb"></i> <strong>Autoguardado en Vivo:</strong> Recuerde que mientras escribe, el sistema guarda continuamente cada letra y fotografía en la memoria temporal del celular. Si cierra la app o reinicia el celular por error, al abrir el SIF-SS todo seguirá exactamente donde lo dejó.
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

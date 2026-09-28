@@ -110,7 +110,11 @@
       </button>
       <button class="tab-btn" data-tab="tab-documento">
         <span class="tab-number"><i class="fa-solid fa-gavel"></i></span>
-        <span>Documento Oficial</span>
+        <span>Informe</span>
+      </button>
+      <button class="tab-btn" data-tab="tab-ficha">
+        <span class="tab-number"><i class="fa-solid fa-file-invoice"></i></span>
+        <span>Ficha Informativa</span>
       </button>
     </div>
   </nav>
@@ -130,7 +134,7 @@
             <div>
               <span style="font-size: 0.7rem; font-weight: 700; color: var(--accent-primary); text-transform: uppercase; letter-spacing: 0.08em;">OFICIAL A CARGO DEL SITIO DEL SUCESO</span>
               <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 0.1rem; letter-spacing: 0.02em;">JORGE PINO AVILA</h3>
-              <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent-primary); display: block; margin-top: 0.15rem;">Bicrim San Javier</span>
+              <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent-primary); display: block; margin-top: 0.15rem;">BRIGADA DE INVESTIGACIÓN CRIMINAL SAN JAVIER</span>
             </div>
           </div>
         </div>
@@ -150,9 +154,6 @@
 
         <div id="toolsMenuContent" class="card" style="display: none; margin-top: 0.6rem; margin-bottom: 0; padding: 1.1rem; border: 1px solid var(--accent-primary);">
           <div class="mobile-tools-grid">
-            <button id="btnSendReportWhatsAppQuick" class="btn btn-mobile" style="background: #25D366; color: #fff; font-weight: 800; border: none; grid-column: 1 / -1; justify-content: center;">
-              <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Enviar Reporte Ampliación Concurrencia (WhatsApp)
-            </button>
             <button id="btnThemeToggle" class="btn btn-secondary btn-mobile">
               <i class="fa-solid fa-sun" id="themeIcon"></i> Modo Día / Noche
             </button>
@@ -296,6 +297,29 @@
             <input type="text" class="form-input" data-state-path="fallecido.extranjeraCual" placeholder="Ej. Colombiana / Venezolana / Argentina">
           </div>
 
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Ciudad de Nacimiento</label>
+              <input type="text" class="form-input" data-state-path="fallecido.ciudadNacimiento" placeholder="Ej. SANTIAGO">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fecha de Nacimiento</label>
+              <input type="date" class="form-input" data-state-path="fallecido.fechaNacimiento">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Estado Civil</label>
+            <select class="form-select" data-state-path="fallecido.estadoCivil">
+              <option value="">Seleccione Estado Civil...</option>
+              <option value="CASADO">Casado(a)</option>
+              <option value="SOLTERO">Soltero(a)</option>
+              <option value="VIUDO">Viudo(a)</option>
+              <option value="DIVORCIADO">Divorciado(a)</option>
+              <option value="ACUERDO DE UNIÓN CIVIL">Acuerdo de Unión Civil</option>
+            </select>
+          </div>
+
           <div class="form-group">
             <label class="form-label">Domicilio del Fallecido</label>
             <input type="text" class="form-input" data-state-path="fallecido.domicilio" placeholder="Calle, número, comuna...">
@@ -376,6 +400,11 @@
               <label class="form-label">Dirección del Sitio del Suceso</label>
               <input type="text" class="form-input" data-state-path="comunicacion.direccionSS" placeholder="Calle San Martín esq. Santo Domingo">
             </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Comuna del Sitio del Suceso</label>
+            <input type="text" class="form-input" data-state-path="comunicacion.comunaSS" placeholder="Ej. SAN JAVIER">
           </div>
 
           <div class="form-group">
@@ -1160,20 +1189,17 @@
       </div>
     </section>
 
-    <!-- PESTAÑA 5: DOCUMENTO OFICIAL -->
+    <!-- PESTAÑA 5: INFORME -->
     <section id="tab-documento" class="tab-pane">
       <div class="card no-print" style="margin-bottom: 1rem;">
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <div>
-            <h2 style="font-size: 1.15rem; font-weight: 700;"><i class="fa-solid fa-file-contract" style="color: var(--accent-primary);"></i> Vista Previa del Documento Oficial</h2>
+            <h2 style="font-size: 1.15rem; font-weight: 700;"><i class="fa-solid fa-file-contract" style="color: var(--accent-primary);"></i> Vista Previa del Informe</h2>
             <p style="font-size: 0.85rem; color: var(--text-muted);">Formato judicial listo para firmar o compartir desde el teléfono Android.</p>
           </div>
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
             <button id="btnExportReportPDF" class="btn btn-primary" style="background: linear-gradient(135deg, #0284c7, #0369a1); border: none; font-weight: 800; padding: 0.75rem 1.4rem; font-size: 0.95rem;">
               <i class="fa-solid fa-file-pdf"></i> Exportar a PDF
-            </button>
-            <button id="btnExportReportWord" class="btn btn-primary" style="background: linear-gradient(135deg, #2563eb, #1e40af); border: none; font-weight: 800; padding: 0.75rem 1.4rem; font-size: 0.95rem;">
-              <i class="fa-solid fa-file-word"></i> Exportar a Word
             </button>
           </div>
         </div>
@@ -1181,6 +1207,35 @@
 
       <div class="official-preview-wrapper">
         <div id="officialDocumentContent" class="official-document"></div>
+      </div>
+    </section>
+
+    <!-- PESTAÑA 6: FICHA INFORMATIVA -->
+    <section id="tab-ficha" class="tab-pane">
+      <div class="card no-print" style="margin-bottom: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div>
+              <h2 style="font-size: 1.15rem; font-weight: 700;"><i class="fa-solid fa-file-invoice" style="color: var(--accent-primary);"></i> Vista Previa Ficha Informativa</h2>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Planilla digital editable de concurrencia.</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button id="btnExportFichaPDF" class="btn btn-primary" style="background: linear-gradient(135deg, #0284c7, #0369a1); border: none; font-weight: 800; padding: 0.75rem 1.4rem; font-size: 0.95rem;">
+                <i class="fa-solid fa-file-pdf"></i> Exportar a PDF
+              </button>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.3rem;">
+            <button id="btnSendReportWhatsAppHeader" type="button" class="btn" style="width: 44px; height: 44px; border-radius: 50%; background: #25D366; color: #fff; border: none; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; padding: 0; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4); flex-shrink: 0;" title="Enviar Reporte por WhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+            </button>
+            <span style="font-size: 0.7rem; font-weight: 700; color: var(--accent-primary); text-align: center; line-height: 1.1;">Reporte de<br>Concurrencia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="official-preview-wrapper" style="overflow-x: auto;">
+        <div id="fichaInformativaContent" class="official-document" contenteditable="true" style="padding: 2rem; max-width: 1000px; margin: 0 auto; background: white; color: black; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></div>
       </div>
     </section>
 
@@ -1193,11 +1248,11 @@
         <i class="fa-solid fa-file-export"></i> Guardar Informe Científico
       </h3>
       <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.4rem;">
-        Selecciona el formato para exportar el documento oficial:
+        Selecciona el formato para exportar el informe:
       </p>
       <div style="display: flex; flex-direction: column; gap: 0.8rem;">
         <button id="btnSavePDFModal" class="btn btn-primary" style="padding: 0.95rem; justify-content: center; font-size: 0.95rem; background: linear-gradient(135deg, #0284c7, #0369a1); border: none;">
-          <i class="fa-solid fa-file-pdf" style="font-size: 1.25rem;"></i> Guardar Documento en PDF
+          <i class="fa-solid fa-file-pdf" style="font-size: 1.25rem;"></i> Guardar Informe en PDF
         </button>
         <button id="btnSaveJPGModal" class="btn btn-primary" style="padding: 0.95rem; justify-content: center; font-size: 0.95rem; background: linear-gradient(135deg, #10b981, #059669); border: none;">
           <i class="fa-solid fa-file-image" style="font-size: 1.25rem;"></i> Guardar como Imagen JPG
@@ -1339,17 +1394,17 @@
   </div>
 
   <!-- TOAST NOTIFICATIONS -->
-  <div id="toastContainer" class="toast-container"></div>
+  <div id="toastContainer" class="toast-container" data-html2canvas-ignore="true"></div>
 
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=4.4"></script>
+  <script src="app.js?v=4.52"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=4.4')
-          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.0:', reg.scope))
+        navigator.serviceWorker.register('./sw.js?v=4.52')
+          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.52:', reg.scope))
           .catch(err => console.error('❌ [PWA] Error al registrar SW:', err));
       });
     }
