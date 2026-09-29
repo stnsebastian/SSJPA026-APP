@@ -1011,7 +1011,7 @@ function renderFichaInformativa() {
   const modusOperandiStr = `Se realizo trabajo en el S.S, al reconocimiento externo policial el cuerpo se encontró en ${ubicacionStr}, ${antecedentesDiligenciaStr}. Finalmente, de acuerdo con las diligencias practicadas, se realizo empadronamiento y fijación fotográfica.${empadronadoFicha}`;
 
   let html = `
-    <div style="font-family: Arial, sans-serif; font-size: 8pt; line-height: 1.3; max-width: 21.59cm; margin: 0; padding: 0.5cm; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); box-sizing: border-box; text-transform: uppercase;" id="fichaInformativaWrapper">
+    <div style="font-family: Arial, sans-serif; font-size: 8pt; line-height: 1.3; max-width: 21.59cm; margin: 0 auto; padding: 0.5cm; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); box-sizing: border-box; text-transform: uppercase;" id="fichaInformativaWrapper">
       <style>
         #fichaInformativaWrapper table:not(.no-border), 
         #fichaInformativaWrapper table:not(.no-border) th, 
@@ -1026,7 +1026,7 @@ function renderFichaInformativa() {
           border: none !important;
         }
       </style>
-      <h2 style="text-align: center; font-size: 12pt; margin-bottom: 8px;">FICHA INFORMATIVA DE CONCURRENCIA</h2>
+      <h2 style="text-align: center; font-size: 12pt; margin: 30px 0 10px 0;">FICHA INFORMATIVA DE CONCURRENCIA</h2>
       <table class="no-border" style="width: 100%; margin-bottom: 8px;" border="0">
         <tr>
           <td style="width: 45%; vertical-align: top; padding: 0;">
@@ -1062,7 +1062,7 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 1- ANTECEDENTES DEL HECHO -->
-      <p style="font-weight: bold; margin: 5px 0 2px; font-size: 8pt;">1- ANTECEDENTES DEL HECHO</p>
+      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt;">1- &#160;&#160;&#160;ANTECEDENTES DEL HECHO</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 15%;"><col style="width: 25%;"><col style="width: 15%;"><col style="width: 20%;"><col style="width: 15%;"><col style="width: 10%;">
@@ -1090,7 +1090,7 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 2- ANTECENDENTES DE LA VICTIMA O FALLECIDO -->
-      <p style="font-weight: bold; margin: 5px 0 2px; font-size: 8pt;">2- ANTECENDENTES DE LA VICTIMA O FALLECIDO</p>
+      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt;">2- &#160;&#160;&#160;ANTECENDENTES DE LA VICTIMA O FALLECIDO</p>
       <div style="margin-bottom: 5px;">
         <span style="background-color: #92cddc; font-weight: bold; padding: 2px; border: 1px solid black;">N° VICTIMAS:</span>
         <span style="color: red; padding: 2px; border: 1px solid black; border-left: none; display: inline-block; width: 50px; text-align: center;">1</span>
@@ -1256,7 +1256,7 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 3- SITIO DEL SUCESO -->
-      <p style="font-weight: bold; margin: 5px 0 2px; font-size: 8pt;">3- SITIO DEL SUCESO</p>
+      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt;">3- &#160;&#160;&#160;SITIO DEL SUCESO</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px;" border="1" bordercolor="black">
         <tr>
           <td style="background-color: #d9e1f2; font-weight: bold; padding: 2px;">FECHA CONCURRENCIA</td>
@@ -1301,7 +1301,7 @@ function renderFichaInformativa() {
       </table>
       
       <!-- 3.1- PRINCIPIO DE EJECUCION -->
-      <p style="font-weight: bold; margin: 5px 0 2px; font-size: 8pt; page-break-before: always;">3.1- PRINCIPIO DE EJECUCION</p>
+      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt; page-break-before: always;">3.1- &#160;&#160;&#160;PRINCIPIO DE EJECUCION</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
@@ -1346,7 +1346,7 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 4- RESULTADOS -->
-      <p style="font-weight: bold; margin: 5px 0 2px; font-size: 8pt;">4- RESULTADOS:</p>
+      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt;">4- &#160;&#160;&#160;RESULTADOS:</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
@@ -1543,44 +1543,152 @@ function exportToPDF() {
 
 // EXPORTACIÓN DE LA FICHA INFORMATIVA A PDF
 function exportFichaToPDF() {
-  const el = document.getElementById('fichaInformativaContent');
-  if (!el) return;
-
-  const redElements = [];
-  el.querySelectorAll('*').forEach(node => {
-    if (node.style.color === 'red') {
-      node.style.color = 'black';
-      redElements.push(node);
+  try {
+    const el = document.getElementById('fichaInformativaContent');
+    const wrapper = document.getElementById('FICHAINFORMATIVAWRAPPER') || document.getElementById('fichaInformativaWrapper');
+    
+    if (!el || !wrapper) {
+      alert("Error: No se encontró el contenedor de la ficha.");
+      return;
     }
-  });
 
-  const tc = document.getElementById('toastContainer');
-  if (tc) tc.style.display = 'none';
+    const tc = document.getElementById('toastContainer');
+    if (tc) tc.style.display = 'none';
 
-  showToast('📄 Generando archivo PDF de la Ficha Informativa...');
+    showToast('📄 Preparando Ficha Informativa PDF...');
 
-  const opt = {
-    margin:       [5, 5, 5, 5],
-    filename:     `FICHA_INFORMATIVA_CONCURRENCIA_${appState.id || 'SS'}.pdf`,
-    image:        { type: 'jpeg', quality: 1 },
-    html2canvas:  { scale: 4, useCORS: true, backgroundColor: '#ffffff', letterRendering: true },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak:    { mode: ['css', 'legacy'] }
-  };
-
-  if (typeof html2pdf !== 'undefined') {
-    html2pdf().set(opt).from(el).save().then(() => {
-      redElements.forEach(node => node.style.color = 'red');
-      if (tc) tc.style.display = '';
-      showToast('✅ Ficha Informativa PDF guardada con éxito');
-    }).catch(err => {
-      redElements.forEach(node => node.style.color = 'red');
-      if (tc) tc.style.display = '';
-      showToast('⚠️ Error al generar PDF, intente imprimir');
+    const redElements = [];
+    const tablesToFix = [];
+    
+    wrapper.querySelectorAll('*').forEach(node => {
+      if (node.style.color === 'red') {
+        node.style.color = 'black';
+        redElements.push(node);
+      }
+      if (node.tagName === 'TABLE') {
+        tablesToFix.push({ el: node, oldShadow: node.style.boxShadow || '' });
+        // Sombra doble para arreglar el bug del borde derecho/inferior de html2canvas
+        node.style.boxShadow = '1px 0 0 0 black, 0 1px 0 0 black, inset -1px 0 0 0 black';
+      }
     });
-  } else {
-    redElements.forEach(node => node.style.color = 'red');
-    window.print();
+
+    const originalZoom = el.style.zoom || '';
+    const originalMargin = el.style.margin || '';
+    const originalPadding = el.style.padding || '';
+    const originalWidth = el.style.width || '';
+    const originalMaxWidth = el.style.maxWidth || '';
+    const originalFontSize = wrapper.style.fontSize;
+    // VOLVEMOS A LA CONFIGURACIÓN EXACTA
+    el.style.zoom = '1';
+    el.style.margin = '0 auto';
+    // Quitamos el padding izquierdo para maximizar espacio, mantenemos 20px derecha para evitar corte
+    el.style.padding = '0 20px 0 0';
+    // 790px (tabla) + 20px = 810px
+    el.style.width = '810px';
+    el.style.maxWidth = '810px';
+    
+    // ACHICAMOS LA LETRA SOLO PARA EL PDF
+    wrapper.style.fontSize = '7.5pt';
+    const pTags = wrapper.querySelectorAll('p');
+    const oldPSizes = [];
+    pTags.forEach(p => {
+      oldPSizes.push(p.style.fontSize);
+      p.style.fontSize = '7.5pt';
+    });
+
+    // TRUCO MAESTRO 2: Forzamos el ancho de las columnas inyectando un Dummy Row
+    // Esto evita el bug de html2canvas que ignora los <colgroup> y colapsa las celdas derechas
+    const dummyRows = [];
+    const tablesPdf = wrapper.querySelectorAll('table');
+    tablesPdf.forEach(t => {
+      const colgroup = t.querySelector('colgroup');
+      if (colgroup) {
+        const cols = colgroup.querySelectorAll('col');
+        if (cols.length > 0) {
+          const dummyRow = document.createElement('tr');
+          dummyRow.style.height = '0px';
+          dummyRow.style.lineHeight = '0px';
+          dummyRow.style.visibility = 'hidden';
+          dummyRow.style.border = 'none';
+          cols.forEach(col => {
+            const td = document.createElement('td');
+            td.style.width = col.style.width;
+            td.style.padding = '0';
+            td.style.border = 'none';
+            td.style.height = '0px';
+            dummyRow.appendChild(td);
+          });
+          const tbody = t.querySelector('tbody') || t;
+          tbody.insertBefore(dummyRow, tbody.firstChild);
+          dummyRows.push(dummyRow);
+        }
+      }
+    });
+
+    const wrapperParent = el.parentElement;
+    const originalScrollLeft = wrapperParent ? wrapperParent.scrollLeft : 0;
+    const originalOverflow = wrapperParent ? wrapperParent.style.overflow : '';
+    const originalOverflowX = wrapperParent ? wrapperParent.style.overflowX : '';
+    
+    if (wrapperParent) {
+      wrapperParent.scrollLeft = 0;
+      wrapperParent.style.overflow = 'visible';
+      wrapperParent.style.overflowX = 'visible';
+    }
+
+    const opt = {
+      margin:       5,
+      filename:     `FICHA_INFORMATIVA_CONCURRENCIA_${appState.id || 'SS'}.pdf`,
+      image:        { type: 'jpeg', quality: 1 },
+      html2canvas:  { 
+        scale: 4, 
+        useCORS: true, 
+        backgroundColor: '#ffffff', 
+        letterRendering: true
+      },
+      jsPDF:        { unit: 'mm', format: 'legal', orientation: 'portrait' },
+      pagebreak:    { mode: ['css', 'legacy'] }
+    };
+
+    setTimeout(() => {
+      const restoreUI = () => {
+        redElements.forEach(node => node.style.color = 'red');
+        tablesToFix.forEach(item => item.el.style.boxShadow = item.oldShadow);
+        el.style.zoom = originalZoom;
+        el.style.margin = originalMargin;
+        el.style.padding = originalPadding;
+        el.style.width = originalWidth;
+        el.style.maxWidth = originalMaxWidth;
+        wrapper.style.fontSize = originalFontSize;
+        pTags.forEach((p, idx) => {
+          p.style.fontSize = oldPSizes[idx];
+        });
+        dummyRows.forEach(row => row.remove());
+        if (wrapperParent) {
+          wrapperParent.style.overflow = originalOverflow;
+          wrapperParent.style.overflowX = originalOverflowX;
+          wrapperParent.scrollLeft = originalScrollLeft;
+        }
+        if (tc) tc.style.display = '';
+      };
+
+      if (typeof html2pdf !== 'undefined') {
+        html2pdf().set(opt).from(el).save().then(() => {
+          restoreUI();
+          showToast('✅ Ficha Informativa PDF guardada con éxito');
+        }).catch(err => {
+          restoreUI();
+          showToast('⚠️ Error al generar PDF, intente imprimir');
+          alert("Error al generar PDF: " + err);
+        });
+      } else {
+        restoreUI();
+        window.print();
+      }
+    }, 150);
+  } catch (err) {
+    alert("Excepción JS: " + err);
+    console.error(err);
   }
 }
 
