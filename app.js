@@ -1011,7 +1011,7 @@ function renderFichaInformativa() {
   const modusOperandiStr = `Se realizo trabajo en el S.S, al reconocimiento externo policial el cuerpo se encontró en ${ubicacionStr}, ${antecedentesDiligenciaStr}. Finalmente, de acuerdo con las diligencias practicadas, se realizo empadronamiento y fijación fotográfica.${empadronadoFicha}`;
 
   let html = `
-    <div style="font-family: Arial, sans-serif; font-size: 8pt; line-height: 1.3; max-width: 21.59cm; margin: 0 auto; padding: 0.5cm; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); box-sizing: border-box; text-transform: uppercase;" id="fichaInformativaWrapper">
+    <div style="font-family: Arial, sans-serif; font-size: 9pt; line-height: 1.3; max-width: 21.59cm; margin: 0 auto; padding: 0.5cm 0.5cm 0.5cm 1.5cm; background: white; box-sizing: border-box; text-transform: uppercase;" id="fichaInformativaWrapper">
       <style>
         #fichaInformativaWrapper table:not(.no-border), 
         #fichaInformativaWrapper table:not(.no-border) th, 
@@ -1026,13 +1026,13 @@ function renderFichaInformativa() {
           border: none !important;
         }
       </style>
-      <h2 style="text-align: center; font-size: 12pt; margin: 30px 0 10px 0;">FICHA INFORMATIVA DE CONCURRENCIA</h2>
+      <h2 style="text-align: center; font-size: 13pt; margin: 30px 0 40px 0;">FICHA INFORMATIVA DE CONCURRENCIA</h2>
       <table class="no-border" style="width: 100%; margin-bottom: 8px;" border="0">
         <tr>
           <td style="width: 45%; vertical-align: top; padding: 0;">
             <table style="width: 100%; border-collapse: collapse; text-align: center;" border="1" bordercolor="black">
               <tr><td style="background-color: #92cddc; font-weight: bold; padding: 2px;">POLICIA DE INVESTIGACIONES DE CHILE</td></tr>
-              <tr><td style="color: red; font-weight: bold; padding: 2px; background-color: white;">${appState.unidadPolicial || 'BRIGADA DE INVESTIGACIÓN CRIMINAL SAN JAVIER'}</td></tr>
+              <tr><td contenteditable="true" style="color: red; font-weight: bold; padding: 2px; background-color: white;">${appState.unidadPolicial || 'BRIGADA DE INVESTIGACIÓN CRIMINAL SAN JAVIER'}</td></tr>
             </table>
           </td>
           <td style="width: 10%;"></td>
@@ -1040,7 +1040,7 @@ function renderFichaInformativa() {
             <table style="width: 100%; border-collapse: collapse; text-align: center;" border="1" bordercolor="black">
               <tr>
                 <td style="background-color: #92cddc; font-weight: bold; padding: 2px; width: 40%;">N°</td>
-                <td style="color: red; font-weight: bold; padding: 2px; width: 30%;"></td>
+                <td contenteditable="true" style="color: red; font-weight: bold; padding: 2px; width: 30%;"></td>
                 <td style="background-color: #92cddc; font-weight: bold; padding: 2px; width: 30%;">ORD</td>
               </tr>
               <tr>
@@ -1050,11 +1050,11 @@ function renderFichaInformativa() {
               <tr>
                 <td rowspan="2" style="background-color: #92cddc; font-weight: bold; padding: 2px;">COMUNICACION<br>DE LA FISCALIA</td>
                 <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">FECHA:</td>
-                <td style="color: red; padding: 2px;">${ant.fechaRecepcion ? ant.fechaRecepcion.split('-').reverse().join('-') : '-'}</td>
+                <td contenteditable="true" style="color: red; padding: 2px;">${ant.fechaRecepcion ? ant.fechaRecepcion.split('-').reverse().join('-') : '-'}</td>
               </tr>
               <tr>
                 <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">HORA:</td>
-                <td style="color: red; padding: 2px;">${ant.horaRecepcion || '-'}</td>
+                <td contenteditable="true" style="color: red; padding: 2px;">${ant.horaRecepcion || '-'}</td>
               </tr>
             </table>
           </td>
@@ -1062,7 +1062,7 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 1- ANTECEDENTES DEL HECHO -->
-      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt;">1- &#160;&#160;&#160;ANTECEDENTES DEL HECHO</p>
+      <p style="font-weight: bold; margin: 25px 0 15px 0; font-size: 9pt;">1- &#160;&#160;&#160;ANTECEDENTES DEL HECHO</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 15%;"><col style="width: 25%;"><col style="width: 15%;"><col style="width: 20%;"><col style="width: 15%;"><col style="width: 10%;">
@@ -1073,24 +1073,24 @@ function renderFichaInformativa() {
         </tr>
         <tr>
           <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">HECHO:</td>
-          <td style="color: red; padding: 2px;">${clasif.subtipo || '-'}</td>
+          <td contenteditable="true" style="color: red; padding: 2px;">${clasif.subtipo || '-'}</td>
           <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">MODALIDAD:</td>
-          <td style="color: red; padding: 2px; text-align: center;">-</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
           <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">ARMA ESPECIFICA:</td>
-          <td style="color: red; padding: 2px; text-align: center;">-</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
         </tr>
         <tr>
           <td style="background-color: #ccc0da; font-weight: bold; padding: 2px;">MARCA Y MODELO:</td>
-          <td style="color: red; padding: 2px; text-align: center;">-</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
           <td style="background-color: #ccc0da; font-weight: bold; padding: 2px;">CALIBRE:</td>
-          <td style="color: red; padding: 2px; text-align: center;">-</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
           <td style="background-color: #ccc0da; font-weight: bold; padding: 2px;">N° SERIE:</td>
-          <td style="color: red; padding: 2px; text-align: center;">-</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
         </tr>
       </table>
 
       <!-- 2- ANTECENDENTES DE LA VICTIMA O FALLECIDO -->
-      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt;">2- &#160;&#160;&#160;ANTECENDENTES DE LA VICTIMA O FALLECIDO</p>
+      <p style="font-weight: bold; margin: 30px 0 15px 0; font-size: 9pt;">2- &#160;&#160;&#160;ANTECENDENTES DE LA VICTIMA O FALLECIDO</p>
       <div style="margin-bottom: 5px;">
         <span style="background-color: #92cddc; font-weight: bold; padding: 2px; border: 1px solid black;">N° VICTIMAS:</span>
         <span style="color: red; padding: 2px; border: 1px solid black; border-left: none; display: inline-block; width: 50px; text-align: center;">1</span>
@@ -1219,7 +1219,7 @@ function renderFichaInformativa() {
       </table>
 
       <!-- OTROS ANTECEDENTES EN CASO CUERPOS NO IDENTIFICADOS... -->
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
+      <table style="width: 100%; border-collapse: collapse; margin-top: 30px; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
@@ -1256,11 +1256,11 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 3- SITIO DEL SUCESO -->
-      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt;">3- &#160;&#160;&#160;SITIO DEL SUCESO</p>
+      <p style="font-weight: bold; margin: 30px 0 15px 0; font-size: 9pt;">3- &#160;&#160;&#160;SITIO DEL SUCESO</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px;" border="1" bordercolor="black">
         <tr>
           <td style="background-color: #d9e1f2; font-weight: bold; padding: 2px;">FECHA CONCURRENCIA</td>
-          <td style="color: red; padding: 2px; text-align: center;">${ant.fechaRecepcion ? ant.fechaRecepcion.split('-').reverse().join('-') : '-'}</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">${ant.fechaRecepcion ? ant.fechaRecepcion.split('-').reverse().join('-') : '-'}</td>
           <td colspan="2" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">COORDENADAS GPS FORMATO UTM:</td>
           <td colspan="4" style="color: red; padding: 2px; text-align: center;">${appState.comunicacion?.coordenadasGPS || '-'}</td>
         </tr>
@@ -1273,11 +1273,11 @@ function renderFichaInformativa() {
           <td colspan="2" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">BLOCK</td>
         </tr>
         <tr>
-          <td style="color: red; padding: 2px; text-align: center;">-</td>
-          <td style="color: red; padding: 2px; text-align: center;">-</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
           <td colspan="2" style="color: red; padding: 2px; text-align: center;">${domSS.street}</td>
-          <td style="color: red; padding: 2px; text-align: center;">${domSS.number}</td>
-          <td style="color: red; padding: 2px; text-align: center;">-</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">${domSS.number}</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
           <td colspan="2" style="color: red; padding: 2px; text-align: center;">-</td>
         </tr>
         <tr>
@@ -1294,14 +1294,16 @@ function renderFichaInformativa() {
         </tr>
         <tr>
           <td colspan="3" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">CONCURRENCIA MEDICO CRIMINALISTA:</td>
-          <td style="color: red; padding: 2px; text-align: center;">NO</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">NO</td>
           <td colspan="3" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">CONCURRENCIA PERITOS DEL LACRIM:</td>
-          <td style="color: red; padding: 2px; text-align: center;">${lacrim.concurre || 'NO'}</td>
+          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">${lacrim.concurre || 'NO'}</td>
         </tr>
       </table>
       
       <!-- 3.1- PRINCIPIO DE EJECUCION -->
-      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt; page-break-before: always;">3.1- &#160;&#160;&#160;PRINCIPIO DE EJECUCION</p>
+      <div style="page-break-before: always;"></div>
+      <div style="height: 40px;"></div>
+      <p style="font-weight: bold; margin: 0 0 15px 0; font-size: 9pt;">3.1- &#160;&#160;&#160;PRINCIPIO DE EJECUCION</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
@@ -1346,7 +1348,7 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 4- RESULTADOS -->
-      <p style="font-weight: bold; margin: 15px 0 10px 0; font-size: 8pt;">4- &#160;&#160;&#160;RESULTADOS:</p>
+      <p style="font-weight: bold; margin: 30px 0 15px 0; font-size: 9pt;">4- &#160;&#160;&#160;RESULTADOS:</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
@@ -1420,25 +1422,25 @@ function renderFichaInformativa() {
         </tr>
       </table>
       
-      <div style="margin-top: 30px; display: flex; justify-content: flex-start; align-items: flex-end; gap: 20px;">
+      <div style="margin-top: 80px; display: flex; justify-content: flex-start; align-items: flex-end; gap: 20px;">
         <div style="width: 80%;">
           <table style="width: 100%; border-collapse: collapse;" border="1" bordercolor="black">
             <tr>
               <td style="background-color: #92cddc; font-weight: bold; padding: 2px; text-align: center; width: 25%;">NOMBRE Y GRADO<br>JEFE DE UNIDAD</td>
-              <td style="color: red; padding: 2px; text-align: center; font-weight: bold; white-space: nowrap;">RODRIGO ACUÑA VALERIA<br>SUBPREFECTO<br>BRIGADA DE INVESTIGACIÓN CRIMINAL SAN JAVIER</td>
+              <td contenteditable="true" style="color: red; padding: 2px; text-align: center; font-weight: bold; white-space: nowrap;">RODRIGO ACUÑA VALERIA<br>SUBPREFECTO<br>BRIGADA DE INVESTIGACIÓN CRIMINAL SAN JAVIER</td>
               <td style="background-color: #92cddc; font-weight: bold; padding: 2px; text-align: center; width: 10%; vertical-align: middle;">FIRMA</td>
             </tr>
             <tr>
               <td style="background-color: #92cddc; font-weight: bold; padding: 2px; text-align: center;">OFICIAL REDACTOR:</td>
-              <td style="color: red; padding: 2px; text-align: left;">${appState.comunicacion?.oficialACargo || 'OFICIAL A CARGO'}</td>
+              <td contenteditable="true" style="color: red; padding: 2px; text-align: left;">${appState.comunicacion?.oficialACargo || 'OFICIAL A CARGO'}</td>
             </tr>
           </table>
         </div>
         <div style="flex: 1; border-bottom: 2px solid black; margin-bottom: 8px;"></div>
       </div>
 
-      <div style="margin-top: 20px;">
-        <p style="font-weight: bold; margin-bottom: 5px; font-size: 8pt;">DISTRIBUCION:</p>
+      <div style="margin-top: 50px;">
+        <p style="font-weight: bold; margin-bottom: 5px; font-size: 9pt;">DISTRIBUCION:</p>
         <table style="width: 30%; border-collapse: collapse;" border="1" bordercolor="black">
           <tr><td style="padding: 2px 4px;">PM SUBDIPOL</td><td style="text-align: center; padding: 2px 4px;">1</td></tr>
           <tr><td style="padding: 2px 4px;">REPOL MAULE</td><td style="text-align: center; padding: 2px 4px;">1</td></tr>
@@ -1449,6 +1451,8 @@ function renderFichaInformativa() {
       </div>
     </div>
   `;
+  html = html.replace(/<td(.*?)color:\s*red;(.*?)>/gi, '<td contenteditable="true" $1color: red;$2>');
+  html = html.replace(/<span(.*?)color:\s*red;(.*?)>/gi, '<span contenteditable="true" $1color: red;$2>');
   el.innerHTML = html.toUpperCase();
 }
 

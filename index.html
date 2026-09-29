@@ -1399,12 +1399,12 @@
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=4.88"></script>
+  <script src="app.js?v=4.97"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=4.88')
-          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.88:', reg.scope))
+        navigator.serviceWorker.register('./sw.js?v=4.97')
+          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.97:', reg.scope))
           .catch(err => console.error('❌ [PWA] Error al registrar SW:', err));
       });
     }
