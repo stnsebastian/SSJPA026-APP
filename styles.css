@@ -867,10 +867,13 @@ body {
 
 @media print {
   body { background: #fff !important; color: #000 !important; }
-  .app-header, .nav-tabs-wrapper, .no-print { display: none !important; }
+  .app-header, .nav-tabs-wrapper, .no-print, .toast-container { display: none !important; }
   .main-container { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
-  .official-preview-wrapper { background: transparent !important; padding: 0 !important; }
-  .official-document { box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
+  .official-preview-wrapper { background: transparent !important; padding: 0 !important; margin: 0 !important; }
+  .official-document { box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; zoom: 1 !important; transform: none !important; }
+  .official-document table:not(.distribucion-table) { width: 100% !important; max-width: 100% !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+  @page { size: legal portrait; margin: 0; }
 }
 
 /* PWA APP BANNER (Estilo Ranchillo) */
@@ -957,15 +960,15 @@ body {
 }
 
 /* RESPONSIVE FICHA INFORMATIVA (AUTO AJUSTE) */
-@media (max-width: 820px) {
+@media screen and (max-width: 820px) {
   #fichaInformativaContent { zoom: 0.8; }
 }
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
   #fichaInformativaContent { zoom: 0.6; }
 }
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
   #fichaInformativaContent { zoom: 0.45; }
 }
-@media (max-width: 380px) {
+@media screen and (max-width: 380px) {
   #fichaInformativaContent { zoom: 0.42; }
 }

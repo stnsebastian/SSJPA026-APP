@@ -1441,7 +1441,11 @@ function renderFichaInformativa() {
 
       <div style="margin-top: 50px;">
         <p style="font-weight: bold; margin-bottom: 5px; font-size: 9pt;">DISTRIBUCION:</p>
-        <table style="width: 30%; border-collapse: collapse;" border="1" bordercolor="black">
+        <table style="width: 250px !important; max-width: 250px !important; border-collapse: collapse; font-size: 9pt;" border="1" bordercolor="black">
+          <colgroup>
+            <col style="width: 85% !important;">
+            <col style="width: 15% !important;">
+          </colgroup>
           <tr><td style="padding: 2px 4px;">PM SUBDIPOL</td><td style="text-align: center; padding: 2px 4px;">1</td></tr>
           <tr><td style="padding: 2px 4px;">REPOL MAULE</td><td style="text-align: center; padding: 2px 4px;">1</td></tr>
           <tr><td style="padding: 2px 4px;">JENADEP</td><td style="text-align: center; padding: 2px 4px;">1</td></tr>
@@ -1505,6 +1509,11 @@ function exportToPDF() {
   const modal = document.getElementById('modalExportPdfJpg');
   if (modal) modal.style.display = 'none';
 
+  const tc = document.getElementById('toastContainer');
+  if (tc) tc.style.display = 'none';
+
+  showToast('📄 Preparando informe oficial para impresión/PDF...');
+
   const redElements = [];
   el.querySelectorAll('*').forEach(node => {
     if (node.style.color === 'red') {
@@ -1513,187 +1522,36 @@ function exportToPDF() {
     }
   });
 
-  const tc = document.getElementById('toastContainer');
-  if (tc) tc.style.display = 'none';
-
-  showToast('📄 Generando archivo PDF del informe oficial...');
-
-  const opt = {
-    margin:       [10, 10, 10, 10],
-    filename:     `INFORME_SITIO_SUCESO_BICRIM_${appState.id || 'SS'}.pdf`,
-    image:        { type: 'jpeg', quality: 1 },
-    html2canvas:  { scale: 4, useCORS: true, backgroundColor: '#ffffff', letterRendering: true },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak:    { mode: ['css', 'legacy'] }
-  };
-
-  if (typeof html2pdf !== 'undefined') {
-    html2pdf().set(opt).from(el).save().then(() => {
-      redElements.forEach(node => node.style.color = 'red');
-      if (tc) tc.style.display = '';
-      showToast('✅ Documento PDF guardado y descargado con éxito');
-    }).catch(err => {
-      redElements.forEach(node => node.style.color = 'red');
-      if (tc) tc.style.display = '';
-      showToast('⚠️ Error al generar PDF, abriendo impresión nativa...');
-      window.print();
-    });
-  } else {
+  setTimeout(() => {
+    window.print();
     redElements.forEach(node => node.style.color = 'red');
     if (tc) tc.style.display = '';
-    window.print();
-  }
+  }, 500);
 }
 
 // EXPORTACIÓN DE LA FICHA INFORMATIVA A PDF
 function exportFichaToPDF() {
-  try {
-    const el = document.getElementById('fichaInformativaContent');
-    const wrapper = document.getElementById('FICHAINFORMATIVAWRAPPER') || document.getElementById('fichaInformativaWrapper');
-    
-    if (!el || !wrapper) {
-      alert("Error: No se encontró el contenedor de la ficha.");
-      return;
+  const el = document.getElementById('fichaInformativaContent');
+  if (!el) return;
+
+  const tc = document.getElementById('toastContainer');
+  if (tc) tc.style.display = 'none';
+
+  showToast('📄 Preparando Ficha Informativa PDF...');
+
+  const redElements = [];
+  el.querySelectorAll('*').forEach(node => {
+    if (node.style.color === 'red') {
+      node.style.color = 'black';
+      redElements.push(node);
     }
+  });
 
-    const tc = document.getElementById('toastContainer');
-    if (tc) tc.style.display = 'none';
-
-    showToast('📄 Preparando Ficha Informativa PDF...');
-
-    const redElements = [];
-    const tablesToFix = [];
-    
-    wrapper.querySelectorAll('*').forEach(node => {
-      if (node.style.color === 'red') {
-        node.style.color = 'black';
-        redElements.push(node);
-      }
-      if (node.tagName === 'TABLE') {
-        tablesToFix.push({ el: node, oldShadow: node.style.boxShadow || '' });
-        // Sombra doble para arreglar el bug del borde derecho/inferior de html2canvas
-        node.style.boxShadow = '1px 0 0 0 black, 0 1px 0 0 black, inset -1px 0 0 0 black';
-      }
-    });
-
-    const originalZoom = el.style.zoom || '';
-    const originalMargin = el.style.margin || '';
-    const originalPadding = el.style.padding || '';
-    const originalWidth = el.style.width || '';
-    const originalMaxWidth = el.style.maxWidth || '';
-    const originalFontSize = wrapper.style.fontSize;
-    // VOLVEMOS A LA CONFIGURACIÓN EXACTA
-    el.style.zoom = '1';
-    el.style.margin = '0 auto';
-    // Quitamos el padding izquierdo para maximizar espacio, mantenemos 20px derecha para evitar corte
-    el.style.padding = '0 20px 0 0';
-    // 790px (tabla) + 20px = 810px
-    el.style.width = '810px';
-    el.style.maxWidth = '810px';
-    
-    // ACHICAMOS LA LETRA SOLO PARA EL PDF
-    wrapper.style.fontSize = '7.5pt';
-    const pTags = wrapper.querySelectorAll('p');
-    const oldPSizes = [];
-    pTags.forEach(p => {
-      oldPSizes.push(p.style.fontSize);
-      p.style.fontSize = '7.5pt';
-    });
-
-    // TRUCO MAESTRO 2: Forzamos el ancho de las columnas inyectando un Dummy Row
-    // Esto evita el bug de html2canvas que ignora los <colgroup> y colapsa las celdas derechas
-    const dummyRows = [];
-    const tablesPdf = wrapper.querySelectorAll('table');
-    tablesPdf.forEach(t => {
-      const colgroup = t.querySelector('colgroup');
-      if (colgroup) {
-        const cols = colgroup.querySelectorAll('col');
-        if (cols.length > 0) {
-          const dummyRow = document.createElement('tr');
-          dummyRow.style.height = '0px';
-          dummyRow.style.lineHeight = '0px';
-          dummyRow.style.visibility = 'hidden';
-          dummyRow.style.border = 'none';
-          cols.forEach(col => {
-            const td = document.createElement('td');
-            td.style.width = col.style.width;
-            td.style.padding = '0';
-            td.style.border = 'none';
-            td.style.height = '0px';
-            dummyRow.appendChild(td);
-          });
-          const tbody = t.querySelector('tbody') || t;
-          tbody.insertBefore(dummyRow, tbody.firstChild);
-          dummyRows.push(dummyRow);
-        }
-      }
-    });
-
-    const wrapperParent = el.parentElement;
-    const originalScrollLeft = wrapperParent ? wrapperParent.scrollLeft : 0;
-    const originalOverflow = wrapperParent ? wrapperParent.style.overflow : '';
-    const originalOverflowX = wrapperParent ? wrapperParent.style.overflowX : '';
-    
-    if (wrapperParent) {
-      wrapperParent.scrollLeft = 0;
-      wrapperParent.style.overflow = 'visible';
-      wrapperParent.style.overflowX = 'visible';
-    }
-
-    const opt = {
-      margin:       5,
-      filename:     `FICHA_INFORMATIVA_CONCURRENCIA_${appState.id || 'SS'}.pdf`,
-      image:        { type: 'jpeg', quality: 1 },
-      html2canvas:  { 
-        scale: 4, 
-        useCORS: true, 
-        backgroundColor: '#ffffff', 
-        letterRendering: true
-      },
-      jsPDF:        { unit: 'mm', format: 'legal', orientation: 'portrait' },
-      pagebreak:    { mode: ['css', 'legacy'] }
-    };
-
-    setTimeout(() => {
-      const restoreUI = () => {
-        redElements.forEach(node => node.style.color = 'red');
-        tablesToFix.forEach(item => item.el.style.boxShadow = item.oldShadow);
-        el.style.zoom = originalZoom;
-        el.style.margin = originalMargin;
-        el.style.padding = originalPadding;
-        el.style.width = originalWidth;
-        el.style.maxWidth = originalMaxWidth;
-        wrapper.style.fontSize = originalFontSize;
-        pTags.forEach((p, idx) => {
-          p.style.fontSize = oldPSizes[idx];
-        });
-        dummyRows.forEach(row => row.remove());
-        if (wrapperParent) {
-          wrapperParent.style.overflow = originalOverflow;
-          wrapperParent.style.overflowX = originalOverflowX;
-          wrapperParent.scrollLeft = originalScrollLeft;
-        }
-        if (tc) tc.style.display = '';
-      };
-
-      if (typeof html2pdf !== 'undefined') {
-        html2pdf().set(opt).from(el).save().then(() => {
-          restoreUI();
-          showToast('✅ Ficha Informativa PDF guardada con éxito');
-        }).catch(err => {
-          restoreUI();
-          showToast('⚠️ Error al generar PDF, intente imprimir');
-          alert("Error al generar PDF: " + err);
-        });
-      } else {
-        restoreUI();
-        window.print();
-      }
-    }, 150);
-  } catch (err) {
-    alert("Excepción JS: " + err);
-    console.error(err);
-  }
+  setTimeout(() => {
+    window.print();
+    redElements.forEach(node => node.style.color = 'red');
+    if (tc) tc.style.display = '';
+  }, 500);
 }
 
 // EXPORTACIÓN DE LA FICHA INFORMATIVA A WORD (.doc)

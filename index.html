@@ -10,7 +10,7 @@
   <link rel="manifest" href="manifest.json">
   <title>SIF-SS // Sistema Integral Forense - Informe Científico-Técnico del Sitio del Suceso (Android)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=5.04">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
@@ -1399,12 +1399,12 @@
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=4.97"></script>
+  <script src="app.js?v=5.09"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=4.97')
-          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v4.97:', reg.scope))
+        navigator.serviceWorker.register('./sw.js?v=5.09')
+          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v5.09:', reg.scope))
           .catch(err => console.error('❌ [PWA] Error al registrar SW:', err));
       });
     }
