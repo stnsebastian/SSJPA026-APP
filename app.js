@@ -227,17 +227,133 @@ function showToast(message) {
   setTimeout(() => toast.remove(), 3500);
 }
 
+// FORMATEADOR AUTOMÁTICO DE RUN CHILENO (XX.XXX.XXX-X o X.XXX.XXX-X)
+function formatRutChileno(rawRut) {
+  if (!rawRut) return '';
+  let clean = rawRut.toString().replace(/[^0-9kK]/g, '').toUpperCase();
+  if (clean.length === 0) return '';
+  if (clean.length === 1) return clean;
+  if (clean.length > 9) {
+    clean = clean.slice(0, 9);
+  }
+  const dv = clean.slice(-1);
+  const cuerpo = clean.slice(0, -1);
+  const cuerpoFormateado = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return `${cuerpoFormateado}-${dv}`;
+}
+
+// FORMATEADOR Y NORMALIZADOR DE HORA 24 HORAS (00:00 a 23:59)
+function formatHora24Live(val, isDeleting = false) {
+  if (!val) return '';
+  let digits = val.replace(/[^0-9]/g, '');
+  if (!digits) return '';
+  if (digits.length > 4) digits = digits.slice(0, 4);
+
+  let h = digits.slice(0, 2);
+  let m = digits.slice(2, 4);
+
+  // Validación de horas (00-23)
+  if (h.length === 1 && parseInt(h, 10) > 2) {
+    h = '0' + h;
+    return `${h}:`;
+  }
+  if (h.length === 2 && parseInt(h, 10) > 23) {
+    h = '23';
+  }
+
+  // Validación de minutos (00-59)
+  if (m.length === 1 && parseInt(m, 10) > 5) {
+    m = '5';
+  }
+  if (m.length === 2 && parseInt(m, 10) > 59) {
+    m = '59';
+  }
+
+  if (digits.length <= 2) {
+    if (!isDeleting && (val.includes(':') || digits.length === 2)) {
+      return `${h}:`;
+    }
+    return h;
+  }
+  return `${h}:${m}`;
+}
+
+function normalizeHora24(val) {
+  if (!val) return '';
+  const str = String(val).trim();
+  if (!str) return '';
+  const clean = str.replace(/[^0-9:]/g, '');
+  if (!clean) return '';
+
+  let h = 0;
+  let m = 0;
+  if (clean.includes(':')) {
+    const parts = clean.split(':');
+    h = parseInt(parts[0], 10) || 0;
+    m = parseInt(parts[1], 10) || 0;
+  } else {
+    if (clean.length === 1 || clean.length === 2) {
+      h = parseInt(clean, 10) || 0;
+      m = 0;
+    } else if (clean.length === 3) {
+      h = parseInt(clean.slice(0, 1), 10) || 0;
+      m = parseInt(clean.slice(1), 10) || 0;
+    } else {
+      h = parseInt(clean.slice(0, 2), 10) || 0;
+      m = parseInt(clean.slice(2, 4), 10) || 0;
+    }
+  }
+
+  if (h > 23) h = 23;
+  if (h < 0) h = 0;
+  if (m > 59) m = 59;
+  if (m < 0) m = 0;
+
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+}
+
+function formatHoraDoc(hora, sufijo = 'HRS.') {
+  if (!hora) return '';
+  const norm = normalizeHora24(hora);
+  if (!norm) return '';
+  return `${norm} ${sufijo}`;
+}
+
 // CONECTAR INPUTS CON APPSTATE
 function bindStateToInputs() {
   document.querySelectorAll('[data-state-path]').forEach(input => {
     const path = input.getAttribute('data-state-path');
-    const val = getNestedValue(appState, path);
+    const isTimeInput = input.classList.contains('time-input-24');
+    let val = getNestedValue(appState, path);
     if (val !== undefined && val !== null) {
+      if (path === 'fallecido.run' && (appState.fallecido?.nacionalidad === 'CHILENA' || !appState.fallecido?.nacionalidad)) {
+        val = formatRutChileno(val);
+        setNestedValue(appState, path, val);
+      }
+      if (isTimeInput && val) {
+        val = normalizeHora24(val);
+        setNestedValue(appState, path, val);
+      }
       input.value = val;
     }
     ['input', 'change'].forEach(eventType => {
       input.addEventListener(eventType, (e) => {
-        setNestedValue(appState, path, e.target.value);
+        let valToSave = e.target.value;
+        if (path === 'fallecido.run') {
+          const nac = appState.fallecido?.nacionalidad || 'CHILENA';
+          if (nac === 'CHILENA') {
+            const formatted = formatRutChileno(valToSave);
+            e.target.value = formatted;
+            valToSave = formatted;
+          }
+        }
+        if (isTimeInput) {
+          const isDeleting = (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward');
+          const formatted = formatHora24Live(valToSave, isDeleting);
+          e.target.value = formatted;
+          valToSave = formatted;
+        }
+        setNestedValue(appState, path, valToSave);
         if (path === 'causaProbable') updateCausaProbableUI();
         if (path === 'tecnicosSS.ubicacionCuerpo') updateUbicacionCuerpoUI();
         if (path === 'bitacoraWeb.estado') updateBitacoraWebUI();
@@ -247,6 +363,31 @@ function bindStateToInputs() {
         renderOfficialDocument();
       });
     });
+
+    if (path === 'fallecido.run') {
+      input.addEventListener('blur', (e) => {
+        const nac = appState.fallecido?.nacionalidad || 'CHILENA';
+        if (nac === 'CHILENA' && e.target.value) {
+          const formatted = formatRutChileno(e.target.value);
+          e.target.value = formatted;
+          setNestedValue(appState, path, formatted);
+          saveToStorage();
+          renderOfficialDocument();
+        }
+      });
+    }
+
+    if (isTimeInput) {
+      input.addEventListener('blur', (e) => {
+        if (e.target.value) {
+          const normalized = normalizeHora24(e.target.value);
+          e.target.value = normalized;
+          setNestedValue(appState, path, normalized);
+          saveToStorage();
+          renderOfficialDocument();
+        }
+      });
+    }
   });
 
   document.querySelectorAll('[data-state-checkbox]').forEach(chk => {
@@ -448,9 +589,23 @@ function updateMorfologiaUI() {
 
 function updateExtranjeraCualUI() {
   const box = document.getElementById('boxExtranjeraCual');
-  if (!box) return;
   const nac = appState.fallecido?.nacionalidad || 'CHILENA';
-  box.style.display = nac === 'EXTRANJERA' ? 'block' : 'none';
+  if (box) {
+    box.style.display = nac === 'EXTRANJERA' ? 'block' : 'none';
+  }
+  const runInput = document.getElementById('runFallecido') || document.querySelector('[data-state-path="fallecido.run"]');
+  if (runInput) {
+    if (nac === 'CHILENA') {
+      runInput.placeholder = 'XX.XXX.XXX-X';
+      if (runInput.value) {
+        const formatted = formatRutChileno(runInput.value);
+        runInput.value = formatted;
+        setNestedValue(appState, 'fallecido.run', formatted);
+      }
+    } else {
+      runInput.placeholder = 'PASAPORTE / DNI / OTRO';
+    }
+  }
 }
 
 function updateBitacoraWebUI() {
@@ -831,7 +986,8 @@ function renderOfficialDocument() {
     <div class="official-line"><span class="official-label">DOMICILIO FIJO:</span><span class="official-value">${f.domicilio || 'SIN REGISTRAR'}</span></div>
 
     <div class="official-section-title">IV. COMUNICACIÓN DEL SITIO DEL SUCESO Y FISCAL DE TURNO</div>
-    <div class="official-line"><span class="official-label">FECHA / HORA COMUNICACIÓN:</span><span class="official-value">${c.fecha || '--/--/----'} A LAS ${c.hora || '--:--'} HRS.</span></div>
+    <div class="official-line"><span class="official-label">FECHA / HORA COMUNICACIÓN:</span><span class="official-value">${c.fecha || '--/--/----'} A LAS ${c.hora ? formatHoraDoc(c.hora, 'HRS.') : '--:-- HRS.'}</span></div>
+    <div class="official-line"><span class="official-label">HORA LLEGADA S.S.:</span><span class="official-value">${c.horaLlegadaSS ? formatHoraDoc(c.horaLlegadaSS, 'HRS.') : 'SIN REGISTRAR'}</span></div>
     <div class="official-line"><span class="official-label">FISCAL DE TURNO:</span><span class="official-value" style="font-weight: 800; color: #0f172a;">${fiscalTexto}</span></div>
     <div class="official-line"><span class="official-label">UNIDAD COMUNICA:</span><span class="official-value">${c.unidadFuncionarioComunica || 'SIN REGISTRAR'}</span></div>
     <div class="official-line"><span class="official-label">LUGAR DEL S.S.:</span><span class="official-value">${c.direccionSS || 'SIN REGISTRAR'}${c.comunaSS ? ' — COMUNA: ' + c.comunaSS : ''}</span></div>
@@ -922,7 +1078,7 @@ function renderOfficialDocument() {
     <div class="official-line"><span class="official-label">NUE N°:</span><span class="official-value">${ant.tieneRegistroNue === 'NO' ? 'SIN REGISTRO' : (ant.nue || 'SIN REGISTRAR')}</span></div>
     <div class="official-line"><span class="official-label">BITÁCORA WEB:</span><span class="official-value" style="font-weight: 700; color: ${appState.bitacoraWeb?.estado === 'NO HAY' ? '#dc2626' : '#0f172a'}">${appState.bitacoraWeb?.estado === 'SI' ? `SÍ — N° ${appState.bitacoraWeb?.numero || 'SIN NÚMERO'}` : appState.bitacoraWeb?.estado === 'NO HAY' ? 'NO HAY (No existen instrucciones en Bitácora Web)' : 'NO COMPARTIDA'}</span></div>
     <div class="official-line"><span class="official-label">DESCRIPCIÓN DEL CASO:</span><span class="official-value">${ant.tieneRegistroNue === 'NO' ? 'SIN REGISTRO' : (ant.descripcionNue || 'SIN REGISTRAR')}</span></div>
-    <div class="official-line"><span class="official-label">RECEPCIÓN (FECHA / HORA):</span><span class="official-value">${ant.tieneRegistroNue === 'NO' ? 'SIN REGISTRO' : `${ant.fechaRecepcion || '--/--/----'} ${ant.horaRecepcion || '--:--'} HRS.`}</span></div>
+    <div class="official-line"><span class="official-label">RECEPCIÓN (FECHA / HORA):</span><span class="official-value">${ant.tieneRegistroNue === 'NO' ? 'SIN REGISTRO' : `${ant.fechaRecepcion || '--/--/----'} ${ant.horaRecepcion ? formatHoraDoc(ant.horaRecepcion, 'HRS.') : '--:-- HRS.'}`}</span></div>
     <div class="official-line"><span class="official-label">RECEPCIONADO POR:</span><span class="official-value">${ant.tieneRegistroNue === 'NO' ? 'SIN REGISTRO' : `${ant.nombreRecepciona || 'SIN REGISTRAR'} (${ant.institucionRecepciona || 'PDI'})`}</span></div>
     ${ant.fotoNue ? `<div style="margin-top: 10px; text-align: center;"><div class="official-label" style="margin-bottom: 6px;">REGISTRO FOTOGRÁFICO COMPROBANTE NUE:</div><img src="${ant.fotoNue}" alt="FOTO NUE" style="max-height: 250px; border: 1px solid #cbd5e1; border-radius: 4px;"></div>` : ''}
 
@@ -937,8 +1093,8 @@ function renderOfficialDocument() {
     </div>
 
     <div class="official-section-title">XVIII. CONCLUSIÓN DEL EXAMEN Y HORARIOS</div>
-    <div class="official-line"><span class="official-label">HORA FIN EXAMEN EXTERNO:</span><span class="official-value">${appState.horaFinExamenExterno || 'SIN REGISTRAR'}</span></div>
-    <div class="official-line"><span class="official-label">HORA FINALIZACIÓN S.S.:</span><span class="official-value">${appState.horaFinSS || 'SIN REGISTRAR'}</span></div>
+    <div class="official-line"><span class="official-label">HORA FIN EXAMEN EXTERNO:</span><span class="official-value">${appState.horaFinExamenExterno ? formatHoraDoc(appState.horaFinExamenExterno, 'HORAS') : 'SIN REGISTRAR'}</span></div>
+    <div class="official-line"><span class="official-label">HORA FINALIZACIÓN S.S.:</span><span class="official-value">${appState.horaFinSS ? formatHoraDoc(appState.horaFinSS, 'HORAS') : 'SIN REGISTRAR'}</span></div>
     <div class="official-line"><span class="official-label">DATA ESTIMADA DE MUERTE:</span><span class="official-value">${appState.dataMuerte || 'SIN REGISTRAR'}</span></div>
     <div class="official-line"><span class="official-label">CAUSA PROBABLE DE MUERTE:</span><span class="official-value" style="font-weight: 800; color: #0f172a;">${causaTexto}</span></div>
 
@@ -1054,7 +1210,7 @@ function renderFichaInformativa() {
               </tr>
               <tr>
                 <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">HORA:</td>
-                <td contenteditable="true" style="color: red; padding: 2px;">${ant.horaRecepcion || '-'}</td>
+                <td contenteditable="true" style="color: red; padding: 2px;">${ant.horaRecepcion ? formatHoraDoc(ant.horaRecepcion, 'HRS.') : '-'}</td>
               </tr>
             </table>
           </td>
@@ -1317,7 +1473,7 @@ function renderFichaInformativa() {
         </tr>
         <tr>
           <td colspan="3" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">BLOQUE HORARIO</td>
-          <td colspan="2" style="color: red; padding: 2px; text-align: center;">-</td>
+          <td colspan="2" style="color: red; padding: 2px; text-align: center;">${appState.comunicacion?.hora ? formatHoraDoc(appState.comunicacion.hora, 'HRS.') : '-'}</td>
         </tr>
         <tr>
           <td colspan="3" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">LUGAR ESPECIFICO</td>
@@ -1364,7 +1520,7 @@ function renderFichaInformativa() {
           <td colspan="10" style="background-color: #d9e1f2; font-weight: bold; text-align: center; padding: 2px;">LUGAR DE HALLAZGO O TIPO DE HABITACION</td>
         </tr>
         <tr>
-          <td colspan="10" style="color: red; text-align: center; padding: 2px;">INTERIOR DEL DOMICILIO</td>
+          <td colspan="10" style="color: red; text-align: center; padding: 2px;">${(t.ubicacionCuerpo === 'OTRO' ? (t.ubicacionCuerpoOtro || 'OTRO') : (t.ubicacionCuerpo || '-')).toUpperCase()}</td>
         </tr>
         <tr>
           <td colspan="5" style="background-color: #d9e1f2; font-weight: bold; text-align: center; padding: 2px;">MOVIL (POR QUE O PARA QUE)</td>
@@ -1388,7 +1544,7 @@ function renderFichaInformativa() {
         </tr>
         <tr>
           <td colspan="2" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">EXAMEN FINALIZADO</td>
-          <td colspan="2" style="color: red; text-align: center; padding: 2px;">${appState.horaFinExamenExterno || '-'}</td>
+          <td colspan="2" style="color: red; text-align: center; padding: 2px;">${appState.horaFinExamenExterno ? normalizeHora24(appState.horaFinExamenExterno) : '-'}</td>
           <td colspan="1" style="color: red; text-align: center; padding: 2px;">HORAS</td>
           <td colspan="2" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">DATA DE MUERTE</td>
           <td colspan="3" style="color: red; text-align: center; padding: 2px;">${appState.dataMuerte || '-'}</td>

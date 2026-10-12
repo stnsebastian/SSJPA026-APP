@@ -10,7 +10,7 @@
   <link rel="manifest" href="manifest.json">
   <title>SIF-SS // Sistema Integral Forense - Informe Científico-Técnico del Sitio del Suceso (Android)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="styles.css?v=5.04">
+  <link rel="stylesheet" href="styles.css?v=5.13">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
@@ -337,8 +337,8 @@
               <input type="date" class="form-input" data-state-path="comunicacion.fecha">
             </div>
             <div class="form-group">
-              <label class="form-label">Hora de Comunicación</label>
-              <input type="time" class="form-input" data-state-path="comunicacion.hora">
+              <label class="form-label">Hora de Comunicación (24 Horas)</label>
+              <input type="text" class="form-input time-input-24" data-state-path="comunicacion.hora" placeholder="04:30" maxlength="5" inputmode="numeric">
             </div>
           </div>
 
@@ -393,8 +393,8 @@
 
           <div class="grid-2">
             <div class="form-group">
-              <label class="form-label">Hora de Llegada al S.S.</label>
-              <input type="time" class="form-input" data-state-path="comunicacion.horaLlegadaSS">
+              <label class="form-label">Hora de Llegada al S.S. (24 Horas)</label>
+              <input type="text" class="form-input time-input-24" data-state-path="comunicacion.horaLlegadaSS" placeholder="05:15" maxlength="5" inputmode="numeric">
             </div>
             <div class="form-group">
               <label class="form-label">Dirección del Sitio del Suceso</label>
@@ -1010,8 +1010,8 @@
                 <input type="date" class="form-input" data-state-path="antecedentes.fechaRecepcion">
               </div>
               <div class="form-group">
-                <label class="form-label">Recepción: Hora</label>
-                <input type="time" class="form-input" data-state-path="antecedentes.horaRecepcion">
+                <label class="form-label">Recepción: Hora (24 Horas)</label>
+                <input type="text" class="form-input time-input-24" data-state-path="antecedentes.horaRecepcion" placeholder="04:30" maxlength="5" inputmode="numeric">
               </div>
               <div class="form-group">
                 <label class="form-label">Nombre de Quien Recepciona</label>
@@ -1161,12 +1161,12 @@
           </div>
           <div class="grid-2">
             <div class="form-group">
-              <label class="form-label">Hora Fin Examen Externo</label>
-              <input type="time" class="form-input" data-state-path="horaFinExamenExterno">
+              <label class="form-label">Hora Fin Examen Externo (24 Horas)</label>
+              <input type="text" class="form-input time-input-24" data-state-path="horaFinExamenExterno" placeholder="15:00" maxlength="5" inputmode="numeric">
             </div>
             <div class="form-group">
-              <label class="form-label">Hora Finalización S.S.</label>
-              <input type="time" class="form-input" data-state-path="horaFinSS">
+              <label class="form-label">Hora Finalización S.S. (24 Horas)</label>
+              <input type="text" class="form-input time-input-24" data-state-path="horaFinSS" placeholder="16:00" maxlength="5" inputmode="numeric">
             </div>
           </div>
         </div>
@@ -1399,12 +1399,12 @@
   <!-- SCRIPTS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=5.09"></script>
+  <script src="app.js?v=5.13"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=5.09')
-          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v5.09:', reg.scope))
+        navigator.serviceWorker.register('./sw.js?v=5.13')
+          .then(reg => console.log('✅ [PWA] Service Worker registrado para Android Offline Autónomo v5.13:', reg.scope))
           .catch(err => console.error('❌ [PWA] Error al registrar SW:', err));
       });
     }

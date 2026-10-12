@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root {
+  color-scheme: dark;
   --bg-main: #061124;
   --bg-card: #0c1e3e;
   --bg-card-hover: #132a54;
@@ -25,6 +26,7 @@
 }
 
 [data-theme="light"] {
+  color-scheme: light;
   --bg-main: #dcf0ff;
   --bg-card: #ffffff;
   --bg-card-hover: #f0f9ff;
@@ -386,6 +388,63 @@ body {
   outline: none;
   border-color: var(--accent-primary);
   box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+}
+
+/* SELECTORES DE FECHA Y HORA (ICONOS CLAROS, NÍTIDOS Y VISIBLES EN TEMA OSCURO) */
+.form-input[type="date"],
+.form-input[type="time"],
+.form-input[type="datetime-local"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  color-scheme: dark;
+}
+
+[data-theme="light"] .form-input[type="date"],
+[data-theme="light"] .form-input[type="time"],
+[data-theme="light"] .form-input[type="datetime-local"],
+[data-theme="light"] input[type="date"],
+[data-theme="light"] input[type="time"],
+[data-theme="light"] input[type="datetime-local"] {
+  color-scheme: light;
+}
+
+.form-input[type="date"]::-webkit-calendar-picker-indicator,
+.form-input[type="time"]::-webkit-calendar-picker-indicator,
+.form-input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 4px;
+  opacity: 1 !important;
+  transition: var(--transition);
+}
+
+.form-input[type="date"]::-webkit-calendar-picker-indicator:hover,
+.form-input[type="time"]::-webkit-calendar-picker-indicator:hover,
+.form-input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover,
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+  background-color: rgba(14, 165, 233, 0.25);
+  transform: scale(1.1);
+}
+
+/* INPUTS DE HORA FORMATO 24 HORAS CON ÍCONO DE RELOJ INCORPORADO */
+.time-input-24 {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2338bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px 18px;
+  padding-right: 38px;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+[data-theme="light"] .time-input-24 {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%230284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>');
 }
 
 .form-textarea {
