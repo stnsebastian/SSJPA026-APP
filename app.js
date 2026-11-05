@@ -956,9 +956,7 @@ function renderOfficialDocument() {
 
   el.innerHTML = `
     <div class="official-header">
-      <h1>POLICÍA DE INVESTIGACIONES DE CHILE</h1>
-      <p>LABORATORIO DE CRIMINALÍSTICA // ${appState.unidadPolicial || 'BICRIM SAN JAVIER'}</p>
-      <p style="margin-top: 4px; font-weight: 700; color: #0f172a;">INFORME CIENTÍFICO TÉCNICO DEL SITIO DEL SUCESO</p>
+      <h1 style="font-size: 13pt; font-weight: 900; text-transform: uppercase; margin: 0; color: #0f172a;">INFORME CIENTÍFICO TÉCNICO DEL SITIO DEL SUCESO</h1>
     </div>
 
     <!-- ============================================================= -->
@@ -1167,12 +1165,15 @@ function renderFichaInformativa() {
   const modusOperandiStr = `Se realizo trabajo en el S.S, al reconocimiento externo policial el cuerpo se encontró en ${ubicacionStr}, ${antecedentesDiligenciaStr}. Finalmente, de acuerdo con las diligencias practicadas, se realizo empadronamiento y fijación fotográfica.${empadronadoFicha}`;
 
   let html = `
-    <div style="font-family: Arial, sans-serif; font-size: 9pt; line-height: 1.3; max-width: 21.59cm; margin: 0 auto; padding: 0.5cm 0.5cm 0.5cm 1.5cm; background: white; box-sizing: border-box; text-transform: uppercase;" id="fichaInformativaWrapper">
+    <div style="font-family: Arial, sans-serif; font-size: 7.5pt; line-height: 1.15; width: 100%; max-width: 21.59cm; margin: 0 auto; padding: 0.2cm 1.2cm 0.2cm 1.2cm; background: white; box-sizing: border-box; text-transform: uppercase;" id="fichaInformativaWrapper">
       <style>
         #fichaInformativaWrapper table:not(.no-border), 
         #fichaInformativaWrapper table:not(.no-border) th, 
         #fichaInformativaWrapper table:not(.no-border) td {
           border: 1px solid black !important;
+          padding: 1px 2px !important;
+          font-size: 7.5pt !important;
+          line-height: 1.15 !important;
         }
         #fichaInformativaWrapper table.no-border {
           border: none !important;
@@ -1180,37 +1181,88 @@ function renderFichaInformativa() {
         #fichaInformativaWrapper table.no-border > tbody > tr > td,
         #fichaInformativaWrapper table.no-border > tr > td {
           border: none !important;
+          padding: 0 !important;
+        }
+        @media print {
+          #fichaInformativaWrapper .ficha-main-title,
+          #fichaInformativaWrapper h2 {
+            margin-bottom: 28px !important;
+          }
+          #fichaInformativaWrapper .ficha-pt-1 {
+            margin-top: 30px !important;
+          }
+          #fichaInformativaWrapper .ficha-victimas-box {
+            margin-bottom: 27px !important;
+          }
+          #fichaInformativaWrapper .ficha-tbl-otros {
+            margin-top: 30px !important;
+          }
+          #fichaInformativaWrapper .ficha-pt-3 {
+            margin-top: 40px !important;
+          }
+          #fichaInformativaWrapper .ficha-pt-3-1 {
+            margin-top: 40px !important;
+          }
+          #fichaInformativaWrapper table:not(.no-border) th,
+          #fichaInformativaWrapper table:not(.no-border) td {
+            padding-top: 2px !important;
+            padding-bottom: 2px !important;
+          }
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-main-title,
+        body.printing-active #fichaInformativaWrapper h2 {
+          margin-bottom: 28px !important;
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-pt-1 {
+          margin-top: 30px !important;
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-victimas-box {
+          margin-bottom: 27px !important;
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-tbl-otros {
+          margin-top: 30px !important;
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-pt-3 {
+          margin-top: 40px !important;
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-pt-3-1 {
+          margin-top: 40px !important;
+        }
+        body.printing-active #fichaInformativaWrapper table:not(.no-border) th,
+        body.printing-active #fichaInformativaWrapper table:not(.no-border) td {
+          padding-top: 2px !important;
+          padding-bottom: 2px !important;
         }
       </style>
-      <h2 style="text-align: center; font-size: 13pt; margin: 30px 0 40px 0;">FICHA INFORMATIVA DE CONCURRENCIA</h2>
-      <table class="no-border" style="width: 100%; margin-bottom: 8px;" border="0">
+      <h2 class="ficha-main-title" style="text-align: center; font-size: 11pt; font-weight: bold; margin: 0 0 8px 0; line-height: 1.15;">FICHA INFORMATIVA DE CONCURRENCIA</h2>
+      <table class="no-border ficha-header-tbl" style="width: 100%; margin-bottom: 8px;" border="0">
         <tr>
           <td style="width: 45%; vertical-align: top; padding: 0;">
             <table style="width: 100%; border-collapse: collapse; text-align: center;" border="1" bordercolor="black">
-              <tr><td style="background-color: #92cddc; font-weight: bold; padding: 2px;">POLICIA DE INVESTIGACIONES DE CHILE</td></tr>
-              <tr><td contenteditable="true" style="color: red; font-weight: bold; padding: 2px; background-color: white;">${appState.unidadPolicial || 'BRIGADA DE INVESTIGACIÓN CRIMINAL SAN JAVIER'}</td></tr>
+              <tr><td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">POLICIA DE INVESTIGACIONES DE CHILE</td></tr>
+              <tr><td contenteditable="true" style="color: red; font-weight: bold; padding: 1px 2px; background-color: white;">${appState.unidadPolicial || 'BRIGADA DE INVESTIGACIÓN CRIMINAL SAN JAVIER'}</td></tr>
             </table>
           </td>
           <td style="width: 10%;"></td>
           <td style="width: 45%; vertical-align: top; padding: 0;">
             <table style="width: 100%; border-collapse: collapse; text-align: center;" border="1" bordercolor="black">
               <tr>
-                <td style="background-color: #92cddc; font-weight: bold; padding: 2px; width: 40%;">N°</td>
-                <td contenteditable="true" style="color: red; font-weight: bold; padding: 2px; width: 30%;"></td>
-                <td style="background-color: #92cddc; font-weight: bold; padding: 2px; width: 30%;">ORD</td>
+                <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px; width: 40%;">N°</td>
+                <td contenteditable="true" style="color: red; font-weight: bold; padding: 1px 2px; width: 30%;"></td>
+                <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px; width: 30%;">ORD</td>
               </tr>
               <tr>
-                <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">FECHA:</td>
-                <td colspan="2" style="color: red; padding: 2px;">${new Date().toLocaleDateString('es-CL')}</td>
+                <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">FECHA:</td>
+                <td colspan="2" style="color: red; padding: 1px 2px;">${new Date().toLocaleDateString('es-CL')}</td>
               </tr>
               <tr>
-                <td rowspan="2" style="background-color: #92cddc; font-weight: bold; padding: 2px;">COMUNICACION<br>DE LA FISCALIA</td>
-                <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">FECHA:</td>
-                <td contenteditable="true" style="color: red; padding: 2px;">${ant.fechaRecepcion ? ant.fechaRecepcion.split('-').reverse().join('-') : '-'}</td>
+                <td rowspan="2" style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">COMUNICACION<br>DE LA FISCALIA</td>
+                <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">FECHA:</td>
+                <td contenteditable="true" style="color: red; padding: 1px 2px;">${ant.fechaRecepcion ? ant.fechaRecepcion.split('-').reverse().join('-') : '-'}</td>
               </tr>
               <tr>
-                <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">HORA:</td>
-                <td contenteditable="true" style="color: red; padding: 2px;">${ant.horaRecepcion ? formatHoraDoc(ant.horaRecepcion, 'HRS.') : '-'}</td>
+                <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">HORA:</td>
+                <td contenteditable="true" style="color: red; padding: 1px 2px;">${ant.horaRecepcion ? formatHoraDoc(ant.horaRecepcion, 'HRS.') : '-'}</td>
               </tr>
             </table>
           </td>
@@ -1218,40 +1270,40 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 1- ANTECEDENTES DEL HECHO -->
-      <p style="font-weight: bold; margin: 25px 0 15px 0; font-size: 9pt;">1- &#160;&#160;&#160;ANTECEDENTES DEL HECHO</p>
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
+      <p class="ficha-sec-title ficha-pt-1" style="font-weight: bold; margin: 12px 0 5px 0; font-size: 8.5pt;">1- &#160;&#160;&#160;ANTECEDENTES DEL HECHO</p>
+      <table class="ficha-tbl-1" style="width: 100%; border-collapse: collapse; margin-bottom: 6px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 15%;"><col style="width: 25%;"><col style="width: 15%;"><col style="width: 20%;"><col style="width: 15%;"><col style="width: 10%;">
         </colgroup>
         <tr>
-          <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">FISCALIA:</td>
-          <td colspan="5" style="color: red; padding: 2px;">FLAGRANCIA, FISCAL DE TURNO - ${appState.comunicacion?.fiscalTurno || '-'}</td>
+          <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">FISCALIA:</td>
+          <td colspan="5" style="color: red; padding: 1px 2px;">FLAGRANCIA, FISCAL DE TURNO - ${appState.comunicacion?.fiscalTurno || '-'}</td>
         </tr>
         <tr>
-          <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">HECHO:</td>
-          <td contenteditable="true" style="color: red; padding: 2px;">${clasif.subtipo || '-'}</td>
-          <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">MODALIDAD:</td>
-          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
-          <td style="background-color: #92cddc; font-weight: bold; padding: 2px;">ARMA ESPECIFICA:</td>
-          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
+          <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">HECHO:</td>
+          <td contenteditable="true" style="color: red; padding: 1px 2px;">${clasif.subtipo || '-'}</td>
+          <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">MODALIDAD:</td>
+          <td contenteditable="true" style="color: red; padding: 1px 2px; text-align: center;">-</td>
+          <td style="background-color: #92cddc; font-weight: bold; padding: 1px 2px;">ARMA ESPECIFICA:</td>
+          <td contenteditable="true" style="color: red; padding: 1px 2px; text-align: center;">-</td>
         </tr>
         <tr>
-          <td style="background-color: #ccc0da; font-weight: bold; padding: 2px;">MARCA Y MODELO:</td>
-          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
-          <td style="background-color: #ccc0da; font-weight: bold; padding: 2px;">CALIBRE:</td>
-          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
-          <td style="background-color: #ccc0da; font-weight: bold; padding: 2px;">N° SERIE:</td>
-          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">-</td>
+          <td style="background-color: #ccc0da; font-weight: bold; padding: 1px 2px;">MARCA Y MODELO:</td>
+          <td contenteditable="true" style="color: red; padding: 1px 2px; text-align: center;">-</td>
+          <td style="background-color: #ccc0da; font-weight: bold; padding: 1px 2px;">CALIBRE:</td>
+          <td contenteditable="true" style="color: red; padding: 1px 2px; text-align: center;">-</td>
+          <td style="background-color: #ccc0da; font-weight: bold; padding: 1px 2px;">N° SERIE:</td>
+          <td contenteditable="true" style="color: red; padding: 1px 2px; text-align: center;">-</td>
         </tr>
       </table>
 
-      <!-- 2- ANTECENDENTES DE LA VICTIMA O FALLECIDO -->
-      <p style="font-weight: bold; margin: 30px 0 15px 0; font-size: 9pt;">2- &#160;&#160;&#160;ANTECENDENTES DE LA VICTIMA O FALLECIDO</p>
-      <div style="margin-bottom: 5px;">
-        <span style="background-color: #92cddc; font-weight: bold; padding: 2px; border: 1px solid black;">N° VICTIMAS:</span>
-        <span style="color: red; padding: 2px; border: 1px solid black; border-left: none; display: inline-block; width: 50px; text-align: center;">1</span>
+      <!-- 2- ANTECEDENTES DE LA VICTIMA O FALLECIDO -->
+      <p class="ficha-sec-title ficha-pt-2" style="font-weight: bold; margin: 14px 0 4px 0; font-size: 8.5pt;">2- &#160;&#160;&#160;ANTECEDENTES DE LA VICTIMA O FALLECIDO</p>
+      <div class="ficha-victimas-box" style="margin-bottom: 4px;">
+        <span style="background-color: #92cddc; font-weight: bold; padding: 1px 4px; border: 1px solid black; font-size: 7.5pt;">N° VICTIMAS:</span>
+        <span style="color: red; padding: 1px 4px; border: 1px solid black; border-left: none; display: inline-block; width: 45px; text-align: center; font-size: 7.5pt;">1</span>
       </div>
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
+      <table class="ficha-tbl-2" style="width: 100%; border-collapse: collapse; margin-bottom: 6px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 5%;"><col style="width: 5%;"><col style="width: 5%;"><col style="width: 5%;"><col style="width: 5%;">
           <col style="width: 5%;"><col style="width: 5%;"><col style="width: 5%;"><col style="width: 5%;"><col style="width: 5%;">
@@ -1375,7 +1427,7 @@ function renderFichaInformativa() {
       </table>
 
       <!-- OTROS ANTECEDENTES EN CASO CUERPOS NO IDENTIFICADOS... -->
-      <table style="width: 100%; border-collapse: collapse; margin-top: 30px; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
+      <table class="ficha-tbl-otros" style="width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 6px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
@@ -1412,13 +1464,17 @@ function renderFichaInformativa() {
       </table>
 
       <!-- 3- SITIO DEL SUCESO -->
-      <p style="font-weight: bold; margin: 30px 0 15px 0; font-size: 9pt;">3- &#160;&#160;&#160;SITIO DEL SUCESO</p>
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px;" border="1" bordercolor="black">
+      <p class="ficha-sec-title ficha-pt-3" style="font-weight: bold; margin: 14px 0 5px 0; font-size: 8.5pt;">3- &#160;&#160;&#160;SITIO DEL SUCESO</p>
+      <table class="ficha-tbl-3" style="width: 100%; border-collapse: collapse; margin-bottom: 6px;" border="1" bordercolor="black">
         <tr>
-          <td style="background-color: #d9e1f2; font-weight: bold; padding: 2px;">FECHA CONCURRENCIA</td>
-          <td contenteditable="true" style="color: red; padding: 2px; text-align: center;">${ant.fechaRecepcion ? ant.fechaRecepcion.split('-').reverse().join('-') : '-'}</td>
-          <td colspan="2" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">COORDENADAS GPS FORMATO UTM:</td>
-          <td colspan="4" style="color: red; padding: 2px; text-align: center;">${appState.comunicacion?.coordenadasGPS || '-'}</td>
+          <td colspan="2" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">FECHA CONCURRENCIA</td>
+          <td colspan="1" contenteditable="true" style="color: red; padding: 2px; text-align: center;">${ant.fechaRecepcion ? ant.fechaRecepcion.split('-').reverse().join('-') : '-'}</td>
+          <td colspan="2" rowspan="2" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center; vertical-align: middle;">COORDENADAS GPS FORMATO<br>UTM:</td>
+          <td colspan="3" rowspan="2" contenteditable="true" style="color: red; padding: 2px; text-align: center; vertical-align: middle;">${appState.comunicacion?.coordenadasGPS || '-'}</td>
+        </tr>
+        <tr>
+          <td colspan="2" style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">HORA LLEGADA</td>
+          <td colspan="1" contenteditable="true" style="color: red; padding: 2px; text-align: center;">${appState.comunicacion?.horaLlegadaSS || '-'}</td>
         </tr>
         <tr>
           <td style="background-color: #d9e1f2; font-weight: bold; padding: 2px; text-align: center;">LUGAR ESPECIFICO</td>
@@ -1457,10 +1513,8 @@ function renderFichaInformativa() {
       </table>
       
       <!-- 3.1- PRINCIPIO DE EJECUCION -->
-      <div style="page-break-before: always;"></div>
-      <div style="height: 40px;"></div>
-      <p style="font-weight: bold; margin: 0 0 15px 0; font-size: 9pt;">3.1- &#160;&#160;&#160;PRINCIPIO DE EJECUCION</p>
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
+      <p class="ficha-sec-title ficha-pt-3-1" style="font-weight: bold; margin: 12px 0 5px 0; font-size: 8.5pt;">3.1- &#160;&#160;&#160;PRINCIPIO DE EJECUCION</p>
+      <table class="ficha-tbl-3-1" style="width: 100%; border-collapse: collapse; margin-bottom: 4px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
@@ -1503,9 +1557,10 @@ function renderFichaInformativa() {
         </tr>
       </table>
 
-      <!-- 4- RESULTADOS -->
-      <p style="font-weight: bold; margin: 30px 0 15px 0; font-size: 9pt;">4- &#160;&#160;&#160;RESULTADOS:</p>
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 8px; table-layout: fixed;" border="1" bordercolor="black">
+      <!-- 4- RESULTADOS (INICIO PÁGINA 2) -->
+      <div class="html2pdf__page-break" style="page-break-before: always; height: 0; margin: 0; padding: 0;"></div>
+      <p style="font-weight: bold; margin: 8px 0 5px 0; font-size: 8.5pt;">4- &#160;&#160;&#160;RESULTADOS:</p>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 6px; table-layout: fixed;" border="1" bordercolor="black">
         <colgroup>
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
           <col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;">
@@ -1514,7 +1569,7 @@ function renderFichaInformativa() {
           <td colspan="10" style="background-color: #d9e1f2; font-weight: bold; text-align: center; padding: 2px;">MODUS OPERANDI: (SINTESIS DE LO OCURRIDO, EL QUE Y EL COMO DEL HECHO)</td>
         </tr>
         <tr>
-          <td colspan="10" style="color: red; padding: 10px; white-space: pre-wrap;">${modusOperandiStr}</td>
+          <td colspan="10" style="color: red; padding: 6px 8px; white-space: pre-wrap;">${modusOperandiStr}</td>
         </tr>
         <tr>
           <td colspan="10" style="background-color: #d9e1f2; font-weight: bold; text-align: center; padding: 2px;">LUGAR DE HALLAZGO O TIPO DE HABITACION</td>
@@ -1578,7 +1633,7 @@ function renderFichaInformativa() {
         </tr>
       </table>
       
-      <div style="margin-top: 80px; display: flex; justify-content: flex-start; align-items: flex-end; gap: 20px;">
+      <div style="margin-top: 25px; display: flex; justify-content: flex-start; align-items: flex-end; gap: 20px;">
         <div style="width: 80%;">
           <table style="width: 100%; border-collapse: collapse;" border="1" bordercolor="black">
             <tr>
@@ -1595,9 +1650,9 @@ function renderFichaInformativa() {
         <div style="flex: 1; border-bottom: 2px solid black; margin-bottom: 8px;"></div>
       </div>
 
-      <div style="margin-top: 50px;">
-        <p style="font-weight: bold; margin-bottom: 5px; font-size: 9pt;">DISTRIBUCION:</p>
-        <table style="width: 250px !important; max-width: 250px !important; border-collapse: collapse; font-size: 9pt;" border="1" bordercolor="black">
+      <div style="margin-top: 15px;">
+        <p style="font-weight: bold; margin-bottom: 4px; font-size: 8.5pt;">DISTRIBUCION:</p>
+        <table style="width: 250px !important; max-width: 250px !important; border-collapse: collapse; font-size: 8.5pt;" border="1" bordercolor="black">
           <colgroup>
             <col style="width: 85% !important;">
             <col style="width: 15% !important;">
@@ -1668,7 +1723,7 @@ function exportToPDF() {
   const tc = document.getElementById('toastContainer');
   if (tc) tc.style.display = 'none';
 
-  showToast('📄 Preparando informe oficial para impresión/PDF...');
+  showToast('📄 Ventana PDF abierta. En "Más ajustes", DESMARCA "Encabezados y pies de página" para quitar fecha, index.html y pie de página.', 6000);
 
   const redElements = [];
   el.querySelectorAll('*').forEach(node => {
@@ -1678,11 +1733,75 @@ function exportToPDF() {
     }
   });
 
+  const originalDocTitle = document.title;
+  document.title = ' ';
+
+  const prevDocPaddingLeft = el.style.paddingLeft || '';
+  el.style.paddingLeft = 'calc(3.5cm - 15px)';
+
+  const mainTitle = el.querySelector('.ficha-main-title') || el.querySelector('h2');
+  const pt1 = el.querySelector('.ficha-pt-1');
+  const victimasBox = el.querySelector('.ficha-victimas-box');
+  const tblOtros = el.querySelector('.ficha-tbl-otros');
+  const pt3 = el.querySelector('.ficha-pt-3');
+  const pt3_1 = el.querySelector('.ficha-pt-3-1');
+  const prevMainTitleMargin = mainTitle ? mainTitle.style.marginBottom : '';
+  const prevPt1Margin = pt1 ? pt1.style.marginTop : '';
+  const prevVictimasBoxMargin = victimasBox ? victimasBox.style.marginBottom : '';
+  const prevTblOtrosMargin = tblOtros ? tblOtros.style.marginTop : '';
+  const prevPt3Margin = pt3 ? pt3.style.marginTop : '';
+  const prevPt3_1Margin = pt3_1 ? pt3_1.style.marginTop : '';
+  if (mainTitle) mainTitle.style.marginBottom = '28px';
+  if (pt1) pt1.style.marginTop = '30px';
+  if (victimasBox) victimasBox.style.marginBottom = '27px';
+  if (tblOtros) tblOtros.style.marginTop = '30px';
+  if (pt3) pt3.style.marginTop = '40px';
+  if (pt3_1) pt3_1.style.marginTop = '40px';
+
+  const cells = el.querySelectorAll('table:not(.no-border) td, table:not(.no-border) th');
+  const prevCellPaddings = [];
+  cells.forEach(c => {
+    prevCellPaddings.push({
+      el: c,
+      padTop: c.style.paddingTop,
+      padBottom: c.style.paddingBottom
+    });
+    c.style.paddingTop = '2px';
+    c.style.paddingBottom = '2px';
+  });
+
+  document.body.classList.add('printing-active');
+  const prevZoom = el.style.zoom;
+  el.style.zoom = '1';
+
+  let cleaned = false;
+  const cleanup = () => {
+    if (cleaned) return;
+    cleaned = true;
+    document.title = originalDocTitle;
+    redElements.forEach(node => node.style.color = 'red');
+    if (mainTitle) mainTitle.style.marginBottom = prevMainTitleMargin;
+    if (pt1) pt1.style.marginTop = prevPt1Margin;
+    if (victimasBox) victimasBox.style.marginBottom = prevVictimasBoxMargin;
+    if (tblOtros) tblOtros.style.marginTop = prevTblOtrosMargin;
+    if (pt3) pt3.style.marginTop = prevPt3Margin;
+    if (pt3_1) pt3_1.style.marginTop = prevPt3_1Margin;
+    prevCellPaddings.forEach(item => {
+      item.el.style.paddingTop = item.padTop;
+      item.el.style.paddingBottom = item.padBottom;
+    });
+    el.style.paddingLeft = prevDocPaddingLeft;
+    el.style.zoom = prevZoom;
+    document.body.classList.remove('printing-active');
+    if (tc) tc.style.display = '';
+    window.removeEventListener('afterprint', cleanup);
+  };
+  window.addEventListener('afterprint', cleanup);
+
   setTimeout(() => {
     window.print();
-    redElements.forEach(node => node.style.color = 'red');
-    if (tc) tc.style.display = '';
-  }, 500);
+    setTimeout(cleanup, 2500);
+  }, 400);
 }
 
 // EXPORTACIÓN DE LA FICHA INFORMATIVA A PDF
@@ -1693,7 +1812,10 @@ function exportFichaToPDF() {
   const tc = document.getElementById('toastContainer');
   if (tc) tc.style.display = 'none';
 
-  showToast('📄 Preparando Ficha Informativa PDF...');
+  const modal = document.getElementById('modalExportPdfJpg');
+  if (modal) modal.style.display = 'none';
+
+  showToast('📄 Ventana PDF abierta. En "Más ajustes", DESMARCA "Encabezados y pies de página" para quitar fecha, index.html y pie de página.', 6000);
 
   const redElements = [];
   el.querySelectorAll('*').forEach(node => {
@@ -1703,11 +1825,71 @@ function exportFichaToPDF() {
     }
   });
 
+  const originalDocTitle = document.title;
+  document.title = ' ';
+
+  const mainTitle = el.querySelector('.ficha-main-title') || el.querySelector('h2');
+  const pt1 = el.querySelector('.ficha-pt-1');
+  const victimasBox = el.querySelector('.ficha-victimas-box');
+  const tblOtros = el.querySelector('.ficha-tbl-otros');
+  const pt3 = el.querySelector('.ficha-pt-3');
+  const pt3_1 = el.querySelector('.ficha-pt-3-1');
+  const prevMainTitleMargin = mainTitle ? mainTitle.style.marginBottom : '';
+  const prevPt1Margin = pt1 ? pt1.style.marginTop : '';
+  const prevVictimasBoxMargin = victimasBox ? victimasBox.style.marginBottom : '';
+  const prevTblOtrosMargin = tblOtros ? tblOtros.style.marginTop : '';
+  const prevPt3Margin = pt3 ? pt3.style.marginTop : '';
+  const prevPt3_1Margin = pt3_1 ? pt3_1.style.marginTop : '';
+  if (mainTitle) mainTitle.style.marginBottom = '28px';
+  if (pt1) pt1.style.marginTop = '30px';
+  if (victimasBox) victimasBox.style.marginBottom = '27px';
+  if (tblOtros) tblOtros.style.marginTop = '30px';
+  if (pt3) pt3.style.marginTop = '40px';
+  if (pt3_1) pt3_1.style.marginTop = '40px';
+
+  const cells = el.querySelectorAll('table:not(.no-border) td, table:not(.no-border) th');
+  const prevCellPaddings = [];
+  cells.forEach(c => {
+    prevCellPaddings.push({
+      el: c,
+      padTop: c.style.paddingTop,
+      padBottom: c.style.paddingBottom
+    });
+    c.style.paddingTop = '2px';
+    c.style.paddingBottom = '2px';
+  });
+
+  document.body.classList.add('printing-active');
+  const prevZoom = el.style.zoom;
+  el.style.zoom = '1';
+
+  let cleaned = false;
+  const cleanup = () => {
+    if (cleaned) return;
+    cleaned = true;
+    document.title = originalDocTitle;
+    redElements.forEach(node => node.style.color = 'red');
+    if (mainTitle) mainTitle.style.marginBottom = prevMainTitleMargin;
+    if (pt1) pt1.style.marginTop = prevPt1Margin;
+    if (victimasBox) victimasBox.style.marginBottom = prevVictimasBoxMargin;
+    if (tblOtros) tblOtros.style.marginTop = prevTblOtrosMargin;
+    if (pt3) pt3.style.marginTop = prevPt3Margin;
+    if (pt3_1) pt3_1.style.marginTop = prevPt3_1Margin;
+    prevCellPaddings.forEach(item => {
+      item.el.style.paddingTop = item.padTop;
+      item.el.style.paddingBottom = item.padBottom;
+    });
+    el.style.zoom = prevZoom;
+    document.body.classList.remove('printing-active');
+    if (tc) tc.style.display = '';
+    window.removeEventListener('afterprint', cleanup);
+  };
+  window.addEventListener('afterprint', cleanup);
+
   setTimeout(() => {
     window.print();
-    redElements.forEach(node => node.style.color = 'red');
-    if (tc) tc.style.display = '';
-  }, 500);
+    setTimeout(cleanup, 2500);
+  }, 400);
 }
 
 // EXPORTACIÓN DE LA FICHA INFORMATIVA A WORD (.doc)
@@ -2464,6 +2646,20 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     } else {
       showToast('ℹ️ Abre el menú (⋮) de Chrome y selecciona "Instalar aplicación" o "Agregar a la pantalla principal"');
+    }
+  });
+
+  // SUPRESIÓN DEL ENCABEZADO Y PIE DE PÁGINA DEL NAVEGADOR AL IMPRIMIR
+  window.addEventListener('beforeprint', () => {
+    if (document.title) {
+      window._savedDocTitle = document.title;
+      document.title = ' ';
+    }
+  });
+  window.addEventListener('afterprint', () => {
+    if (window._savedDocTitle) {
+      document.title = window._savedDocTitle;
+      window._savedDocTitle = null;
     }
   });
 });
