@@ -1184,24 +1184,36 @@ function renderFichaInformativa() {
           padding: 0 !important;
         }
         @media print {
+          #fichaInformativaWrapper {
+            padding: 0 2cm 0.63cm calc(3.5cm + 4px) !important;
+          }
           #fichaInformativaWrapper .ficha-main-title,
           #fichaInformativaWrapper h2 {
-            margin-bottom: 28px !important;
+            margin-bottom: 10px !important;
+          }
+          #fichaInformativaWrapper .ficha-header-tbl {
+            margin-bottom: 8px !important;
           }
           #fichaInformativaWrapper .ficha-pt-1 {
-            margin-top: 30px !important;
+            margin-top: 18px !important;
           }
           #fichaInformativaWrapper .ficha-victimas-box {
-            margin-bottom: 27px !important;
+            margin-bottom: 14px !important;
           }
           #fichaInformativaWrapper .ficha-tbl-otros {
-            margin-top: 30px !important;
+            margin-top: 18px !important;
           }
           #fichaInformativaWrapper .ficha-pt-3 {
-            margin-top: 40px !important;
+            margin-top: 24px !important;
           }
           #fichaInformativaWrapper .ficha-pt-3-1 {
-            margin-top: 40px !important;
+            margin-top: 22px !important;
+          }
+          #fichaInformativaWrapper .ficha-firmas-box {
+            margin-top: 35px !important;
+          }
+          #fichaInformativaWrapper .ficha-distribucion-box {
+            margin-top: 25px !important;
           }
           #fichaInformativaWrapper table:not(.no-border) th,
           #fichaInformativaWrapper table:not(.no-border) td {
@@ -1209,24 +1221,36 @@ function renderFichaInformativa() {
             padding-bottom: 2px !important;
           }
         }
+        body.printing-active #fichaInformativaWrapper {
+          padding: 0 2cm 0.63cm calc(3.5cm + 4px) !important;
+        }
         body.printing-active #fichaInformativaWrapper .ficha-main-title,
         body.printing-active #fichaInformativaWrapper h2 {
-          margin-bottom: 28px !important;
+          margin-bottom: 10px !important;
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-header-tbl {
+          margin-bottom: 8px !important;
         }
         body.printing-active #fichaInformativaWrapper .ficha-pt-1 {
-          margin-top: 30px !important;
+          margin-top: 18px !important;
         }
         body.printing-active #fichaInformativaWrapper .ficha-victimas-box {
-          margin-bottom: 27px !important;
+          margin-bottom: 14px !important;
         }
         body.printing-active #fichaInformativaWrapper .ficha-tbl-otros {
-          margin-top: 30px !important;
+          margin-top: 18px !important;
         }
         body.printing-active #fichaInformativaWrapper .ficha-pt-3 {
-          margin-top: 40px !important;
+          margin-top: 24px !important;
         }
         body.printing-active #fichaInformativaWrapper .ficha-pt-3-1 {
-          margin-top: 40px !important;
+          margin-top: 22px !important;
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-firmas-box {
+          margin-top: 35px !important;
+        }
+        body.printing-active #fichaInformativaWrapper .ficha-distribucion-box {
+          margin-top: 25px !important;
         }
         body.printing-active #fichaInformativaWrapper table:not(.no-border) th,
         body.printing-active #fichaInformativaWrapper table:not(.no-border) td {
@@ -1633,7 +1657,7 @@ function renderFichaInformativa() {
         </tr>
       </table>
       
-      <div style="margin-top: 25px; display: flex; justify-content: flex-start; align-items: flex-end; gap: 20px;">
+      <div class="ficha-firmas-box" style="margin-top: 25px; display: flex; justify-content: flex-start; align-items: flex-end; gap: 20px;">
         <div style="width: 80%;">
           <table style="width: 100%; border-collapse: collapse;" border="1" bordercolor="black">
             <tr>
@@ -1650,7 +1674,7 @@ function renderFichaInformativa() {
         <div style="flex: 1; border-bottom: 2px solid black; margin-bottom: 8px;"></div>
       </div>
 
-      <div style="margin-top: 15px;">
+      <div class="ficha-distribucion-box" style="margin-top: 15px;">
         <p style="font-weight: bold; margin-bottom: 4px; font-size: 8.5pt;">DISTRIBUCION:</p>
         <table style="width: 250px !important; max-width: 250px !important; border-collapse: collapse; font-size: 8.5pt;" border="1" bordercolor="black">
           <colgroup>
@@ -1828,24 +1852,43 @@ function exportFichaToPDF() {
   const originalDocTitle = document.title;
   document.title = ' ';
 
+  const wrapper = el.querySelector('#fichaInformativaWrapper') || el;
+  const prevWrapperPaddingLeft = wrapper ? wrapper.style.paddingLeft : '';
+  const prevWrapperPaddingTop = wrapper ? wrapper.style.paddingTop : '';
+  const prevElPadding = el.style.padding;
+  el.style.padding = '0';
+  if (wrapper) {
+    wrapper.style.paddingLeft = 'calc(3.5cm + 4px)';
+    wrapper.style.paddingTop = '0px';
+  }
+
   const mainTitle = el.querySelector('.ficha-main-title') || el.querySelector('h2');
+  const headerTbl = el.querySelector('.ficha-header-tbl');
   const pt1 = el.querySelector('.ficha-pt-1');
   const victimasBox = el.querySelector('.ficha-victimas-box');
   const tblOtros = el.querySelector('.ficha-tbl-otros');
   const pt3 = el.querySelector('.ficha-pt-3');
   const pt3_1 = el.querySelector('.ficha-pt-3-1');
+  const firmasBox = el.querySelector('.ficha-firmas-box');
+  const distribucionBox = el.querySelector('.ficha-distribucion-box');
   const prevMainTitleMargin = mainTitle ? mainTitle.style.marginBottom : '';
+  const prevHeaderTblMargin = headerTbl ? headerTbl.style.marginBottom : '';
   const prevPt1Margin = pt1 ? pt1.style.marginTop : '';
   const prevVictimasBoxMargin = victimasBox ? victimasBox.style.marginBottom : '';
   const prevTblOtrosMargin = tblOtros ? tblOtros.style.marginTop : '';
   const prevPt3Margin = pt3 ? pt3.style.marginTop : '';
   const prevPt3_1Margin = pt3_1 ? pt3_1.style.marginTop : '';
-  if (mainTitle) mainTitle.style.marginBottom = '28px';
-  if (pt1) pt1.style.marginTop = '30px';
-  if (victimasBox) victimasBox.style.marginBottom = '27px';
-  if (tblOtros) tblOtros.style.marginTop = '30px';
-  if (pt3) pt3.style.marginTop = '40px';
-  if (pt3_1) pt3_1.style.marginTop = '40px';
+  const prevFirmasBoxMargin = firmasBox ? firmasBox.style.marginTop : '';
+  const prevDistribucionBoxMargin = distribucionBox ? distribucionBox.style.marginTop : '';
+  if (mainTitle) mainTitle.style.marginBottom = '10px';
+  if (headerTbl) headerTbl.style.marginBottom = '8px';
+  if (pt1) pt1.style.marginTop = '18px';
+  if (victimasBox) victimasBox.style.marginBottom = '14px';
+  if (tblOtros) tblOtros.style.marginTop = '18px';
+  if (pt3) pt3.style.marginTop = '24px';
+  if (pt3_1) pt3_1.style.marginTop = '22px';
+  if (firmasBox) firmasBox.style.marginTop = '35px';
+  if (distribucionBox) distribucionBox.style.marginTop = '25px';
 
   const cells = el.querySelectorAll('table:not(.no-border) td, table:not(.no-border) th');
   const prevCellPaddings = [];
@@ -1870,15 +1913,23 @@ function exportFichaToPDF() {
     document.title = originalDocTitle;
     redElements.forEach(node => node.style.color = 'red');
     if (mainTitle) mainTitle.style.marginBottom = prevMainTitleMargin;
+    if (headerTbl) headerTbl.style.marginBottom = prevHeaderTblMargin;
     if (pt1) pt1.style.marginTop = prevPt1Margin;
     if (victimasBox) victimasBox.style.marginBottom = prevVictimasBoxMargin;
     if (tblOtros) tblOtros.style.marginTop = prevTblOtrosMargin;
     if (pt3) pt3.style.marginTop = prevPt3Margin;
     if (pt3_1) pt3_1.style.marginTop = prevPt3_1Margin;
+    if (firmasBox) firmasBox.style.marginTop = prevFirmasBoxMargin;
+    if (distribucionBox) distribucionBox.style.marginTop = prevDistribucionBoxMargin;
     prevCellPaddings.forEach(item => {
       item.el.style.paddingTop = item.padTop;
       item.el.style.paddingBottom = item.padBottom;
     });
+    if (wrapper) {
+      wrapper.style.paddingLeft = prevWrapperPaddingLeft;
+      wrapper.style.paddingTop = prevWrapperPaddingTop;
+    }
+    el.style.padding = prevElPadding;
     el.style.zoom = prevZoom;
     document.body.classList.remove('printing-active');
     if (tc) tc.style.display = '';
@@ -1930,7 +1981,7 @@ function generateProfessionalSummaryText() {
     INFORME CIENTÍFICO TÉCNICO DEL SITIO DEL SUCESO
 ======================================================
 
-▪ ÍTEM I: OFICIAL A CARGO Y RECEPCIÓN
+ÍTEM I: OFICIAL A CARGO Y RECEPCIÓN
 ------------------------------------------------------
 • OFICIAL A CARGO   : JORGE PINO AVILA
 • N° NUE            : ${ant.nue || 'SIN REGISTRAR'}
@@ -1938,7 +1989,7 @@ function generateProfessionalSummaryText() {
 • FECHA/HORA RECEP. : ${ant.fechaRecepcion || '--/--/----'} ${ant.horaRecepcion || '--:--'} HRS.
 • RECEPCIONADO POR  : ${ant.nombreRecepciona || 'SIN REGISTRAR'} (${ant.institucionRecepciona || 'PDI'})
 
-▪ ÍTEM II: FILIACIÓN E IDENTIFICACIÓN DEL FALLECIDO
+ÍTEM II: FILIACIÓN E IDENTIFICACIÓN DEL FALLECIDO
 ------------------------------------------------------
 • NOMBRE COMPLETO   : ${f.nombres || ''} ${f.apellidoPaterno || ''} ${f.apellidoMaterno || ''}
 • CÉDULA / RUN      : ${f.run || 'SIN REGISTRAR'}
@@ -1946,7 +1997,7 @@ function generateProfessionalSummaryText() {
 • NACIONALIDAD      : ${f.nacionalidad || 'CHILENA'} ${f.extranjeraCual ? '(' + f.extranjeraCual + ')' : ''}
 • DOMICILIO         : ${f.domicilio || 'SIN REGISTRAR'}
 
-▪ ÍTEM III: COMUNICACIÓN Y SITIO DEL SUCESO
+ÍTEM III: COMUNICACIÓN Y SITIO DEL SUCESO
 ------------------------------------------------------
 • FECHA COMUNICAC.  : ${c.fecha || '--/--/----'} A LAS ${c.hora || '--:--'} HRS.
 • FISCAL DE TURNO   : ${c.fiscalTurno || 'SIN REGISTRAR'}${c.flagrancia === 'SI' ? ', DE LA FISCALÍA DE FLAGRANCIA MAULE' : ''}
@@ -1955,11 +2006,11 @@ function generateProfessionalSummaryText() {
 • COORDENADAS GPS   : ${c.coordenadasGPS || 'SIN REGISTRAR'}
 • UNIDAD / CUSTODIA : ${c.unidadCustodia || ''} - ${c.funcionarioCustodia || ''}
 
-▪ ÍTEM IV: LESIONES FORENSES FIJADAS (${les.length})
+ÍTEM IV: LESIONES FORENSES FIJADAS (${les.length})
 ------------------------------------------------------
 ${les.length === 0 ? '• SIN LESIONES FIJADAS EN EL CROQUIS ANATÓMICO.' : les.map((l, idx) => `  [${idx + 1}] PLANO: ${l.plano}\n      TIPO  : ${l.tipo}\n      DIM.  : ${l.dimension}\n      DESC. : ${l.desc}`).join('\n\n')}
 
-▪ ÍTEM V: CHECKLIST FOTOGRÁFICO PERICIAL
+ÍTEM V: CHECKLIST FOTOGRÁFICO PERICIAL
 ------------------------------------------------------
 • FOTOGRAFÍAS FIJADAS: ${fotosListas} DE 12 OBLIGATORIAS (${Math.round((fotosListas/12)*100)}%)
 ${fotos.map((ft, i) => `  ${ft.completada ? '[✓]' : '[ ]'} ${i + 1}. ${ft.titulo}`).join('\n')}
@@ -2102,7 +2153,7 @@ function generateReporteAmpliacionConcurrenciaText() {
 
   const extraDiligencias = appState.observacionesFinales ? ` ${appState.observacionesFinales}` : '';
   const empadronadoWhatsApp = (appState.incluirEmpadronadoWhatsapp === 'SI' && appState.observacionesFinales)
-    ? `\n\n▪ *${appState.tipoDeclaracionWhatsapp || 'EMPADRONADO'}:* ${appState.observacionesFinales}`
+    ? `\n\n*${appState.tipoDeclaracionWhatsapp || 'EMPADRONADO'}:* ${appState.observacionesFinales}`
     : '';
 
   // NUE
@@ -2113,33 +2164,31 @@ function generateReporteAmpliacionConcurrenciaText() {
 *UNIDAD: ${appState.unidadPolicial || 'BICRIM SAN JAVIER'}* / ${fechaStr}
 *OFICIAL A CARGO: ${appState.oficialCargo || 'JORGE PINO AVILA'}*
 
-▪ *DELITO O HECHO:* ${delitoOHechoStr}
+*DELITO O HECHO:* ${delitoOHechoStr}
 
-▪ *BITACORA WEB:* ${bitacoraStr}
+*BITACORA WEB:* ${bitacoraStr}
 
-▪ *FALLECIDO:* ${nombreFallecido}, CÉDULA DE IDENTIDAD: ${runStr}, NACIONALIDAD: ${nacStr}, EDAD: ${edadStr}
+*FALLECIDO:* ${nombreFallecido}, CÉDULA DE IDENTIDAD: ${runStr}, NACIONALIDAD: ${nacStr}, EDAD: ${edadStr}
 
-▪ *GEPOL:* ${gepolStr}
+*GEPOL:* ${gepolStr}
 
-▪ *DIRECCIÓN DEL S.S:* ${direccionStr}
+*DIRECCIÓN DEL S.S:* ${direccionStr}
 
-▪ *COORDENADAS GPS DEL S.S:* ${gpsStr}
+*COORDENADAS GPS DEL S.S:* ${gpsStr}
 
-▪ *RECONOCIMIENTO EXTERNO DEL CADÁVER:* ${reconocimientoStr}
+*RECONOCIMIENTO EXTERNO DEL CADÁVER:* ${reconocimientoStr}
 
-▪ *CAUSA DE MUERTE:* ${causaStr}
+*CAUSA DE MUERTE:* ${causaStr}
 
-▪ *DATA DE MUERTE ESTIMADA:* ${dataMuerteStr}
+*DATA DE MUERTE ESTIMADA:* ${dataMuerteStr}
 
-▪ *CONCURRENCIA PERITOS LACRIM:* ${lacrimStr}
+*CONCURRENCIA PERITOS LACRIM:* ${lacrimStr}
 
-▪ *DILIGENCIAS:* Personal del turno de esta BICRIM, por instrucción del Fiscal de Turno ${fiscalStr}, concurrieron al Sitio del Suceso antes señalado, donde se realizo trabajo en el S.S, al reconocimiento externo policial el cuerpo se encontró en ${ubicacionStr}, ${antecedentesDiligenciaStr}. Finalmente, de acuerdo con las diligencias practicadas, se realizo empadronamiento y fijación fotográfica.${empadronadoWhatsApp}
+*DILIGENCIAS:* Personal del turno de esta BICRIM, por instrucción del Fiscal de Turno ${fiscalStr}, concurrieron al Sitio del Suceso antes señalado, donde se realizo trabajo en el S.S, al reconocimiento externo policial el cuerpo se encontró en ${ubicacionStr}, ${antecedentesDiligenciaStr}. Finalmente, de acuerdo con las diligencias practicadas, se realizo empadronamiento y fijación fotográfica.${empadronadoWhatsApp}
 
-▪ *N° NUE:* ${nueStr}
+*N° NUE:* ${nueStr}
 
-CUNOCO
---------------------------------------------------
-REPORTE DE SISTEMA INTEGRAL FORENSE S.S`;
+CUNOCO`;
 
   return reporte.toUpperCase();
 }
